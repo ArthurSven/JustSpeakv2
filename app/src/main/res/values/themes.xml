@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.JustSpeak_20" parent="android:Theme.Material.Light.NoActionBar">
+    </style>
+
+    <style name="Theme.SplashScreen" parent="Theme.JustSpeak_20">
+        <item name="android:windowSplashScreenBackground">#FFFFFF</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/justspeaklogo</item>
+        <item name="android:windowSplashScreenAnimationDuration">2000</item>
+    </style>
+</resources>
