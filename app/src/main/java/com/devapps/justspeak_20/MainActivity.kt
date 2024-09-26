@@ -65,6 +65,7 @@ import androidx.navigation.compose.rememberNavController
 import com.devapps.justspeak_20.auth.GoogleClientAuth
 import com.devapps.justspeak_20.data.models.UserData
 import com.devapps.justspeak_20.ui.ScreenDestinations
+import com.devapps.justspeak_20.ui.Screens.UserMainNavigation
 import com.devapps.justspeak_20.ui.components.UserProfileBar
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.ui.theme.JustSpeak_20Theme
@@ -369,6 +370,7 @@ fun UserHomeNavigation(
                     .padding(top = 5.dp, start = 5.dp, end = 5.dp)
             ) {
                 UserProfileBar(userData)
+                UserMainNavigation(navController)
             }
         }
 
