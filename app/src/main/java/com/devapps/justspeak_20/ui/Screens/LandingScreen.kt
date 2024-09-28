@@ -25,56 +25,70 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.devapps.justspeak_20.R
+import com.devapps.justspeak_20.auth.GoogleClientAuth
+import com.devapps.justspeak_20.data.models.UserData
 import com.devapps.justspeak_20.data.models.languageDailyTips
 import com.devapps.justspeak_20.ui.ScreenDestinations
+import com.devapps.justspeak_20.ui.Screens.languages.german.GermanLanguageScreens
 import com.devapps.justspeak_20.ui.components.LanguageCard
 import com.devapps.justspeak_20.ui.components.LanguageCardItem
+import com.devapps.justspeak_20.ui.components.UserProfileBar
 import com.devapps.justspeak_20.ui.components.displayGreeting
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.ui.theme.teal
 import com.devapps.justspeak_20.ui.theme.yellow
+import com.devapps.justspeak_20.ui.viewmodels.AuthViewModel
+import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
-@Composable
-fun UserMainNavigation(mainUserNavController: NavController) {
-    val userMainNavController = rememberNavController()
 
-    NavHost(navController = userMainNavController, startDestination = ScreenDestinations.Home.route) {
-        composable(ScreenDestinations.Home.route) {
-            MainScreen(userMainNavController)
-        }
-    }
-}
-@SuppressLint()
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(userMainController: NavController) {
+fun MainScreen(
+    userMainController: NavController,
+    userData: UserData?,
+    onSignOut: () -> Unit) {
 
     val greet = displayGreeting()
     var randomTipIndex by remember { mutableIntStateOf(Random.nextInt(languageDailyTips().size)) }
@@ -95,9 +109,6 @@ fun MainScreen(userMainController: NavController) {
             ScreenDestinations.GermanNavigation.route
         )
     )
-
-
-
     randomTipIndex = Random.nextInt(languageDailyTips().size)
 
     LaunchedEffect(key1 = true) {
@@ -122,101 +133,156 @@ fun MainScreen(userMainController: NavController) {
 
     val currentTip = languageDailyTips()[randomTipIndex]
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 5.dp, start = 10.dp, end = 10.dp)
-            .background(Color.White)
-            .verticalScroll(rememberScrollState())
-    ) {
-            Spacer(modifier = Modifier
-                .height(20.dp)
+    val showMenu = remember { mutableStateOf(false) }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = "JustSpeak",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = AzureBlue)
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.White
+                ),
+                actions = {
+                    IconButton(onClick = {
+                        showMenu.value = true
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Menu,
+                            contentDescription = null,
+                            tint = AzureBlue
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = showMenu.value,
+                        onDismissRequest = {
+                            showMenu.value = false
+                        },
+                        modifier = Modifier
+                            .background(color = Color.White)
+                            .width(80.dp)) {
+                        DropdownMenuItem(
+                            text = {
+                                Text(text = "Logout",
+                                    color = Color.Black)
+                            },
+                            onClick = {
+                                userMainController.navigate(ScreenDestinations.Signout.route)
+                                onSignOut()
+                            },
+                            modifier = Modifier
+                                .background(color = Color.White)
+                        )
+                    }
+                },
             )
-            Text(
-                text = greet,
-                fontSize = 20.sp,
-                color = Color.Black,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier
-                .height(30.dp)
-            )
-            ElevatedCard(
+        }
+    ) { it ->
+        Column(modifier = Modifier
+            .padding(it)) {
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(240.dp),
-                colors = CardDefaults.elevatedCardColors(
-                    containerColor = yellow
-                ),
-                shape = RoundedCornerShape(10.dp)
+                    .padding(top = 5.dp, start = 10.dp, end = 10.dp)
+                    .background(Color.White)
+                    .verticalScroll(rememberScrollState())
             ) {
+                UserProfileBar(userData)
+                Spacer(modifier = Modifier
+                    .height(20.dp)
+                )
+                Text(
+                    text = greet,
+                    fontSize = 20.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier
+                    .height(30.dp)
+                )
+                ElevatedCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(240.dp),
+                    colors = CardDefaults.elevatedCardColors(
+                        containerColor = AzureBlue
+                    ),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
 
+                    Spacer(modifier = Modifier
+                        .height(10.dp)
+                    )
+
+                    Box(modifier = Modifier
+                        .fillMaxWidth()) {
+                        Column(modifier = Modifier
+                            .fillMaxWidth()) {
+
+                            Spacer(
+                                modifier = Modifier
+                                    .height(60.dp)
+                            )
+                            Text(
+                                text = currentTip.tipTitle,
+                                color = Color.White,
+                                fontSize = 26.sp,
+                                textAlign = TextAlign.Center,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(start = 16.dp, end = 16.dp)
+                            )
+                            Spacer(
+                                modifier = Modifier
+                                    .height(5.dp)
+                            )
+                            Text(
+                                text = currentTip.languageTip,
+                                color = Color.White,
+                                fontSize = 16.sp,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(start = 16.dp, end = 16.dp)
+                            )
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier
+                    .height(20.dp)
+                )
+                Text("Select a language",
+                    fontSize = 20.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold
+                )
                 Spacer(modifier = Modifier
                     .height(10.dp)
                 )
+                LazyRow(
 
-                Box(modifier = Modifier
-                    .fillMaxWidth()) {
-                    Column(modifier = Modifier
-                        .fillMaxWidth()) {
-
-                        Spacer(
-                            modifier = Modifier
-                                .height(60.dp)
-                        )
-                        Text(
-                            text = currentTip.tipTitle,
-                            color = AzureBlue,
-                            fontSize = 26.sp,
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 16.dp, end = 16.dp)
-                        )
-                        Spacer(
-                            modifier = Modifier
-                                .height(5.dp)
-                        )
-                        Text(
-                            text = currentTip.languageTip,
-                            color = Color.White,
-                            fontSize = 16.sp,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 16.dp, end = 16.dp)
+                ) {
+                    items(karte.size) {i ->
+                        val listItem = karte[i]
+                        LanguageCard(
+                            selected = selectedItemIndex == i,
+                            onClick = {
+                                userMainController.navigate(listItem.itemRoute)
+                                // Handle navigation or other actions here
+                            },
+                            country = listItem.nation,
+                            language = listItem.sprache
                         )
                     }
                 }
             }
-        Spacer(modifier = Modifier
-            .height(20.dp)
-        )
-        Text("Select a language",
-            fontSize = 20.sp,
-            color = Color.Black,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier
-            .height(10.dp)
-        )
-        LazyRow(
-
-        ) {
-            items(karte.size) {i ->
-                val listItem = karte[i]
-                LanguageCard(
-                    selected = selectedItemIndex == i,
-                    onClick = {
-                        userMainController.navigate(listItem.itemRoute)
-                        // Handle navigation or other actions here
-                    },
-                    country = listItem.nation,
-                    language = listItem.sprache
-                )
-            }
         }
+
+
     }
 }
 
@@ -224,5 +290,4 @@ fun MainScreen(userMainController: NavController) {
 @Preview(showBackground = true)
 fun ScreenViewer() {
     val userMainNavController = rememberNavController()
-    MainScreen(userMainNavController)
 }

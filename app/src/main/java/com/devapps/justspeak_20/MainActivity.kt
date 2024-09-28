@@ -65,7 +65,8 @@ import androidx.navigation.compose.rememberNavController
 import com.devapps.justspeak_20.auth.GoogleClientAuth
 import com.devapps.justspeak_20.data.models.UserData
 import com.devapps.justspeak_20.ui.ScreenDestinations
-import com.devapps.justspeak_20.ui.Screens.UserMainNavigation
+import com.devapps.justspeak_20.ui.Screens.MainScreen
+import com.devapps.justspeak_20.ui.Screens.languages.german.GermanLanguageScreens
 import com.devapps.justspeak_20.ui.components.UserProfileBar
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.ui.theme.JustSpeak_20Theme
@@ -126,9 +127,9 @@ fun JustSpeakMainNavigation() {
             GetStartedScreen(justSpeakMainNavController)
         }
         composable(ScreenDestinations.Start.route) {
-            UserHomeNavigation(
+            MainScreen(
+                justSpeakMainNavController,
                 userData = googleClientAuth.getSignedInUser(),
-                navController = justSpeakMainNavController,
                 onSignOut = {
                     coroutineScope.launch {
                         googleClientAuth.signOut()
@@ -136,6 +137,9 @@ fun JustSpeakMainNavigation() {
                     }
                 }
             )
+        }
+        composable(ScreenDestinations.GermanNavigation.route) {
+            GermanLanguageScreens(justSpeakMainNavController, googleClientAuth.getSignedInUser())
         }
         composable(ScreenDestinations.Signout.route) {
             LaunchedEffect(Unit) {
@@ -304,78 +308,6 @@ fun GetStartedScreen(justSpeakMainNavController: NavController) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun UserHomeNavigation(
-    userData: UserData?,
-    navController: NavController,
-    onSignOut: () -> Unit
-) {
-    val showMenu = remember { mutableStateOf(false) }
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = "JustSpeak",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = AzureBlue)
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White
-                ),
-                actions = {
-                    IconButton(onClick = {
-                        showMenu.value = true
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Menu,
-                            contentDescription = null,
-                            tint = AzureBlue
-                        )
-                    }
-                    DropdownMenu(
-                        expanded = showMenu.value,
-                        onDismissRequest = {
-                            showMenu.value = false
-                        },
-                        modifier = Modifier
-                            .background(color = Color.White)
-                            .width(80.dp)) {
-                        DropdownMenuItem(
-                            text = {
-                                Text(text = "Logout",
-                                    color = Color.Black)
-                            },
-                            onClick = {
-                                navController.navigate(ScreenDestinations.Signout.route)
-                                onSignOut()
-                            },
-                            modifier = Modifier
-                                .background(color = Color.White)
-                        )
-                    }
-                },
-                )
-        }
-    ) { it ->
-        Column(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxSize()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 5.dp, start = 5.dp, end = 5.dp)
-            ) {
-                UserProfileBar(userData)
-                UserMainNavigation(navController)
-            }
-        }
-
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
