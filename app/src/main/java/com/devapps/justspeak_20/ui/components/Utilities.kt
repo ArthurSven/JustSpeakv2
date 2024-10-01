@@ -405,7 +405,63 @@ fun AlphabetCard(letter : String,textToSpeech: TextToSpeech) {
 }
 
 @Composable
+fun TranslatableItem(deu: String, eng: String, textToSpeech: TextToSpeech) {
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(60.dp),
+        shape = RoundedCornerShape(5.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = Color.White
+        )
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 5.dp, top = 5.dp, bottom = 5.dp, end = 5.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = deu,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = Color.Black
+                )
+                Text(
+                    text = eng,
+                    fontSize = 16.sp,
+                    color = Color.DarkGray
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.End
+            ) {
+                IconButton(
+                    onClick = {
+                        textToSpeech.speak(deu, TextToSpeech.QUEUE_FLUSH, null, null)
+                    }) {
+                    Icon(
+                        imageVector = Icons.Filled.Mic, contentDescription = "Microphone",
+                        tint = AzureBlue,
+                        modifier = Modifier
+                            .size(60.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+
+@Composable
 @Preview(showBackground = true)
 fun ViewComponents() {
-
 }

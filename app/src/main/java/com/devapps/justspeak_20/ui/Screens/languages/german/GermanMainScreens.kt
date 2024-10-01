@@ -3,33 +3,43 @@ package com.devapps.justspeak_20.ui.Screens.languages.german
 import android.graphics.Bitmap
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -57,10 +67,14 @@ import com.devapps.justspeak_20.ui.ScreenDestinations
 import com.devapps.justspeak_20.ui.components.AlphabetCard
 import com.devapps.justspeak_20.ui.components.LanguageProgressCard
 import com.devapps.justspeak_20.ui.components.TopicCard
+import com.devapps.justspeak_20.ui.components.TranslatableItem
+import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.ui.theme.grau
+import com.devapps.justspeak_20.utils.getGermanAdjectives
 import com.devapps.justspeak_20.utils.getGermanAlphabetData
 import com.devapps.justspeak_20.utils.phraseList
 import com.devapps.justspeak_20.utils.topicItem
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -154,6 +168,9 @@ fun GermanMainNavigation() {
         }
         composable(ScreenDestinations.GermanAlphabetScreen.route) {
             GermanAlphabet(textToSpeech)
+        }
+        composable(ScreenDestinations.GermanAdjectiveScreen.route) {
+            GermanAdjectives(textToSpeech)
         }
     }
 }
@@ -273,6 +290,80 @@ fun GermanAlphabet(textToSpeech: TextToSpeech) {
         }
 
     }
+}
+
+
+@Composable
+fun GermanAdjectives(textToSpeech: TextToSpeech) {
+
+    val adjectives = getGermanAdjectives()
+    val germanAdjectives = adjectives["German"] ?: emptyList()
+    val englishAdjectives = adjectives["English"] ?: emptyList()
+
+
+    // Ensure both lists are of the same size to avoid index out of bounds
+    val maxSize = minOf(germanAdjectives.size, englishAdjectives.size)
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+
+        Text(text = "Ajektive - Adjectives",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Adjectives like in any other language are used for description of nouns" +
+                            ". German adjectives are dependent on the gender and case of the nouns." +
+                            " Below are common adjectives you will encounter:",
+                    color = Color.Black,
+                    fontSize = 14.sp,
+
+                    )
+            }
+
+        }
+        Spacer(modifier = Modifier
+            .height(15.dp)
+        )
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            itemsIndexed(germanAdjectives.take(maxSize)) { index, germanAdjective ->
+                val englishAdjective = englishAdjectives.getOrNull(index) ?: ""
+
+                // Pass German and English adjectives and the TextToSpeech object to the TranslatableItem
+                TranslatableItem(deu = germanAdjective, eng = englishAdjective, textToSpeech = textToSpeech)
+            }
+        }
+    }
+
 }
 @Composable
 @Preview(showBackground = true)
