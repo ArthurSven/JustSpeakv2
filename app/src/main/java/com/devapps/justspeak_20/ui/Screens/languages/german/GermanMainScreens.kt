@@ -1,6 +1,8 @@
 package com.devapps.justspeak_20.ui.Screens.languages.german
 
 import android.graphics.Bitmap
+import android.speech.tts.TextToSpeech
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -10,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -25,8 +29,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,12 +54,14 @@ import coil.request.ImageRequest
 import com.devapps.justspeak_20.R
 import com.devapps.justspeak_20.data.models.UserData
 import com.devapps.justspeak_20.ui.ScreenDestinations
-import com.devapps.justspeak_20.ui.components.LanguageCard
+import com.devapps.justspeak_20.ui.components.AlphabetCard
 import com.devapps.justspeak_20.ui.components.LanguageProgressCard
 import com.devapps.justspeak_20.ui.components.TopicCard
 import com.devapps.justspeak_20.ui.theme.grau
+import com.devapps.justspeak_20.utils.getGermanAlphabetData
 import com.devapps.justspeak_20.utils.phraseList
 import com.devapps.justspeak_20.utils.topicItem
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -103,7 +112,6 @@ fun GermanLanguageScreens(justSpeakMainNavController: NavController, userData: U
             ) {
                 Column(modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
                     .background(grau)) {
                     GermanMainNavigation()
                 }
@@ -115,9 +123,37 @@ fun GermanLanguageScreens(justSpeakMainNavController: NavController, userData: U
 fun GermanMainNavigation() {
 
     val germanScreensNavController = rememberNavController()
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    val textToSpeech = remember {
+        var tts: TextToSpeech? = null
+       tts = TextToSpeech(context) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+               val result = tts?.setLanguage(Locale.GERMAN)
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Log.e("TTS", "German language not supported")
+                }
+            } else {
+                Log.e("TTS", "Initialization failed")
+            }
+        }
+        tts
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            textToSpeech.stop()
+            textToSpeech.shutdown()
+        }
+    }
+
     NavHost(germanScreensNavController, startDestination = ScreenDestinations.GermanHomeScreen.route) {
         composable(ScreenDestinations.GermanHomeScreen.route) {
             GermanLandingScreen(germanScreensNavController)
+        }
+        composable(ScreenDestinations.GermanAlphabetScreen.route) {
+            GermanAlphabet(textToSpeech)
         }
     }
 }
@@ -193,8 +229,53 @@ fun GermanLandingScreen(germanScreensNavController: NavController) {
 }
 
 @Composable
+fun GermanAlphabet(textToSpeech: TextToSpeech) {
+
+    // Dispose the TextToSpeech instance when no longer needed
+    DisposableEffect(Unit) {
+        onDispose {
+            textToSpeech.stop()
+            textToSpeech.shutdown()
+        }
+    }
+
+    val germanAlphabetData = getGermanAlphabetData()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        Text(text = "Alphabet - Das Alphabet",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        Text(
+            text = "This section takes you through the German alphabet. There ae German letters and" +
+                " audio for you to practice listening.",
+            fontSize = 14.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(20.dp)
+        )
+        //add lazy column here
+        LazyColumn {
+            items(germanAlphabetData) { letter ->
+                AlphabetCard(letter = letter, textToSpeech = textToSpeech)
+            }
+        }
+
+    }
+}
+@Composable
 @Preview(showBackground = true)
 fun GermanScreens() {
-    val germanScreensNavController = rememberNavController()
-    //GermanLanguageScreens(germanScreensNavController)
+
 }

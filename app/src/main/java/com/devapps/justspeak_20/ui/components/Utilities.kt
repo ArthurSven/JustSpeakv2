@@ -2,6 +2,7 @@ package com.devapps.justspeak_20.ui.components
 
 import android.graphics.Bitmap
 import android.icu.util.Calendar
+import android.speech.tts.TextToSpeech
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,16 +23,22 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -345,6 +352,54 @@ fun TopicCard(
             },
                 color = AzureBlue,
                 trackColor = Color.LightGray)
+        }
+    }
+}
+
+
+@Composable
+fun AlphabetCard(letter : String,textToSpeech: TextToSpeech) {
+
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+            .height(70.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 10.dp
+        ),
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Center
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = letter,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    color = Color.Black
+                )
+                Spacer(modifier = Modifier
+                    .width(200.dp))
+                IconButton(
+                    onClick = {
+                        textToSpeech.speak(letter, TextToSpeech.QUEUE_FLUSH, null, null)
+                    }) {
+                    Icon(
+                        imageVector = Icons.Filled.Mic, contentDescription = "Microphone",
+                        tint = AzureBlue,
+                        modifier = Modifier
+                            .size(60.dp)
+                    )
+                }
+            }
         }
     }
 }
