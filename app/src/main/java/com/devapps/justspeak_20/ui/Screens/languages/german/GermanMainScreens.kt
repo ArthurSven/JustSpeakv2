@@ -8,6 +8,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,15 +24,21 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -39,12 +47,17 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -55,6 +68,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.fastForEachIndexed
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -68,8 +82,12 @@ import com.devapps.justspeak_20.ui.components.AlphabetCard
 import com.devapps.justspeak_20.ui.components.LanguageProgressCard
 import com.devapps.justspeak_20.ui.components.TopicCard
 import com.devapps.justspeak_20.ui.components.TranslatableItem
+import com.devapps.justspeak_20.ui.components.tabItems
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.ui.theme.grau
+import com.devapps.justspeak_20.utils.GermanDefEndTable
+import com.devapps.justspeak_20.utils.GermanIndEndTable
+import com.devapps.justspeak_20.utils.germanAdjectiveQuizQuestions
 import com.devapps.justspeak_20.utils.getGermanAdjectives
 import com.devapps.justspeak_20.utils.getGermanAlphabetData
 import com.devapps.justspeak_20.utils.phraseList
@@ -170,7 +188,7 @@ fun GermanMainNavigation() {
             GermanAlphabet(textToSpeech)
         }
         composable(ScreenDestinations.GermanAdjectiveScreen.route) {
-            GermanAdjectives(textToSpeech)
+            GermanAdjectives()
         }
     }
 }
@@ -293,8 +311,93 @@ fun GermanAlphabet(textToSpeech: TextToSpeech) {
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun GermanAdjectives(textToSpeech: TextToSpeech) {
+fun GermanAdjectives() {
+
+    val context = LocalContext.current
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
+
+    val pagerState = rememberPagerState {
+        tabItems.size
+    }
+
+    val textToSpeech = remember {
+        var tts: TextToSpeech? = null
+        tts = TextToSpeech(context) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                val result = tts?.setLanguage(Locale.GERMAN)
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Log.e("TTS", "German language not supported")
+                }
+            } else {
+                Log.e("TTS", "Initialization failed")
+            }
+        }
+        tts
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            textToSpeech.stop()
+            textToSpeech.shutdown()
+        }
+    }
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+    LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
+        if(!pagerState.isScrollInProgress) {
+            selectedTabIndex = pagerState.currentPage
+        }
+    }
+    Column(
+        modifier = Modifier
+        .fillMaxSize()) {
+        TabRow(
+            selectedTabIndex = selectedTabIndex,
+            containerColor = Color.White
+            ) {
+            tabItems.fastForEachIndexed { index, item ->
+                Tab(
+                    selected = index == selectedTabIndex,
+                    onClick = {
+                        selectedTabIndex = index
+                    },
+                    text = {
+                        Text(text = item.title)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (index == selectedTabIndex) {
+                            item.selectedIcon
+                            } else item.unselectedIcon, contentDescription = item.title
+                        )
+                    }
+                )
+            }
+        }
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) { page ->
+            when(page) {
+                0 -> GermanAdjectiveHome(textToSpeech)
+                1 -> GermanAdjectiveEndings()
+                2 -> GermanAdjectiveQuiz()
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanAdjectiveHome(textToSpeech: TextToSpeech) {
 
     val adjectives = getGermanAdjectives()
     val germanAdjectives = adjectives["German"] ?: emptyList()
@@ -348,6 +451,7 @@ fun GermanAdjectives(textToSpeech: TextToSpeech) {
             }
 
         }
+
         Spacer(modifier = Modifier
             .height(15.dp)
         )
@@ -363,10 +467,308 @@ fun GermanAdjectives(textToSpeech: TextToSpeech) {
             }
         }
     }
-
 }
+
+@Composable
+fun GermanAdjectiveEndings() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+
+                Text(text = "Adjective declension",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    color = Color.Black
+                )
+                Text(
+                    text = "Adjectives in german have different endings. This is determined by the case" +
+                            " of the sentence or the gender of a noun.",
+                    color = Color.Black,
+                    fontSize = 14.sp,
+
+                    )
+            }
+
+        }
+        Spacer(modifier = Modifier
+            .height(15.dp)
+        )
+        //card start
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+
+                Text(
+                    text = "Definite Articles - Bestimmte Artikeln",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(5.dp)
+                )
+                Text(
+                    text = "These correspond to definite articles (der, die, das) or the in english",
+                    color = Color.Black,
+                    fontSize = 14.sp,
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                GermanDefEndTable()
+            }
+        }
+        Spacer(modifier = Modifier
+            .height(15.dp)
+        )
+        //card start
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+
+                Text(
+                    text = "Indefinite Articles - Unbestimmte Artikeln",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(5.dp)
+                )
+                Text(
+                    text = "These correspond to indefinite articles (ein, eine, ein) or a in english",
+                    color = Color.Black,
+                    fontSize = 14.sp,
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                GermanIndEndTable()
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanAdjectiveQuiz() {
+
+    val germanAdjectiveQuestions = germanAdjectiveQuizQuestions()
+
+    // Maintain selection state for each question
+    val selectedOptions = remember { mutableStateListOf<String?>() }
+    var score by remember { mutableStateOf<Int?>(null) }
+    var showCorrectAnswers by remember { mutableStateOf(false) }
+
+    // Initialize the selection state with null values
+    if (selectedOptions.size != germanAdjectiveQuestions.size) {
+        selectedOptions.clear()
+        selectedOptions.addAll(List(germanAdjectiveQuestions.size) { null })
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+
+                Text(
+                    text = "Adjective Quiz",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                score?.let {
+
+                    if (it == germanAdjectiveQuestions.size) {
+                        Text(
+                            text = "Your Score: $it/${germanAdjectiveQuestions.size}",
+                            color = Color.Magenta,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    } else if (it != germanAdjectiveQuestions.size) {
+                        Text(
+                            text = "Your Score: $it/${germanAdjectiveQuestions.size}",
+                            fontSize = 20.sp,
+                            color = Color.Red,
+                            fontWeight = FontWeight.Bold
+
+                        )
+                    }
+                }
+                // LazyColumn to display questions
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(400.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+                ) {
+
+                    items(germanAdjectiveQuestions.size) { j ->
+                        val adjectiveQuizList = germanAdjectiveQuestions[j]
+                        // Display the current question
+                        Text(
+                            text = "${adjectiveQuizList.number} ${adjectiveQuizList.question}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            color = Color.Black
+                        )
+
+                        // Display the options as radio buttons
+                        adjectiveQuizList.options.forEach { option ->
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 4.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                RadioButton(
+                                    selected = selectedOptions[j] == option,
+                                    onClick = {
+                                        selectedOptions[j] = option
+                                        // Reset score and showCorrectAnswers state when an option is changed
+                                        score = null
+                                        showCorrectAnswers = false
+                                    },
+                                    colors = RadioButtonDefaults.colors(
+                                        selectedColor = Color.Black,
+                                        unselectedColor = Color.Gray
+                                    )
+                                )
+                                Text(text = option,
+                                    color = Color.Black
+                                )
+                            }
+                        }
+                        if (showCorrectAnswers && selectedOptions[j] != adjectiveQuizList.correctAnswer) {
+                            Text(
+                                text = "Correct Answer: ${adjectiveQuizList.correctAnswer}",
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(vertical = 4.dp),
+                                color = Color.Red,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
+                // Submit Button
+                Button(
+                    onClick = {
+                        var tempScore = 0
+                        for (i in germanAdjectiveQuestions.indices) {
+                            if (selectedOptions[i] == germanAdjectiveQuestions[i].correctAnswer) {
+                                tempScore++
+                            }
+                        }
+                        score = tempScore
+                        showCorrectAnswers = true
+                    },
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = AzureBlue,
+                        contentColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(0.dp)
+                ) {
+                    Text(text = "Submit",
+                        color = Color.White
+                        )
+                }
+            }
+            }
+        }
+    }
+
 @Composable
 @Preview(showBackground = true)
 fun GermanScreens() {
-
+    GermanAdjectiveEndings()
 }

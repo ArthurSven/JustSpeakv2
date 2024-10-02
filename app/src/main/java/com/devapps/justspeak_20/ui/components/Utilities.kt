@@ -22,9 +22,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.Quiz
 import androidx.compose.material.icons.filled.SortByAlpha
+import androidx.compose.material.icons.outlined.Article
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedButton
@@ -403,6 +409,30 @@ fun AlphabetCard(letter : String,textToSpeech: TextToSpeech) {
         }
     }
 }
+
+data class TabItem(
+    val title: String,
+    val unselectedIcon: ImageVector,
+    val selectedIcon: ImageVector
+)
+
+val tabItems = listOf(
+    TabItem(
+        title = "Adjectives",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Endings",
+        Icons.Outlined.Article,
+        Icons.Filled.Article
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    )
+)
 
 @Composable
 fun TranslatableItem(deu: String, eng: String, textToSpeech: TextToSpeech) {
