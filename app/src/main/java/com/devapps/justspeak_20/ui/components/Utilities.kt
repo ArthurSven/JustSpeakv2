@@ -22,14 +22,24 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.Cases
+import androidx.compose.material.icons.filled.Fastfood
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Quiz
 import androidx.compose.material.icons.filled.SortByAlpha
+import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Article
+import androidx.compose.material.icons.outlined.Cases
+import androidx.compose.material.icons.outlined.Fastfood
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.CardDefaults
@@ -38,6 +48,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -55,9 +66,16 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.ParagraphStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextIndent
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -410,6 +428,52 @@ fun AlphabetCard(letter : String,textToSpeech: TextToSpeech) {
     }
 }
 
+@Composable
+fun makeBulletedList(items: List<String>): AnnotatedString {
+    val bulletString = "\u2022\t\t"
+    val textStyle = LocalTextStyle.current
+    val textMeasurer = rememberTextMeasurer()
+    val bulletStringWidth = remember(textStyle, textMeasurer) {
+        textMeasurer.measure(text = bulletString, style = textStyle).size.width
+    }
+    val restLine = with(LocalDensity.current) { bulletStringWidth.toSp() }
+    val paragraphStyle = ParagraphStyle(textIndent = TextIndent(restLine = restLine))
+
+    return buildAnnotatedString {
+        items.forEach { text ->
+            withStyle(style = paragraphStyle) {
+                append(bulletString)
+                append(text)
+            }
+        }
+    }
+}
+
+val bestimmteArtikeln = listOf(
+"Der",
+"Die",
+"Das",
+    "Die"
+)
+
+val bestimmteArtikelnExamples = listOf(
+    "Der Junge singt - The boy is singing.",
+    "Die Frau tanzt  - The woman is dancing.",
+    "Das Kind weint  - The child is crying.",
+    "Die Frauen lachen - The women are laughing"
+)
+
+val unbestimmteArtikeln = listOf(
+    "Ein",
+    "Eine",
+    "Ein"
+)
+
+val unbestimmteArtikelnExamples = listOf(
+    "Ein Junge singt - A boy is singing.",
+    "Eine Frau tanzt  - A woman is dancing.",
+    "Eine Kind weint  - A child is crying."
+)
 data class TabItem(
     val title: String,
     val unselectedIcon: ImageVector,
@@ -426,6 +490,52 @@ val tabItems = listOf(
         title = "Endings",
         Icons.Outlined.Article,
         Icons.Filled.Article
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    )
+)
+
+val caseTabItems = listOf(
+    TabItem(
+        title = "Articles",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Cases",
+        Icons.Outlined.Cases,
+        Icons.Filled.Cases
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    )
+)
+
+val nounTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Place",
+        Icons.Outlined.LocationOn,
+        Icons.Filled.LocationOn
+    ),
+    TabItem(
+        title = "Food",
+        Icons.Outlined.Fastfood,
+        Icons.Filled.Fastfood
+    ),
+    TabItem(
+        title = "Body",
+        Icons.Outlined.AccountCircle,
+        Icons.Filled.AccountCircle
     ),
     TabItem(
         title = "Quiz",
@@ -489,9 +599,396 @@ fun TranslatableItem(deu: String, eng: String, textToSpeech: TextToSpeech) {
     }
 }
 
+@Composable
+fun CaseParagraph(
+    case: String,
+    description: String,
+    example: String) {
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth(),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 15.dp
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text(
+                text = case,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+                color = Color.Black
+            )
+            Spacer(
+                modifier = Modifier
+                    .height(3.dp)
+            )
+            Text(text = description,
+                color = Color.Black)
+            Spacer(
+                modifier = Modifier
+                    .height(3.dp)
+            )
+            Text(text = "e.g. $example",
+                color = Color.Black)
+            Spacer(
+                modifier = Modifier
+                    .height(10.dp)
+            )
+        }
+    }
+}
 
+@Composable
+fun GermanDefiniteArticleTable() {
+    Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+                .background(color = AzureBlue)
+        ) {
+            Text(text = "Case",
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "Masc",
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "Fem",
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "Neu",
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "Plu",
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+        ) {
+            Text(text = "Nom",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp),
+                fontWeight = FontWeight.Bold)
+            Text(text = "der",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "die",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "das",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "die",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+        ) {
+            Text(text = "Acc",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp),
+                fontWeight = FontWeight.Bold)
+            Text(text = "den",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "die",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "das",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "die",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+        ) {
+            Text(text = "Dat",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp),
+                fontWeight = FontWeight.Bold)
+            Text(text = "dem",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "der",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "dem",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "den",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+        ) {
+            Text(text = "Gen",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp),
+                fontWeight = FontWeight.Bold)
+            Text(text = "des",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "der",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "des",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "der",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+        }
+    }
+}
+
+@Composable
+fun GermanIndefiniteArticleTable() {
+    Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+                .background(color = AzureBlue)
+        ) {
+            Text(text = "Case",
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "Masc",
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "Fem",
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "Neu",
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "Plu",
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+        ) {
+            Text(text = "Nom",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp),
+                fontWeight = FontWeight.Bold)
+            Text(text = "ein",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "eine",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "ein",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "-",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+        ) {
+            Text(text = "Acc",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp),
+                fontWeight = FontWeight.Bold)
+            Text(text = "einen",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "eine",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "ein",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "-",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+        ) {
+            Text(text = "Dat",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp),
+                fontWeight = FontWeight.Bold)
+            Text(text = "einem",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "einer",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "einem",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "-",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+        ) {
+            Text(text = "Gen",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp),
+                fontWeight = FontWeight.Bold)
+            Text(text = "eines",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "einer",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "eines",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+            Text(text = "-",
+                color = Color.Black,
+                modifier = Modifier
+                    .weight(0.25f)
+                    .padding(start = 5.dp))
+        }
+    }
+}
 
 @Composable
 @Preview(showBackground = true)
 fun ViewComponents() {
+    CaseParagraph(case = "Nominative", description = "sdfsdfsfs", example = "sfafsVSDBDAFBANDNH")
 }

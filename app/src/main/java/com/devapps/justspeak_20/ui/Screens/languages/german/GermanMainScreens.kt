@@ -40,6 +40,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -82,6 +83,8 @@ import com.devapps.justspeak_20.ui.components.AlphabetCard
 import com.devapps.justspeak_20.ui.components.LanguageProgressCard
 import com.devapps.justspeak_20.ui.components.TopicCard
 import com.devapps.justspeak_20.ui.components.TranslatableItem
+import com.devapps.justspeak_20.ui.components.caseTabItems
+import com.devapps.justspeak_20.ui.components.nounTabItems
 import com.devapps.justspeak_20.ui.components.tabItems
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.ui.theme.grau
@@ -189,6 +192,12 @@ fun GermanMainNavigation() {
         }
         composable(ScreenDestinations.GermanAdjectiveScreen.route) {
             GermanAdjectives()
+        }
+        composable(ScreenDestinations.GermanCaseScreen.route) {
+            GermanCases()
+        }
+        composable(ScreenDestinations.GermanNounScreen.route) {
+            GermanNouns()
         }
     }
 }
@@ -766,6 +775,177 @@ fun GermanAdjectiveQuiz() {
             }
         }
     }
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun GermanCases() {
+    val context = LocalContext.current
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
+
+    val pagerState = rememberPagerState {
+        caseTabItems.size
+    }
+
+    val textToSpeech = remember {
+        var tts: TextToSpeech? = null
+        tts = TextToSpeech(context) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                val result = tts?.setLanguage(Locale.GERMAN)
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Log.e("TTS", "German language not supported")
+                }
+            } else {
+                Log.e("TTS", "Initialization failed")
+            }
+        }
+        tts
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            textToSpeech.stop()
+            textToSpeech.shutdown()
+        }
+    }
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+    LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
+        if(!pagerState.isScrollInProgress) {
+            selectedTabIndex = pagerState.currentPage
+        }
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()) {
+        TabRow(
+            selectedTabIndex = selectedTabIndex,
+            containerColor = Color.White
+        ) {
+            caseTabItems.fastForEachIndexed { index, item ->
+                Tab(
+                    selected = index == selectedTabIndex,
+                    onClick = {
+                        selectedTabIndex = index
+                    },
+                    text = {
+                        Text(text = item.title)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (index == selectedTabIndex) {
+                                item.selectedIcon
+                            } else item.unselectedIcon, contentDescription = item.title
+                        )
+                    }
+                )
+            }
+        }
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) { page ->
+            when(page) {
+                0 -> GermanArticleHome()
+                1 -> GermanCaseHome()
+                2 -> GermanCaseQuiz()
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun GermanNouns() {
+    val context = LocalContext.current
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
+
+    val pagerState = rememberPagerState {
+        nounTabItems.size
+    }
+
+    val textToSpeech = remember {
+        var tts: TextToSpeech? = null
+        tts = TextToSpeech(context) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                val result = tts?.setLanguage(Locale.GERMAN)
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Log.e("TTS", "German language not supported")
+                }
+            } else {
+                Log.e("TTS", "Initialization failed")
+            }
+        }
+        tts
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            textToSpeech.stop()
+            textToSpeech.shutdown()
+        }
+    }
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+    LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
+        if(!pagerState.isScrollInProgress) {
+            selectedTabIndex = pagerState.currentPage
+        }
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()) {
+        ScrollableTabRow(
+            selectedTabIndex = selectedTabIndex,
+            containerColor = Color.White,
+            edgePadding = 0.dp
+        ) {
+            nounTabItems.fastForEachIndexed { index, item ->
+                Tab(
+                    selected = index == selectedTabIndex,
+                    onClick = {
+                        selectedTabIndex = index
+                    },
+                    text = {
+                        Text(text = item.title)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (index == selectedTabIndex) {
+                                item.selectedIcon
+                            } else item.unselectedIcon, contentDescription = item.title
+                        )
+                    }
+                )
+            }
+        }
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) { page ->
+            when(page) {
+                0 -> GermanNounHome(textToSpeech)
+                1 -> GermanPlaceNouns(textToSpeech)
+                2 -> GermanFoodNouns(textToSpeech)
+                3 -> GermanBodyNouns(textToSpeech)
+                4 -> GermanNounQuiz()
+            }
+        }
+    }
+}
 
 @Composable
 @Preview(showBackground = true)

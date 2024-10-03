@@ -32,6 +32,119 @@ fun getGermanAdjectives(): Map<String, List<String>> {
 }
 
 @Composable
+fun germanPeopleNouns(): Map<String, String> {
+    return mapOf(
+        "die Mutter" to "Mother",
+        "der Vater" to "Father",
+        "die Töchter" to "Daughter",
+        "der Sohn" to "Son",
+        "der Onkel" to "Uncle",
+        "die Tante" to "Aunt",
+        "der Großvater" to "Grandfather",
+        "die Großmutter" to "Grandmother",
+        "der Enkel" to "Grandson",
+        "die Enkelin" to "Granddaughter",
+        "die Cousine" to "Cousin (female)",
+        "der Cousin" to "Cousin (male)",
+        "der Bruder" to "Brother",
+        "die Schwester" to "Sister",
+        "der Mann" to "Man",
+        "die Frau" to "Woman",
+        "der Junge" to "Boy",
+        "das Mädchen" to "Girl",
+        "der Urgroßvater" to "Great-Grandfather",
+        "die Urgroßmutter" to "Great-Grandmother",
+        "der Urenkel" to "Great-Grandson",
+        "die Urenkelin" to "Great-Granddaughter",
+        "der Freund von mir" to "Friend (male)",
+        "die Freundin von mir" to "Friend (female)",
+        "der Freund" to "Boyfriend",
+        "die Freundin" to "Girlfriend",
+        "Papa" to "dad",
+        "Mama" to "mum",
+        "Opa" to "Grandpa",
+        "Oma" to "Grandma"
+    )
+}
+
+@Composable
+fun getGermanPlaceNouns(): Map<String, String> {
+    return mapOf(
+        "das Haus" to "House",
+        "die Wohnung" to "Apartment",
+        "das Gebäude" to "Building",
+        "die Stadt" to "City",
+        "das Land" to "Country",
+        "das Dorf" to "Village",
+        "der See" to "Lake",
+        "das Meer" to "Sea",
+        "der Berg" to "Mountain",
+        "der Strand" to "Beach",
+        "der Laden" to "Shop",
+        "die Straße" to "Street/Road",
+        "die Gemeinde" to "Community",
+        "die Kirche" to "Church",
+        "die Moschee" to "Mosque"
+    )
+}
+
+@Composable
+fun germanFoodNouns(): Map<String, String> {
+    return mapOf(
+        "der Apfel" to "Apple",
+        "die Banane" to "Banana",
+        "der Rindfleisch" to "Beef",
+        "das Huhn" to "Chicken",
+        "der Schweinfleisch" to "Pork",
+        "das Gemüse" to "Vegetables",
+        "der Kuchen" to "Cake",
+        "die Kartoffeln" to "Potatoes",
+        "die Pommes" to "Chips/Fries",
+        "das Wasser" to "Water",
+        "der Kaffee" to "Coffee",
+        "der Tee" to "Tea",
+        "die Böhnen" to "Beans",
+        "der Reis" to "Rice",
+        "der Saft" to "Juice",
+        "das Bier" to "Beer",
+        "Brot" to "Bread",
+        "Frühstück" to "Breakfast",
+        "Mittagessen" to "Lunch",
+        "Abendessen" to "Dinner",
+        "die Teller" to "Plate",
+        "die Tasse" to "Cup",
+        "die Gabel" to "Fork",
+        "der Löffel" to "Spoon",
+        "das Messer" to "Knife"
+    )
+}
+
+@Composable
+fun germanBodyPartNouns(): Map<String, String> {
+    return mapOf(
+        "das Auge" to "Eye",
+        "der Kopf" to "Head",
+        "der Körper" to "Body",
+        "die Nase" to "Nose",
+        "der Mund" to "Mouth",
+        "das Ohr" to "Ear",
+        "die Haare" to "Hair",
+        "der Hals" to "Neck",
+        "der Arm" to "Arm",
+        "der Finger" to "Finger",
+        "die Brust" to "Chest",
+        "der Ellbogen" to "Elbow",
+        "der Knochen" to "Bone",
+        "das Bein" to "Leg",
+        "der Fuß" to "Foot",
+        "das Zeh" to "Toe",
+        "der Haut" to "Skin",
+        "der Rücken" to "Back"
+    )
+}
+
+
+@Composable
 fun GermanDefEndTable() {
     Row(
         modifier = Modifier
