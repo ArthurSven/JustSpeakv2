@@ -85,6 +85,7 @@ import com.devapps.justspeak_20.ui.components.TopicCard
 import com.devapps.justspeak_20.ui.components.TranslatableItem
 import com.devapps.justspeak_20.ui.components.caseTabItems
 import com.devapps.justspeak_20.ui.components.nounTabItems
+import com.devapps.justspeak_20.ui.components.prepositionTabItems
 import com.devapps.justspeak_20.ui.components.tabItems
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.ui.theme.grau
@@ -199,6 +200,9 @@ fun GermanMainNavigation() {
         composable(ScreenDestinations.GermanNounScreen.route) {
             GermanNouns()
         }
+        composable(ScreenDestinations.GermanPrepositionScreen.route) {
+            GermanPrepositions()
+        }
     }
 }
 
@@ -240,7 +244,8 @@ fun GermanLandingScreen(germanScreensNavController: NavController) {
                     percent = listItem.topicPercent,
                     onClick = {
                         germanScreensNavController.navigate(listItem.topicRoute)
-                    })
+                    }
+                )
             }
         }
         Spacer(
@@ -942,6 +947,70 @@ fun GermanNouns() {
                 2 -> GermanFoodNouns(textToSpeech)
                 3 -> GermanBodyNouns(textToSpeech)
                 4 -> GermanNounQuiz()
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun GermanPrepositions() {
+    val context = LocalContext.current
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
+
+    val pagerState = rememberPagerState {
+        prepositionTabItems.size
+    }
+
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+    LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
+        if(!pagerState.isScrollInProgress) {
+            selectedTabIndex = pagerState.currentPage
+        }
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()) {
+        ScrollableTabRow(
+            selectedTabIndex = selectedTabIndex,
+            containerColor = Color.White,
+            edgePadding = 0.dp
+        ) {
+            prepositionTabItems.fastForEachIndexed { index, item ->
+                Tab(
+                    selected = index == selectedTabIndex,
+                    onClick = {
+                        selectedTabIndex = index
+                    },
+                    text = {
+                        Text(text = item.title)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (index == selectedTabIndex) {
+                                item.selectedIcon
+                            } else item.unselectedIcon, contentDescription = item.title
+                        )
+                    }
+                )
+            }
+        }
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) { page ->
+            when(page) {
+                0 -> GermanPrepositionHome()
+                1 -> GermanDativePreposition()
+                3 -> GermanPrepositionQuiz()
             }
         }
     }

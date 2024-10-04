@@ -143,6 +143,46 @@ fun germanBodyPartNouns(): Map<String, String> {
     )
 }
 
+@Composable
+fun germanAccusativePrepositions(): Map<String, String> {
+    return mapOf(
+        "für" to "for",
+        "um" to "around",
+        "bis" to "until",
+        "gegen" to "against",
+        "durch" to "through",
+        "entlang" to "along",
+        "ohne" to "without",
+        "wider" to "against (opposition)"
+    )
+}
+
+@Composable
+fun germanDativePrepositions(): Map<String, String> {
+    return mapOf(
+        "mit" to "with",
+        "aus" to "out of",
+        "außer" to "except for/apart from",
+        "bei" to "at",
+        "nach" to "after",
+        "seit" to "since",
+        "von" to "from",
+        "zu" to "to, at",
+        "gegenüber (von)" to "opposite of"
+    )
+}
+
+@Composable
+fun germanGenitivePrepositions(): Map<String, String> {
+    return mapOf(
+        "innerhalb" to "within/inside of",
+        "außerhalb" to "outside of",
+        "anstatt/statt" to "instead of",
+        "trotz" to "despite",
+        "während" to "during",
+        "wegen" to "because of"
+    )
+}
 
 @Composable
 fun GermanDefEndTable() {

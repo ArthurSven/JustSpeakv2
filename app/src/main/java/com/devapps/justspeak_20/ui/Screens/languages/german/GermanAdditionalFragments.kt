@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import com.devapps.justspeak_20.ui.components.CaseParagraph
 import com.devapps.justspeak_20.ui.components.GermanDefiniteArticleTable
 import com.devapps.justspeak_20.ui.components.GermanIndefiniteArticleTable
+import com.devapps.justspeak_20.ui.components.GrammarRow
 import com.devapps.justspeak_20.ui.components.TranslatableItem
 import com.devapps.justspeak_20.ui.components.bestimmteArtikeln
 import com.devapps.justspeak_20.ui.components.bestimmteArtikelnExamples
@@ -49,12 +50,16 @@ import com.devapps.justspeak_20.ui.components.makeBulletedList
 import com.devapps.justspeak_20.ui.components.unbestimmteArtikeln
 import com.devapps.justspeak_20.ui.components.unbestimmteArtikelnExamples
 import com.devapps.justspeak_20.ui.theme.AzureBlue
+import com.devapps.justspeak_20.utils.germanAccusativePrepositions
 import com.devapps.justspeak_20.utils.germanAdjectiveQuizQuestions
 import com.devapps.justspeak_20.utils.germanBodyPartNouns
 import com.devapps.justspeak_20.utils.germanCaseQuizQuestions
+import com.devapps.justspeak_20.utils.germanDativePrepositions
 import com.devapps.justspeak_20.utils.germanFoodNouns
+import com.devapps.justspeak_20.utils.germanGenitivePrepositions
 import com.devapps.justspeak_20.utils.germanNounQuizQuestions
 import com.devapps.justspeak_20.utils.germanPeopleNouns
+import com.devapps.justspeak_20.utils.germanPrepositionQuestions
 import com.devapps.justspeak_20.utils.getGermanPlaceNouns
 import java.util.Locale
 
@@ -845,23 +850,398 @@ fun GermanNounQuiz() {
 }
 
 @Composable
-@Preview(showBackground = true)
-fun CheckFragments() {
-    val context = LocalContext.current
+fun GermanPrepositionHome() {
+    val germaAccusativePrepositions = germanAccusativePrepositions()
 
-    val textToSpeech = remember {
-        var tts: TextToSpeech? = null
-        tts = TextToSpeech(context) { status ->
-            if (status == TextToSpeech.SUCCESS) {
-                val result = tts?.setLanguage(Locale.GERMAN)
-                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                    Log.e("TTS", "German language not supported")
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+
+        Text(
+            text = "Prepositions - Präpositionen",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.Black
+        )
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Prepositions connect a noun to the sentence body, they also determine the case" +
+                            " of the noun, article and can equally signal whether a noun is stationery " +
+                            "or moving. \n \n There are 4 groups of prepositions namely accusative, " +
+                            "dative, genitive and two-way:",
+                    color = Color.Black,
+                    fontSize = 14.sp
+                )
+
+            }
+
+        }
+        Spacer(
+            modifier = Modifier
+                .height(20.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+
+                Text(
+                    text = "Accusative prepositions",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(5.dp)
+                )
+                Text(
+                    text = "These are the prepositions that go with accusative case only. They usually" +
+                            "signal something is moving:",
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                LazyColumn(
+                    modifier = Modifier
+                        .height(420.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(germaAccusativePrepositions.entries.toList()) { entry ->
+                        GrammarRow(entry.key , entry.value)
+                    }
                 }
-            } else {
-                Log.e("TTS", "Initialization failed")
             }
         }
-        tts
     }
-    GermanNounHome(textToSpeech)
+}
+
+@Composable
+fun GermanDativePreposition() {
+    val germanDativePrepositions = germanDativePrepositions()
+    val germanGenitivePrepositions = germanGenitivePrepositions()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+
+                Text(
+                    text = "Dative prepositions",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                Text(text = "These are the prepositions that go with dative case only. They usually" +
+                        "signal something is stationary or not moving:",
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                LazyColumn(
+                    modifier = Modifier
+                        .height(400.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(germanDativePrepositions.entries.toList()) { entry ->
+                        GrammarRow(entry.key , entry.value)
+                    }
+                }
+            }
+        }
+        Spacer(
+            modifier = Modifier
+                .height(20.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                Text(
+                    text = "Genitive prepositions",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(5.dp)
+                )
+                Text( text = "These are the prepositions that go with genitive case only, " +
+                        "genitive only shows ownership:",
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                LazyColumn(
+                    modifier = Modifier
+                        .height(400.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(germanGenitivePrepositions.entries.toList()) { entry ->
+                        GrammarRow(entry.key , entry.value)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanPrepositionQuiz() {
+
+    val germanPrepositionQuestions = germanPrepositionQuestions()
+
+    // Maintain selection state for each question
+    val selectedOptions = remember { mutableStateListOf<String?>() }
+    var score by remember { mutableStateOf<Int?>(null) }
+    var showCorrectAnswers by remember { mutableStateOf(false) }
+
+    // Initialize the selection state with null values
+    if (selectedOptions.size != germanPrepositionQuestions.size) {
+        selectedOptions.clear()
+        selectedOptions.addAll(List(germanPrepositionQuestions.size) { null })
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+
+                Text(
+                    text = "Noun Quiz",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                score?.let {
+
+                    if (it == germanPrepositionQuestions.size) {
+                        Text(
+                            text = "Your Score: $it/${germanPrepositionQuestions.size}",
+                            color = Color.Magenta,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    } else if (it != germanPrepositionQuestions.size) {
+                        Text(
+                            text = "Your Score: $it/${germanPrepositionQuestions.size}",
+                            fontSize = 20.sp,
+                            color = Color.Red,
+                            fontWeight = FontWeight.Bold
+
+                        )
+                    }
+                }
+                // LazyColumn to display questions
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(400.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+                ) {
+
+                    items(germanPrepositionQuestions.size) { j ->
+                        val adjectiveQuizList = germanPrepositionQuestions[j]
+                        // Display the current question
+                        Text(
+                            text = "${adjectiveQuizList.number} ${adjectiveQuizList.question}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            color = Color.Black
+                        )
+
+                        // Display the options as radio buttons
+                        adjectiveQuizList.options.forEach { option ->
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 4.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                RadioButton(
+                                    selected = selectedOptions[j] == option,
+                                    onClick = {
+                                        selectedOptions[j] = option
+                                        // Reset score and showCorrectAnswers state when an option is changed
+                                        score = null
+                                        showCorrectAnswers = false
+                                    },
+                                    colors = RadioButtonDefaults.colors(
+                                        selectedColor = Color.Black,
+                                        unselectedColor = Color.Gray
+                                    )
+                                )
+                                Text(text = option,
+                                    color = Color.Black
+                                )
+                            }
+                        }
+                        if (showCorrectAnswers && selectedOptions[j] != adjectiveQuizList.correctAnswer) {
+                            Text(
+                                text = "Correct Answer: ${adjectiveQuizList.correctAnswer}",
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(vertical = 4.dp),
+                                color = Color.Red,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
+                // Submit Button
+                Button(
+                    onClick = {
+                        var tempScore = 0
+                        for (i in germanPrepositionQuestions.indices) {
+                            if (selectedOptions[i] == germanPrepositionQuestions[i].correctAnswer) {
+                                tempScore++
+                            }
+                        }
+                        score = tempScore
+                        showCorrectAnswers = true
+                    },
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = AzureBlue,
+                        contentColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(0.dp)
+                ) {
+                    Text(text = "Submit",
+                        color = Color.White
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun CheckFragments() {
+    GermanPrepositionHome()
 }

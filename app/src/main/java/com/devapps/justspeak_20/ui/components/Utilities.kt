@@ -23,7 +23,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Airlines
 import androidx.compose.material.icons.filled.Article
+import androidx.compose.material.icons.filled.Badge
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Cases
 import androidx.compose.material.icons.filled.Fastfood
@@ -34,7 +36,9 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Quiz
 import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Airlines
 import androidx.compose.material.icons.outlined.Article
+import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.Cases
 import androidx.compose.material.icons.outlined.Fastfood
 import androidx.compose.material.icons.outlined.Home
@@ -544,6 +548,29 @@ val nounTabItems = listOf(
     )
 )
 
+val prepositionTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Dative",
+        Icons.Outlined.Badge,
+        Icons.Filled.Badge
+    ),
+    TabItem(
+        title = "Genitive",
+        Icons.Outlined.Airlines,
+        Icons.Filled.Airlines
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    ),
+)
+
 @Composable
 fun TranslatableItem(deu: String, eng: String, textToSpeech: TextToSpeech) {
     ElevatedCard(
@@ -596,6 +623,30 @@ fun TranslatableItem(deu: String, eng: String, textToSpeech: TextToSpeech) {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun GrammarRow(german: String, english: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(40.dp)
+    ) {
+        Text(
+            text = german,
+            modifier = Modifier
+                .weight(0.50f)
+                .padding(start = 5.dp),
+            color = Color.Black
+        )
+        Text(
+            text = english,
+            modifier = Modifier
+                .weight(0.50f)
+                .padding(start = 5.dp),
+            color = Color.Black
+        )
     }
 }
 
