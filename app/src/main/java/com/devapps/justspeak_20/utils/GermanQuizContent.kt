@@ -241,11 +241,11 @@ fun germanSentenceQuestions() : List<Question> {
         ),
         Question(
             "2",
-            "Ich schlafe im Auto ...",
+            "What clause uses relative pronouns to connect main and subordinate clause?)",
             listOf(
-                "ein", "an", "dann"
+                "Main clause", "Subordinate before Main", "Relative clause"
             ),
-            "ein"
+            "Relative clause"
         ),
         Question(
             "3",

@@ -5,12 +5,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.devapps.justspeak_20.ui.components.PronounRow
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 
 @Composable
@@ -181,6 +183,95 @@ fun germanGenitivePrepositions(): Map<String, String> {
         "trotz" to "despite",
         "während" to "during",
         "wegen" to "because of"
+    )
+}
+
+@Composable
+fun germanTwoWayPrepositions(): Map<String, String> {
+    return mapOf(
+        "an" to "on",
+        "auf" to "on top of",
+        "hinter" to "behind",
+        "neben" to "next to",
+        "in" to "in",
+        "über" to "above",
+        "unter" to "under",
+        "vor" to "in front of"
+    )
+}
+
+@Composable
+fun getGermanPronouns(): Map<String, Triple<String, String, String>> {
+    return mapOf(
+        "Ich" to Triple("Ich (I)", "mich (me)", "mir (to me)"),
+        "Du" to Triple("Du (you)", "dich (you)", "dir (to you)"),
+        "Er" to Triple("Er (he)", "ihn (him)", "ihm (to him/it)"),
+        "Sie" to Triple("Sie (she)", "sie (her)", "ihr (to her/it)"),
+        "Es" to Triple("Es (it)", "es (it)", "ihm (to it)"),
+        "Wir" to Triple("Wir (we)", "uns (us)", "uns (to us)"),
+        "Ihr" to Triple("Ihr (you plural)", "euch (you plural)", "euch (to you plural)"),
+        "Sie formal" to Triple("Sie (You formal)", "sie (you)", "Ihnen (to you formal)"),
+        "sie" to Triple("sie (they)", "sie (them)", "ihnen (to them)")
+    )
+}
+
+@Composable
+fun GermanPronounList() {
+    val pronouns = getGermanPronouns()
+
+    LazyColumn(
+        modifier = Modifier
+            .height(300.dp)
+    ) {
+        pronouns.forEach { (key, value) ->
+            item {
+                PronounRow(
+                    nominative = value.first,
+                    accusative = value.second,
+                    dative = value.third
+                )
+            }
+        }
+    }
+}
+
+fun germanConjunctions() : Map<String, String> {
+    return mapOf(
+        "und" to "and",
+        "aber" to "but",
+        "oder" to "or",
+        "denn" to "because (since)",
+        "sondern" to "but rather/instead"
+    )
+}
+
+fun germanConjunctionsAffectWordOrder() : Map<String, String> {
+    return mapOf(
+        "weil" to "because",
+        "dass" to "that",
+        "wenn" to "if/when",
+        "ob" to "whether/if",
+        "obwohl" to "although",
+        "damit" to "so that",
+        "nachdem" to "after",
+        "bevor" to "before",
+        "während" to "while/during",
+        "sobald" to "as soon as",
+        "seit" to "since (time)",
+        "falls" to "in case",
+        "indem" to "by doing something",
+        "trotzdem" to "nevertheless",
+        "sobald" to "as soon as",
+        "sowohl ... als auch" to "both ... and",
+    )
+}
+
+fun germanConjunctionsTwoPart() : Map<String, String> {
+    return mapOf(
+        "entweder ... oder" to "either ... or",
+        "weder ... noch" to "neither ... nor",
+        "sowohl ... als auch" to "both ... and",
+        "nicht nur ... sondern auch" to "not only ... but also"
     )
 }
 

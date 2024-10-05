@@ -23,6 +23,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddComment
 import androidx.compose.material.icons.filled.Airlines
 import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.Badge
@@ -36,6 +38,8 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Quiz
 import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.AddComment
 import androidx.compose.material.icons.outlined.Airlines
 import androidx.compose.material.icons.outlined.Article
 import androidx.compose.material.icons.outlined.Badge
@@ -90,6 +94,7 @@ import com.devapps.justspeak_20.data.models.UserData
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.ui.theme.seaBlue
 import com.devapps.justspeak_20.ui.theme.teal
+import com.devapps.justspeak_20.utils.GermanPronounList
 import okhttp3.Route
 import kotlin.math.roundToInt
 
@@ -560,9 +565,45 @@ val prepositionTabItems = listOf(
         Icons.Filled.Badge
     ),
     TabItem(
-        title = "Genitive",
+        title = "Two-Way",
         Icons.Outlined.Airlines,
         Icons.Filled.Airlines
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    ),
+)
+
+val pronounTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    ),
+)
+
+val sentenceTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Sub",
+        Icons.Outlined.AddComment,
+        Icons.Filled.AddComment
+    ),
+    TabItem(
+        title = "conjunc",
+        Icons.Outlined.Add,
+        Icons.Filled.Add
     ),
     TabItem(
         title = "Quiz",
@@ -631,10 +672,11 @@ fun GrammarRow(german: String, english: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(40.dp)
+            .height(50.dp)
     ) {
         Text(
             text = german,
+            fontSize = 14.sp,
             modifier = Modifier
                 .weight(0.50f)
                 .padding(start = 5.dp),
@@ -642,6 +684,7 @@ fun GrammarRow(german: String, english: String) {
         )
         Text(
             text = english,
+            fontSize = 14.sp,
             modifier = Modifier
                 .weight(0.50f)
                 .padding(start = 5.dp),
@@ -1035,6 +1078,81 @@ fun GermanIndefiniteArticleTable() {
                     .weight(0.25f)
                     .padding(start = 5.dp))
         }
+    }
+}
+
+@Composable
+fun PronounRow(nominative: String, accusative: String, dative: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(40.dp)
+    ) {
+        Text(
+            text = nominative,
+            color = Color.Black,
+            fontSize = 14.sp,
+            modifier = Modifier
+                .weight(0.33f)
+                .padding(start = 5.dp)
+        )
+        Text(
+            text = accusative,
+            color = Color.Black,
+            fontSize = 14.sp,
+            modifier = Modifier
+                .weight(0.33f)
+                .padding(start = 5.dp)
+        )
+        Text(
+            text = dative,
+            color = Color.Black,
+            fontSize = 14.sp,
+            modifier = Modifier
+                .weight(0.33f)
+                .padding(start = 5.dp)
+        )
+    }
+}
+
+@Composable
+fun GermanPronounTable() {
+    Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+                .background(color = Color(0xFF007FFF)) // AzureBlue color
+        ) {
+            Text(
+                text = "Nominative",
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(0.33f)
+                    .padding(start = 5.dp)
+            )
+            Text(
+                text = "Accusative",
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(0.33f)
+                    .padding(start = 5.dp)
+            )
+            Text(
+                text = "Dative",
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(0.33f)
+                    .padding(start = 5.dp)
+            )
+        }
+        GermanPronounList()
     }
 }
 

@@ -27,7 +27,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -49,7 +48,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
@@ -86,6 +84,8 @@ import com.devapps.justspeak_20.ui.components.TranslatableItem
 import com.devapps.justspeak_20.ui.components.caseTabItems
 import com.devapps.justspeak_20.ui.components.nounTabItems
 import com.devapps.justspeak_20.ui.components.prepositionTabItems
+import com.devapps.justspeak_20.ui.components.pronounTabItems
+import com.devapps.justspeak_20.ui.components.sentenceTabItems
 import com.devapps.justspeak_20.ui.components.tabItems
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.ui.theme.grau
@@ -96,7 +96,6 @@ import com.devapps.justspeak_20.utils.getGermanAdjectives
 import com.devapps.justspeak_20.utils.getGermanAlphabetData
 import com.devapps.justspeak_20.utils.phraseList
 import com.devapps.justspeak_20.utils.topicItem
-import kotlinx.coroutines.launch
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -202,6 +201,12 @@ fun GermanMainNavigation() {
         }
         composable(ScreenDestinations.GermanPrepositionScreen.route) {
             GermanPrepositions()
+        }
+        composable(ScreenDestinations.GermanPronounScreen.route) {
+            GermanPronouns()
+        }
+        composable(ScreenDestinations.GermanSentenceStructureScreen.route) {
+            GermanSentenceStructure()
         }
     }
 }
@@ -1010,14 +1015,145 @@ fun GermanPrepositions() {
             when(page) {
                 0 -> GermanPrepositionHome()
                 1 -> GermanDativePreposition()
+                2 -> GermanTwoWayPreposition()
                 3 -> GermanPrepositionQuiz()
             }
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun GermanPronouns() {
+    val context = LocalContext.current
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
+
+    val pagerState = rememberPagerState {
+        pronounTabItems.size
+    }
+
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+    LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
+        if(!pagerState.isScrollInProgress) {
+            selectedTabIndex = pagerState.currentPage
+        }
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()) {
+        TabRow(
+            selectedTabIndex = selectedTabIndex,
+            containerColor = Color.White,
+        ) {
+            pronounTabItems.fastForEachIndexed { index, item ->
+                Tab(
+                    selected = index == selectedTabIndex,
+                    onClick = {
+                        selectedTabIndex = index
+                    },
+                    text = {
+                        Text(text = item.title)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (index == selectedTabIndex) {
+                                item.selectedIcon
+                            } else item.unselectedIcon, contentDescription = item.title
+                        )
+                    }
+                )
+            }
+        }
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) { page ->
+            when(page) {
+                0 -> GermanPronounHome()
+                1 -> GermanPronounQuiz()
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun GermanSentenceStructure() {
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
+
+    val pagerState = rememberPagerState {
+        sentenceTabItems.size
+    }
+
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+    LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
+        if(!pagerState.isScrollInProgress) {
+            selectedTabIndex = pagerState.currentPage
+        }
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()) {
+        TabRow(
+            selectedTabIndex = selectedTabIndex,
+            containerColor = Color.White,
+        ) {
+            sentenceTabItems.fastForEachIndexed { index, item ->
+                Tab(
+                    selected = index == selectedTabIndex,
+                    onClick = {
+                        selectedTabIndex = index
+                    },
+                    text = {
+                        Text(text = item.title)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (index == selectedTabIndex) {
+                                item.selectedIcon
+                            } else item.unselectedIcon, contentDescription = item.title
+                        )
+                    }
+                )
+            }
+        }
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) { page ->
+            when(page) {
+                0 -> GermanSentenceStructureHome()
+                1 -> GermanSubordinateSentences()
+                2 -> GermanConjunctionScreen()
+                3 -> GermanSentenceQuiz()
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanTenses() {
+
+}
+
 @Composable
 @Preview(showBackground = true)
 fun GermanScreens() {
-    GermanAdjectiveEndings()
+    GermanSentenceStructure()
 }
