@@ -87,6 +87,7 @@ import com.devapps.justspeak_20.ui.components.prepositionTabItems
 import com.devapps.justspeak_20.ui.components.pronounTabItems
 import com.devapps.justspeak_20.ui.components.sentenceTabItems
 import com.devapps.justspeak_20.ui.components.tabItems
+import com.devapps.justspeak_20.ui.components.tenseTabItems
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.ui.theme.grau
 import com.devapps.justspeak_20.utils.GermanDefEndTable
@@ -208,6 +209,9 @@ fun GermanMainNavigation() {
         composable(ScreenDestinations.GermanSentenceStructureScreen.route) {
             GermanSentenceStructure()
         }
+        composable(ScreenDestinations.GermanTenseScreen.route) {
+            GermanTenses()
+        }
     }
 }
 
@@ -284,7 +288,6 @@ fun GermanLandingScreen(germanScreensNavController: NavController) {
 
 @Composable
 fun GermanAlphabet(textToSpeech: TextToSpeech) {
-
     // Dispose the TextToSpeech instance when no longer needed
     DisposableEffect(Unit) {
         onDispose {
@@ -1147,9 +1150,67 @@ fun GermanSentenceStructure() {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GermanTenses() {
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
 
+    val pagerState = rememberPagerState {
+        tenseTabItems.size
+    }
+
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+    LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
+        if(!pagerState.isScrollInProgress) {
+            selectedTabIndex = pagerState.currentPage
+        }
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()) {
+        TabRow(
+            selectedTabIndex = selectedTabIndex,
+            containerColor = Color.White,
+        ) {
+            tenseTabItems.fastForEachIndexed { index, item ->
+                Tab(
+                    selected = index == selectedTabIndex,
+                    onClick = {
+                        selectedTabIndex = index
+                    },
+                    text = {
+                        Text(text = item.title)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (index == selectedTabIndex) {
+                                item.selectedIcon
+                            } else item.unselectedIcon, contentDescription = item.title
+                        )
+                    }
+                )
+            }
+        }
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) { page ->
+            when(page) {
+                0 -> GermanTenseHome()
+                1 -> GermanPastTense()
+                2 -> GermanFutureTense()
+                3 -> GermanTenseQuiz()
+            }
+        }
+    }
 }
 
 @Composable

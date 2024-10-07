@@ -3,6 +3,7 @@ package com.devapps.justspeak_20.di
 import android.app.Application
 import android.content.Context
 import com.devapps.justspeak_20.JustSpeakApplication
+import com.devapps.justspeak_20.data.repositories.FirebaseRepository
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.firestore.FirebaseFirestore
@@ -37,5 +38,11 @@ object AppModule {
     @Singleton
     fun provideFirebaseFirestore(): FirebaseFirestore {
         return FirebaseFirestore.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseRepository() : FirebaseRepository {
+        return FirebaseRepository(provideFirebaseFirestore())
     }
 }

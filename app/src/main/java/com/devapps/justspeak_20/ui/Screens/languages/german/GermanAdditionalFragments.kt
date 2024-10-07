@@ -68,6 +68,7 @@ import com.devapps.justspeak_20.utils.germanPeopleNouns
 import com.devapps.justspeak_20.utils.germanPrepositionQuestions
 import com.devapps.justspeak_20.utils.germanPronounQuestions
 import com.devapps.justspeak_20.utils.germanSentenceQuestions
+import com.devapps.justspeak_20.utils.germanTenseQuestions
 import com.devapps.justspeak_20.utils.germanTwoWayPrepositions
 import com.devapps.justspeak_20.utils.getGermanPlaceNouns
 import java.util.Locale
@@ -2167,6 +2168,489 @@ fun GermanSentenceQuiz() {
                                 color = Color.Red,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
+                // Submit Button
+                Button(
+                    onClick = {
+                        var tempScore = 0
+                        for (i in germanPrepositionQuestions.indices) {
+                            if (selectedOptions[i] == germanPrepositionQuestions[i].correctAnswer) {
+                                tempScore++
+                            }
+                        }
+                        score = tempScore
+                        showCorrectAnswers = true
+                    },
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = AzureBlue,
+                        contentColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(0.dp)
+                ) {
+                    Text(text = "Submit",
+                        color = Color.White
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanTenseHome() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+
+        Text(text = "Tenses - Zeitformen",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Tenses are a key part of language learning. Tenses show the time of a given " +
+                            "sentence or a statement. In German, there are 6 tenses that are used to " +
+                            "show time of occurrence. In this chapter, you will learn about all 6 tenses" +
+                            ", how they work and examoles to make your learning much easier.",
+                    color = Color.Black,
+                    fontSize = 14.sp
+                )
+
+            }
+
+        }
+        Spacer(
+            modifier = Modifier
+                .height(20.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Present Tense (Präsens)",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                Text(
+                    text = "Used to describe actions that are happening now, habits, general truths," +
+                            " and near-future events. e.g.\n \nIch lerne Deutsch (I am learning German)",
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+            }
+
+        }
+        Spacer(
+            modifier = Modifier
+                .height(20.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Perfekt (Present Perfect Tense)",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                Text(
+                    text = "he present perfect tense is used when a past event has its consequences in " +
+                            "the present time. In other words, when a verb in present tense has been " +
+                            "combined with a past participle. Examples of this tense are:\n" +
+                            "\n" +
+                            "Sie hat ihre Schlüssel verloren. (She has lost her keys)\n \n" +
+                            "Er hat seinen Rucksack vergessen. (He has forgotten his backpack)",
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanPastTense() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+        Spacer(
+            modifier = Modifier
+                .height(20.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Präteritum (Simple Past Tense)",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                Text(
+                    text = "The past simple tense is used to describe events that occurred in the past." +
+                            " Past simple is used quite a lot in written language and verb conjugation " +
+                            "changes. \n \n" +
+                            "Ich besuchte gestern meine Großeltern. (I visited my Grandma yesterday). \n \n" +
+                            "Letzten Sommer reisten wir nach Italien. (We travelled to Italy last summer",
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+            }
+
+        }
+        Spacer(
+            modifier = Modifier
+                .height(20.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Plusquamperfekt (Past Perfect Tense)",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                Text(
+                    text = "This is used to describe a past action that happened before another past " +
+                            "occurrence, this is very much equal to the english tense of past perfect. Below " +
+                            "are examples of sentences showing the past perfect tense in action: \n \n" +
+                            "Sie hatten das Konzert bereits gesehen, bevor ich ankam. (They had already seen" +
+                            " the concert before I arrived). \n \n Bevor sie ins Bett ging, hatte sie " +
+                            "bereits das Buch beendet. (She had finished the book before she went to bed.)",
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanFutureTense() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(20.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Futur I (Future I Tense)",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                Text(
+                    text = "This tense is used to talk about the future or what will be done anytime " +
+                            "after the present. Below are some examples of the future tense being used in " +
+                            "context \n \n Du wirst es schaffen. (You will make/achieve it) \n \n" +
+                            "Sie werden in der Zukunft mehr über umweltfreundliche Technologien forschen. " +
+                            "(They will research more environmental friendly technologies in the future)",
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+            }
+        }
+        Spacer(
+            modifier = Modifier
+                .height(20.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Futur II (Future II Tense)",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                Text(
+                    text = "This tense is used to describe an occurrence or event that will be achieved" +
+                            " or done at a specific time in the future or an even an occurrence that will be" +
+                            " past in the future. Below are some examples to give you better understanding " +
+                            "of this tense: \n \n Im Jahr 2030 werden wir viele Fortschritte in der Medizin " +
+                            "gemacht haben. (In 2030 we will have made many advances in medicine.) \n \n" +
+                            "Bis zum Ende des Jahres werden wir zehn Jahre zusammen verbracht haben. " +
+                            "(By the end of the year we will have spent ten years together.)",
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanTenseQuiz() {
+    val germanPrepositionQuestions = germanTenseQuestions()
+
+    // Maintain selection state for each question
+    val selectedOptions = remember { mutableStateListOf<String?>() }
+    var score by remember { mutableStateOf<Int?>(null) }
+    var showCorrectAnswers by remember { mutableStateOf(false) }
+
+    // Initialize the selection state with null values
+    if (selectedOptions.size != germanPrepositionQuestions.size) {
+        selectedOptions.clear()
+        selectedOptions.addAll(List(germanPrepositionQuestions.size) { null })
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+
+                Text(
+                    text = "Tense Quiz",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                score?.let {
+
+                    if (it == germanPrepositionQuestions.size) {
+                        Text(
+                            text = "Your Score: $it/${germanPrepositionQuestions.size}",
+                            color = Color.Magenta,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    } else if (it != germanPrepositionQuestions.size) {
+                        Text(
+                            text = "Your Score: $it/${germanPrepositionQuestions.size}",
+                            fontSize = 20.sp,
+                            color = Color.Red,
+                            fontWeight = FontWeight.Bold
+
+                        )
+                    }
+                }
+                // LazyColumn to display questions
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(400.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+                ) {
+
+                    items(germanPrepositionQuestions.size) { j ->
+                        val adjectiveQuizList = germanPrepositionQuestions[j]
+                        // Display the current question
+                        Text(
+                            text = "${adjectiveQuizList.number} ${adjectiveQuizList.question}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            color = Color.Black
+                        )
+
+                        // Display the options as radio buttons
+                        adjectiveQuizList.options.forEach { option ->
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 4.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                RadioButton(
+                                    selected = selectedOptions[j] == option,
+                                    onClick = {
+                                        selectedOptions[j] = option
+                                        // Reset score and showCorrectAnswers state when an option is changed
+                                        score = null
+                                        showCorrectAnswers = false
+                                    },
+                                    colors = RadioButtonDefaults.colors(
+                                        selectedColor = Color.Black,
+                                        unselectedColor = Color.Gray
+                                    )
+                                )
+                                Text(text = option,
+                                    color = Color.Black
+                                )
+                            }
+                        }
+                        if (showCorrectAnswers && selectedOptions[j] != adjectiveQuizList.correctAnswer) {
+                            Text(
+                                text = "Correct Answer: ${adjectiveQuizList.correctAnswer}",
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(vertical = 4.dp),
+                                color = Color.Red,
+                                fontWeight = FontWeight.Bold,
                             )
                         }
                         Spacer(modifier = Modifier.height(16.dp))

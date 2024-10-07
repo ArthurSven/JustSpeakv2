@@ -33,9 +33,11 @@ import androidx.compose.material.icons.filled.Cases
 import androidx.compose.material.icons.filled.Fastfood
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.LockClock
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Quiz
+import androidx.compose.material.icons.filled.Rocket
 import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Add
@@ -47,8 +49,10 @@ import androidx.compose.material.icons.outlined.Cases
 import androidx.compose.material.icons.outlined.Fastfood
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material.icons.outlined.LockClock
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Quiz
+import androidx.compose.material.icons.outlined.Rocket
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedButton
@@ -604,6 +608,29 @@ val sentenceTabItems = listOf(
         title = "conjunc",
         Icons.Outlined.Add,
         Icons.Filled.Add
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    ),
+)
+
+val tenseTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Past",
+        Icons.Outlined.LockClock,
+        Icons.Filled.LockClock
+    ),
+    TabItem(
+        title = "Future",
+        Icons.Outlined.Rocket,
+        Icons.Filled.Rocket
     ),
     TabItem(
         title = "Quiz",
