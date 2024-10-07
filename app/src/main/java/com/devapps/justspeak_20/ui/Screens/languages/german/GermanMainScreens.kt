@@ -88,10 +88,12 @@ import com.devapps.justspeak_20.ui.components.pronounTabItems
 import com.devapps.justspeak_20.ui.components.sentenceTabItems
 import com.devapps.justspeak_20.ui.components.tabItems
 import com.devapps.justspeak_20.ui.components.tenseTabItems
+import com.devapps.justspeak_20.ui.components.verbTabItems
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.ui.theme.grau
 import com.devapps.justspeak_20.utils.GermanDefEndTable
 import com.devapps.justspeak_20.utils.GermanIndEndTable
+import com.devapps.justspeak_20.utils.GermanVerbList
 import com.devapps.justspeak_20.utils.germanAdjectiveQuizQuestions
 import com.devapps.justspeak_20.utils.getGermanAdjectives
 import com.devapps.justspeak_20.utils.getGermanAlphabetData
@@ -211,6 +213,13 @@ fun GermanMainNavigation() {
         }
         composable(ScreenDestinations.GermanTenseScreen.route) {
             GermanTenses()
+        }
+        composable(ScreenDestinations.GermanVerbConjugationScreen.route) {
+            GermanVerbs()
+        }
+        //Phrases
+        composable(ScreenDestinations.GermanIntroductionScreen.route) {
+            GermanIntroduction()
         }
     }
 }
@@ -1208,6 +1217,72 @@ fun GermanTenses() {
                 1 -> GermanPastTense()
                 2 -> GermanFutureTense()
                 3 -> GermanTenseQuiz()
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun GermanVerbs() {
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
+
+    val pagerState = rememberPagerState {
+        verbTabItems.size
+    }
+
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+    LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
+        if(!pagerState.isScrollInProgress) {
+            selectedTabIndex = pagerState.currentPage
+        }
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()) {
+        ScrollableTabRow(
+            selectedTabIndex = selectedTabIndex,
+            containerColor = Color.White,
+            edgePadding = 0.dp
+        ) {
+            verbTabItems.fastForEachIndexed { index, item ->
+                Tab(
+                    selected = index == selectedTabIndex,
+                    onClick = {
+                        selectedTabIndex = index
+                    },
+                    text = {
+                        Text(text = item.title)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (index == selectedTabIndex) {
+                                item.selectedIcon
+                            } else item.unselectedIcon, contentDescription = item.title
+                        )
+                    }
+                )
+            }
+        }
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) { page ->
+            when(page) {
+                0 -> GermanVerbHome()
+                1 -> GermanTopVerbs()
+                2 -> GermanHabenVerb()
+                3 -> GermanSeinVerb()
+                4 -> GermanKannVerb()
+                5 -> GermanVerbQuiz()
             }
         }
     }

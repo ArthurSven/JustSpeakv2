@@ -1,17 +1,21 @@
 package com.devapps.justspeak_20.utils
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.devapps.justspeak_20.ui.components.PronounRow
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 
@@ -273,6 +277,100 @@ fun germanConjunctionsTwoPart() : Map<String, String> {
         "sowohl ... als auch" to "both ... and",
         "nicht nur ... sondern auch" to "not only ... but also"
     )
+}
+
+@Composable
+fun germanCommonVerbs() : List<String> {
+    return listOf(
+        "haben", "sein", "werden", "können", "machen", "gehen", "sollen", "kommen", "geben", "sagen",
+        "müssen", "sehen", "finden", "mögen", "dürfen", "fahren", "liegen", "lassen", "stehen",
+        "heißen"
+    )
+}
+
+@Composable
+fun englishCommonVerbs() : List<String> {
+    return listOf(
+        "to have", "to be", "to become", "to be able to", "to do", "to go", "should", "to come",
+        "to give", "to say", "must", "to see", "to find", "to like", "to be allowed to", "to drive",
+        "to lay", "to let", "to stand", "to be called"
+    )
+}
+
+@Composable
+fun GermanVerbList() {
+    val verb = germanCommonVerbs()
+    val translation = englishCommonVerbs()
+
+    LazyColumn(
+        modifier = Modifier
+            .height(400.dp)
+    ) {
+        items(verb) { germanVerbs ->
+            val index = verb.indexOf(germanVerbs)
+            val translatedVerbs = if (index < translation.size) translation[index] else ""
+
+            VerbRow(verbs = germanVerbs, translations = translatedVerbs)
+        }
+    }
+}
+
+@Composable
+fun VerbRow(verbs: String, translations: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(40.dp)
+    ) {
+        Text(
+            text = verbs,
+            color = Color.Black,
+            fontSize = 14.sp,
+            modifier = Modifier
+                .weight(0.50f)
+                .padding(start = 5.dp)
+        )
+        Text(
+            text = translations,
+            color = Color.Black,
+            fontSize = 14.sp,
+            modifier = Modifier
+                .weight(0.50f)
+                .padding(start = 5.dp)
+        )
+    }
+}
+
+@Composable
+fun VerbTable() {
+    Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+                .background(color = AzureBlue)
+        ) {
+            Text(
+                text = "Verb",
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(0.50f)
+                    .padding(start = 5.dp)
+            )
+            Text(
+                text = "Translation",
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(0.50f)
+                    .padding(start = 5.dp)
+            )
+        }
+        Spacer(modifier = Modifier
+            .height(5.dp))
+        GermanVerbList()
+    }
 }
 
 @Composable
@@ -613,4 +711,227 @@ fun GermanIndEndTable() {
     }
 }
 
+@Composable
+fun ConjugationTableRow() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(30.dp)
+            .background(color = AzureBlue)
+    ) {
+        Text(
+            text = "Pronoun",
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            fontSize = 16.sp,
+            modifier = Modifier
+                .weight(0.33f)
+                .padding(start = 5.dp)
+        )
+        Text(
+            text = "Conjugation",
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            fontSize = 16.sp,
+            modifier = Modifier
+                .weight(0.33f)
+                .padding(start = 5.dp)
+        )
+        Text(
+            text = "Translation",
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            fontSize = 16.sp,
+            modifier = Modifier
+                .weight(0.33f)
+                .padding(start = 5.dp)
+        )
+    }
+}
 
+@Composable
+fun ConjugationTableItem(pron: String, conj: String, trans: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(35.dp)
+
+    ) {
+        Text(
+            text = pron,
+            fontSize = 14.sp,
+            color = Color.Black,
+            modifier = Modifier
+                .weight(0.33f)
+                .padding(start = 5.dp)
+        )
+        Text(
+            text = conj,
+            fontSize = 14.sp,
+            color = Color.Black,
+            modifier = Modifier
+                .weight(0.33f)
+                .padding(start = 5.dp)
+        )
+        Text(
+            text = trans,
+            fontSize = 14.sp,
+            color = Color.Black,
+            modifier = Modifier
+                .weight(0.33f)
+                .padding(start = 5.dp)
+        )
+    }
+}
+
+@Composable
+fun getHabenConjugation() : List<String> {
+    return listOf(
+        "Ich habe", "Du hast (informal)", "Er hat", "Sie hat", "Es hat", "Wir haben",
+        "Ihr habt (informal)", "Sie haben (formal)", "Sie haben"
+    )
+}
+
+@Composable
+fun getHaveTranslation() : List<String> {
+    return listOf(
+        "I have", "You have", "He has", "She has", "It has", "We have", "You have", "You have",
+        "They have"
+    )
+}
+
+@Composable
+fun getNominativePronouns() : List<String> {
+    return listOf(
+        "Ich (I)", "Du (you)", "Er (he)", "Sie (she)", "Es (it)", "Wir (we)", "Ihr (you plural)",
+        "Sie (You formal)", "sie (they)"
+    )
+}
+
+@Composable
+fun getAccusativePronouns() : List<String> {
+    return listOf(
+        "mich (me)", "dich (you)", "ihn (him)", "sie(her)", "es (it)", "uns (us)", "euch (you)",
+        "sie (you)", "sie (them)"
+    )
+}
+
+@Composable
+fun getDativePronouns() : List<String> {
+    return listOf(
+        "mir (to me)", "dir (to you)", "ihm (to him/it)", "ihr (to her/it)", "ihm (to it)",
+        "uns (to us)", "euch (to you)", "Ihnen (to you)", "ihnen (to them)"
+    )
+}
+
+@Composable
+fun HabenList() {
+    val pro = getNominativePronouns()
+    val conjugator = getHabenConjugation()
+    val habeTranslate = getHaveTranslation()
+
+    LazyColumn(
+        modifier = Modifier
+            .height(300.dp)
+    ) {
+        items(pro) { habeConj ->
+            val index = pro.indexOf(habeConj)
+            val conjugation = if (index < conjugator.size) conjugator[index] else ""
+            val translation = if (index < habeTranslate.size) habeTranslate[index] else ""
+
+            ConjugationTableItem(habeConj, conjugation, translation)
+        }
+    }
+}
+
+@Composable
+fun HabenConjugationTable() {
+    Column {
+        ConjugationTableRow()
+        HabenList()
+    }
+}
+
+@Composable
+fun SeinConjugationTable() {
+    Column {
+        ConjugationTableRow()
+        SeinList()
+    }
+}
+
+@Composable
+fun KannConjugationTable() {
+    Column {
+        ConjugationTableRow()
+        KannList()
+    }
+}
+
+@Composable
+fun SeinList() {
+    val pro = getNominativePronouns()
+    val conjugator = getSeinConjugation()
+    val habeTranslate = getSeinTranslated()
+
+    LazyColumn(
+        modifier = Modifier
+            .height(300.dp)
+    ) {
+        items(pro) { seinConj ->
+            val index = pro.indexOf(seinConj)
+            val conjugation = if (index < conjugator.size) conjugator[index] else ""
+            val translation = if (index < habeTranslate.size) habeTranslate[index] else ""
+
+            ConjugationTableItem(seinConj, conjugation, translation)
+        }
+    }
+}
+
+@Composable
+fun KannList() {
+    val pro = getNominativePronouns()
+    val conjugator = getKannConjugation()
+    val habeTranslate = getKannTranslated()
+
+    LazyColumn(
+        modifier = Modifier
+            .height(300.dp)
+    ) {
+        items(pro) { kannConj ->
+            val index = pro.indexOf(kannConj)
+            val conjugation = if (index < conjugator.size) conjugator[index] else ""
+            val translation = if (index < habeTranslate.size) habeTranslate[index] else ""
+
+            ConjugationTableItem(kannConj, conjugation, translation)
+        }
+    }
+}
+
+@Composable
+fun getSeinConjugation() : List<String> {
+    return listOf(
+        "Ich bin", "Du bist (informal)", "Er ist", "Sie ist", "Es ist", "Wir sind", "Ihr seid  (informal)",
+        "Sie haben (formal)", "Sie haben"
+    )
+}
+
+@Composable
+fun getSeinTranslated() : List<String> {
+    return listOf(
+        "I am", "You are", "He is", "She is", "It is", "We are", "You are", "You are", "They are"
+    )
+}
+
+fun getKannConjugation() : List<String> {
+    return listOf(
+        "Ich kann", "Du kannst (informal)", "Er kann", "Sie kann", "Es kann", "Wir können", "Ihr könnt (informal)",
+        "Sie können (formal)", "Sie können"
+    )
+}
+
+fun getKannTranslated() : List<String> {
+    return listOf(
+        "I can", "You can", "He can", "She can", "It can", "We can", "You can", "You can", "They can"
+    )
+}

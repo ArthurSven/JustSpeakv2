@@ -31,10 +31,12 @@ import androidx.compose.material.icons.filled.Badge
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Cases
 import androidx.compose.material.icons.filled.Fastfood
+import androidx.compose.material.icons.filled.FrontHand
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.LockClock
 import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Quiz
 import androidx.compose.material.icons.filled.Rocket
@@ -47,9 +49,11 @@ import androidx.compose.material.icons.outlined.Article
 import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.Cases
 import androidx.compose.material.icons.outlined.Fastfood
+import androidx.compose.material.icons.outlined.FrontHand
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.LockClock
+import androidx.compose.material.icons.outlined.People
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material.icons.outlined.Rocket
@@ -639,6 +643,39 @@ val tenseTabItems = listOf(
     ),
 )
 
+val verbTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Verbs",
+        Icons.Outlined.LockClock,
+        Icons.Filled.LockClock
+    ),
+    TabItem(
+        title = "Haben",
+        Icons.Outlined.Rocket,
+        Icons.Filled.Rocket
+    ),
+    TabItem(
+        title = "Sein",
+        Icons.Outlined.Rocket,
+        Icons.Filled.Rocket
+    ),
+    TabItem(
+        title = "können",
+        Icons.Outlined.Rocket,
+        Icons.Filled.Rocket
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    ),
+)
+
 @Composable
 fun TranslatableItem(deu: String, eng: String, textToSpeech: TextToSpeech) {
     ElevatedCard(
@@ -1182,6 +1219,89 @@ fun GermanPronounTable() {
         GermanPronounList()
     }
 }
+
+@Composable
+fun PhraseItem(deu: String, eng: String, textToSpeech: TextToSpeech) {
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(5.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = Color.White
+        )
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 5.dp, top = 5.dp, bottom = 5.dp, end = 5.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = deu,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+                Text(
+                    text = eng,
+                    fontSize = 14.sp,
+                    color = Color.DarkGray
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.End
+            ) {
+                IconButton(
+                    onClick = {
+                        textToSpeech.speak(deu, TextToSpeech.QUEUE_FLUSH, null, null)
+                    }) {
+                    Icon(
+                        imageVector = Icons.Filled.Mic, contentDescription = "Microphone",
+                        tint = AzureBlue,
+                        modifier = Modifier
+                            .size(50.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+val introductionTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Goodbyes",
+        Icons.Outlined.FrontHand,
+        Icons.Filled.FrontHand
+    ),
+    TabItem(
+        title = "Expressions",
+        Icons.Outlined.Person,
+        Icons.Filled.Person
+    ),
+    TabItem(
+        title = "Intros",
+        Icons.Outlined.People,
+        Icons.Filled.People
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    ),
+)
+
 
 @Composable
 @Preview(showBackground = true)
