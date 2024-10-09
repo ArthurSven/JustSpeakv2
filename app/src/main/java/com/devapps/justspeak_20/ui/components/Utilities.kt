@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.Badge
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Cases
+import androidx.compose.material.icons.filled.Emergency
 import androidx.compose.material.icons.filled.Fastfood
 import androidx.compose.material.icons.filled.FrontHand
 import androidx.compose.material.icons.filled.Home
@@ -48,6 +49,7 @@ import androidx.compose.material.icons.outlined.Airlines
 import androidx.compose.material.icons.outlined.Article
 import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.Cases
+import androidx.compose.material.icons.outlined.Emergency
 import androidx.compose.material.icons.outlined.Fastfood
 import androidx.compose.material.icons.outlined.FrontHand
 import androidx.compose.material.icons.outlined.Home
@@ -1300,6 +1302,43 @@ val introductionTabItems = listOf(
         Icons.Outlined.Quiz,
         Icons.Filled.Quiz
     ),
+)
+
+val expressionTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    )
+)
+
+val emergencyTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Medical",
+        Icons.Outlined.Emergency,
+        Icons.Filled.Emergency
+    ),
+
+    TabItem(
+        title = "Crime",
+        Icons.Outlined.Person,
+        Icons.Filled.Person
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    )
 )
 
 
