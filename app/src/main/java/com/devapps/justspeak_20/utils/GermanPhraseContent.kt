@@ -159,3 +159,55 @@ fun getGermanCrimeEmergencyPhrases(): Map<String, String> {
         "Haben Sie den Täter gesehen?" to "Did you see the perpetrator?"
     )
 }
+
+@Composable
+fun getGermanEatingPhrases(): Map<String, String> {
+    return mapOf(
+        "Einen Tisch für vier, bitte" to "A table for four, please",
+        "Ist dieser Platz frei?" to "Is this seat free?",
+        "Die Speiserkarte, bitte" to "Menu, please",
+        "Ich möchte bestellen" to "I would like to order",
+        "Ich hätte gern..." to "I would like...",
+        "Was würden Sie empfehlen?" to "What would you recommend?",
+        "Nein, das habe ich nicht bestellt" to "No, I did not order this",
+        "Hat es ihnen/dir geschmeckt?" to "Did you enjoy the food?",
+        "Noch eins" to "One more",
+        "Guten Appetite" to "Have a nice meal",
+        "Prost" to "Cheers!",
+        "Sonst noch was?" to "Anything else?",
+        "Entschuldigen Sie bitte" to "Excuse me",
+        "Zahlen, bitte" to "Bill please",
+        "Könnte ich das einpacken lassen?" to "Can I have this wrapped?",
+        "Ich möchte eine Reservierung machen" to "I would like to make a reservation",
+        "an Guadn" to "Have a nice meal (Bavarian)",
+        "en Guete" to "Have a nice meal (Switzerland)",
+        "Kann ich mit Karte bezahlen?" to "Can I pay with a card?",
+        "Kann ich mit Bargeld bezahlen?" to "Can I pay with cash?",
+        "Ich bezahle mit Karte" to "I will pay with a card",
+        "Ich bezahle mit Bargeld" to "I will pay with cash"
+    )
+}
+
+@Composable
+fun getGermanShoppingPhrases(): Map<String, String> {
+    return mapOf(
+        "Ich gehe einkaufen" to "I am going shopping",
+        "Wo kann ich .. finden?" to "Where can I find...?",
+        "Wie viel kostet das?" to "How much does this cost?",
+        "der Preis" to "The price",
+        "die Kleidung" to "the clothes",
+        "das Geschäft" to "the shop",
+        "Haben Sie...?" to "Do you have...?",
+        "Verkaufen Sie?" to "Do you sell...?",
+        "Ich suche..." to "I am looking for...",
+        "Ich möchte ..." to "I would like...",
+        "Das ist teuer" to "That's expensive",
+        "Das ist billig" to "That's cheap",
+        "Kann ich eine Quittung haben?" to "Can I have a receipt?",
+        "auf welcher Stock kann ich ... finden" to "On which floor can I find...?",
+        "Wo finde ich ..." to "Where can I find...?",
+        "Das gefällt mir" to "I like that",
+        "Das gefällt mir nicht" to "I don't like that",
+        "Probier es an" to "Try it on"
+    )
+}

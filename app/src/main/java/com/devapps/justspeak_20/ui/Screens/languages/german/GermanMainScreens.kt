@@ -227,6 +227,9 @@ fun GermanMainNavigation() {
         composable(ScreenDestinations.GermanEmergencyScreen.route) {
             GermanEmergencies()
         }
+        composable(ScreenDestinations.GermanEatingScreen.route) {
+            GermanGastronomy()
+        }
     }
 }
 

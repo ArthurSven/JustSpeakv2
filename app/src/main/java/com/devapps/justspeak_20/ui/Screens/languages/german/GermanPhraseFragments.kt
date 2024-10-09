@@ -38,12 +38,14 @@ import androidx.compose.ui.unit.sp
 import com.devapps.justspeak_20.ui.components.PhraseItem
 import com.devapps.justspeak_20.ui.components.TranslatableItem
 import com.devapps.justspeak_20.ui.theme.AzureBlue
+import com.devapps.justspeak_20.utils.germanDiningQuestions
 import com.devapps.justspeak_20.utils.germanEmergencyQuestions
 import com.devapps.justspeak_20.utils.germanExpressionQuestions
 import com.devapps.justspeak_20.utils.germanIntroductionQuestions
 import com.devapps.justspeak_20.utils.germanNounQuizQuestions
 import com.devapps.justspeak_20.utils.germanPeopleNouns
 import com.devapps.justspeak_20.utils.getGermanCrimeEmergencyPhrases
+import com.devapps.justspeak_20.utils.getGermanEatingPhrases
 import com.devapps.justspeak_20.utils.getGermanEmergencyPhrases
 import com.devapps.justspeak_20.utils.getGermanExpressions
 import com.devapps.justspeak_20.utils.getGermanGoodbyes
@@ -51,6 +53,7 @@ import com.devapps.justspeak_20.utils.getGermanGreetingExpressions
 import com.devapps.justspeak_20.utils.getGermanIntroductions
 import com.devapps.justspeak_20.utils.getGermanIntroductoryPhrases
 import com.devapps.justspeak_20.utils.getGermanMedicalEmergencyPhrases
+import com.devapps.justspeak_20.utils.getGermanShoppingPhrases
 
 
 @Composable
@@ -770,6 +773,273 @@ fun GermanEmergencyQuiz() {
 
                 Text(
                     text = "Emergency Quiz",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                score?.let {
+
+                    if (it == germanCaseQuestions.size) {
+                        Text(
+                            text = "Your Score: $it/${germanCaseQuestions.size}",
+                            color = Color.Magenta,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    } else if (it != germanCaseQuestions.size) {
+                        Text(
+                            text = "Your Score: $it/${germanCaseQuestions.size}",
+                            fontSize = 18.sp,
+                            color = Color.Red,
+                            fontWeight = FontWeight.Bold
+
+                        )
+                    }
+                }
+                // LazyColumn to display questions
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(400.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+                ) {
+
+                    items(germanCaseQuestions.size) { j ->
+                        val adjectiveQuizList = germanCaseQuestions[j]
+                        // Display the current question
+                        Text(
+                            text = "${adjectiveQuizList.number} ${adjectiveQuizList.question}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp,
+                            color = Color.Black
+                        )
+
+                        // Display the options as radio buttons
+                        adjectiveQuizList.options.forEach { option ->
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 4.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                RadioButton(
+                                    selected = selectedOptions[j] == option,
+                                    onClick = {
+                                        selectedOptions[j] = option
+                                        // Reset score and showCorrectAnswers state when an option is changed
+                                        score = null
+                                        showCorrectAnswers = false
+                                    },
+                                    colors = RadioButtonDefaults.colors(
+                                        selectedColor = Color.Black,
+                                        unselectedColor = Color.Gray
+                                    )
+                                )
+                                Text(text = option,
+                                    color = Color.Black,
+                                    fontSize = 14.sp
+                                )
+                            }
+                        }
+                        if (showCorrectAnswers && selectedOptions[j] != adjectiveQuizList.correctAnswer) {
+                            Text(
+                                text = "Correct Answer: ${adjectiveQuizList.correctAnswer}",
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(vertical = 4.dp),
+                                color = Color.Red,
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
+                // Submit Button
+                Button(
+                    onClick = {
+                        var tempScore = 0
+                        for (i in germanCaseQuestions.indices) {
+                            if (selectedOptions[i] == germanCaseQuestions[i].correctAnswer) {
+                                tempScore++
+                            }
+                        }
+                        score = tempScore
+                        showCorrectAnswers = true
+                    },
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = AzureBlue,
+                        contentColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(0.dp)
+                ) {
+                    Text(text = "Submit",
+                        color = Color.White
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanGastronomyHome(textToSpeech: TextToSpeech) {
+
+    val germanEatingPhrases = getGermanEatingPhrases()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        Text(text = "Dining and Shopping",
+            fontSize = 24.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Dining and shopping are essential part of modern day life. Perhaps you" +
+                            " fancy a good dinner or a shopping spree in the German speaking world, this" +
+                            " section covers both dining out and shopping:",
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+            }
+
+        }
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(450.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            items(germanEatingPhrases.entries.toList()) { entry ->
+                PhraseItem(entry.key ,entry.value,textToSpeech)
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanShopping(textToSpeech: TextToSpeech) {
+
+    val germanShoppingPhrases = getGermanShoppingPhrases()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        Text(text = "Shopping",
+            fontSize = 24.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(germanShoppingPhrases.entries.toList()) { entry ->
+                    PhraseItem(entry.key ,entry.value,textToSpeech)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanGastronomyQuiz() {
+
+    val germanCaseQuestions = germanDiningQuestions()
+
+    // Maintain selection state for each question
+    val selectedOptions = remember { mutableStateListOf<String?>() }
+    var score by remember { mutableStateOf<Int?>(null) }
+    var showCorrectAnswers by remember { mutableStateOf(false) }
+
+    // Initialize the selection state with null values
+    if (selectedOptions.size != germanCaseQuestions.size) {
+        selectedOptions.clear()
+        selectedOptions.addAll(List(germanCaseQuestions.size) { null })
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+
+                Text(
+                    text = "Gastronomy Quiz",
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
                     color = Color.Black

@@ -41,6 +41,7 @@ import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Quiz
 import androidx.compose.material.icons.filled.Rocket
+import androidx.compose.material.icons.filled.Shop
 import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Add
@@ -59,6 +60,7 @@ import androidx.compose.material.icons.outlined.People
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material.icons.outlined.Rocket
+import androidx.compose.material.icons.outlined.Shop
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedButton
@@ -1333,6 +1335,24 @@ val emergencyTabItems = listOf(
         title = "Crime",
         Icons.Outlined.Person,
         Icons.Filled.Person
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    )
+)
+
+val gastronomyTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Shopping",
+        Icons.Outlined.Shop,
+        Icons.Filled.Shop
     ),
     TabItem(
         title = "Quiz",
