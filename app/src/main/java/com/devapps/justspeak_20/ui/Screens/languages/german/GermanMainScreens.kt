@@ -230,6 +230,12 @@ fun GermanMainNavigation() {
         composable(ScreenDestinations.GermanEatingScreen.route) {
             GermanGastronomy()
         }
+        composable(ScreenDestinations.GermanQuestionsScreen.route) {
+            GermanQuestions()
+        }
+        composable(ScreenDestinations.GermanTimeScreen.route) {
+            GermanTime()
+        }
     }
 }
 
@@ -705,7 +711,7 @@ fun GermanAdjectiveQuiz() {
                         Text(
                             text = "Your Score: $it/${germanAdjectiveQuestions.size}",
                             color = Color.Magenta,
-                            fontSize = 20.sp,
+                            fontSize = 14.sp,
                             fontWeight = FontWeight.Bold
                         )
                     } else if (it != germanAdjectiveQuestions.size) {
@@ -734,7 +740,7 @@ fun GermanAdjectiveQuiz() {
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(vertical = 8.dp),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
+                            fontSize = 14.sp,
                             color = Color.Black
                         )
 
@@ -760,7 +766,8 @@ fun GermanAdjectiveQuiz() {
                                     )
                                 )
                                 Text(text = option,
-                                    color = Color.Black
+                                    color = Color.Black,
+                                    fontSize = 14.sp
                                 )
                             }
                         }
@@ -771,6 +778,7 @@ fun GermanAdjectiveQuiz() {
                                 modifier = Modifier.padding(vertical = 4.dp),
                                 color = Color.Red,
                                 fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp
                             )
                         }
                         Spacer(modifier = Modifier.height(16.dp))

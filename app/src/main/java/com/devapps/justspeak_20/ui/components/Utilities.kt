@@ -39,10 +39,12 @@ import androidx.compose.material.icons.filled.LockClock
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.material.icons.filled.Quiz
 import androidx.compose.material.icons.filled.Rocket
 import androidx.compose.material.icons.filled.Shop
 import androidx.compose.material.icons.filled.SortByAlpha
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.AddComment
@@ -58,9 +60,11 @@ import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.LockClock
 import androidx.compose.material.icons.outlined.People
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.QuestionMark
 import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material.icons.outlined.Rocket
 import androidx.compose.material.icons.outlined.Shop
+import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedButton
@@ -428,7 +432,7 @@ fun AlphabetCard(letter : String,textToSpeech: TextToSpeech) {
             ) {
                 Text(text = letter,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
+                    fontSize = 14.sp,
                     color = Color.Black
                 )
                 Spacer(modifier = Modifier
@@ -704,12 +708,12 @@ fun TranslatableItem(deu: String, eng: String, textToSpeech: TextToSpeech) {
                 Text(
                     text = deu,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
+                    fontSize = 14.sp,
                     color = Color.Black
                 )
                 Text(
                     text = eng,
-                    fontSize = 16.sp,
+                    fontSize = 14.sp,
                     color = Color.DarkGray
                 )
             }
@@ -792,13 +796,16 @@ fun CaseParagraph(
                     .height(3.dp)
             )
             Text(text = description,
-                color = Color.Black)
+                color = Color.Black,
+                fontSize = 14.sp)
             Spacer(
                 modifier = Modifier
                     .height(3.dp)
             )
             Text(text = "e.g. $example",
-                color = Color.Black)
+                color = Color.Black,
+                fontSize = 14.sp
+            )
             Spacer(
                 modifier = Modifier
                     .height(10.dp)
@@ -853,27 +860,32 @@ fun GermanDefiniteArticleTable() {
                 .height(30.dp)
         ) {
             Text(text = "Nom",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp),
                 fontWeight = FontWeight.Bold)
             Text(text = "der",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp))
             Text(text = "die",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp))
             Text(text = "das",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp))
             Text(text = "die",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
@@ -885,27 +897,32 @@ fun GermanDefiniteArticleTable() {
                 .height(30.dp)
         ) {
             Text(text = "Acc",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp),
                 fontWeight = FontWeight.Bold)
             Text(text = "den",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp))
             Text(text = "die",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp))
             Text(text = "das",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp))
             Text(text = "die",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
@@ -917,27 +934,32 @@ fun GermanDefiniteArticleTable() {
                 .height(30.dp)
         ) {
             Text(text = "Dat",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp),
                 fontWeight = FontWeight.Bold)
             Text(text = "dem",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp))
             Text(text = "der",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp))
             Text(text = "dem",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp))
             Text(text = "den",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
@@ -949,27 +971,32 @@ fun GermanDefiniteArticleTable() {
                 .height(30.dp)
         ) {
             Text(text = "Gen",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp),
                 fontWeight = FontWeight.Bold)
             Text(text = "des",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp))
             Text(text = "der",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp))
             Text(text = "des",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
                     .padding(start = 5.dp))
             Text(text = "der",
+                fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
                     .weight(0.25f)
@@ -1361,7 +1388,46 @@ val gastronomyTabItems = listOf(
     )
 )
 
+val questionTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Form",
+        Icons.Outlined.Add,
+        Icons.Filled.Add
+    ),
+    TabItem(
+        title = "Verb",
+        Icons.Outlined.QuestionMark,
+        Icons.Filled.QuestionMark
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    )
+)
 
+val timeTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Time",
+        Icons.Outlined.Timer,
+        Icons.Filled.Timer
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    )
+)
 @Composable
 @Preview(showBackground = true)
 fun ViewComponents() {

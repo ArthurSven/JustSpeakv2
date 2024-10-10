@@ -161,7 +161,8 @@ fun GermanArticleHome() {
                 Text(
                     text = makeBulletedList(bestimmteArtikeln),
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black
+                    color = Color.Black,
+                    fontSize = 14.sp
                 )
                 Spacer(modifier = Modifier
                     .height(10.dp)
@@ -224,7 +225,8 @@ fun GermanArticleHome() {
                 Text(
                     text = makeBulletedList(unbestimmteArtikeln),
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black
+                    color = Color.Black,
+                    fontSize = 14.sp
                 )
                 Spacer(modifier = Modifier
                     .height(10.dp)
@@ -407,13 +409,13 @@ fun GermanCaseQuiz() {
                         Text(
                             text = "Your Score: $it/${germanCaseQuestions.size}",
                             color = Color.Magenta,
-                            fontSize = 20.sp,
+                            fontSize = 14.sp,
                             fontWeight = FontWeight.Bold
                         )
                     } else if (it != germanCaseQuestions.size) {
                         Text(
                             text = "Your Score: $it/${germanCaseQuestions.size}",
-                            fontSize = 20.sp,
+                            fontSize = 14.sp,
                             color = Color.Red,
                             fontWeight = FontWeight.Bold
 
@@ -436,7 +438,7 @@ fun GermanCaseQuiz() {
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(vertical = 8.dp),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
+                            fontSize = 14.sp,
                             color = Color.Black
                         )
 
@@ -462,6 +464,7 @@ fun GermanCaseQuiz() {
                                     )
                                 )
                                 Text(text = option,
+                                    fontSize = 14.sp,
                                     color = Color.Black
                                 )
                             }
@@ -472,6 +475,7 @@ fun GermanCaseQuiz() {
                                 style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier.padding(vertical = 4.dp),
                                 color = Color.Red,
+                                fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold,
                             )
                         }

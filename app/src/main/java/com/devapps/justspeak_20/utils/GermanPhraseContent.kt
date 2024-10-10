@@ -211,3 +211,95 @@ fun getGermanShoppingPhrases(): Map<String, String> {
         "Probier es an" to "Try it on"
     )
 }
+
+@Composable
+fun getGermanQuestionStarters(): Map<String, String> {
+    return mapOf(
+        "Was" to "What",
+        "Wie" to "How",
+        "Wo" to "Where",
+        "Wann" to "When",
+        "Welche" to "Which",
+        "Wer" to "Who",
+        "Warum" to "Why",
+        "Wieso" to "Why",
+        "Woher" to "Where... from",
+        "Wohin" to "Where... to",
+        "Was für" to "What kind of"
+    )
+}
+
+@Composable
+fun getGermanFormQuestions(): Map<String, String> {
+    return mapOf(
+        "Was ist das?" to "What's this/that?",
+        "Wie komme ich zum Bahnhof?" to "How do I get to the train station?",
+        "Wo ist das Badezimmer?" to "Where is the bathroom?",
+        "Wann kommt der Bus an?" to "When does the bus arrive?",
+        "Welche Mannschaft unterstützen Sie?" to "Which team do you support?",
+        "Wer hat mein Pizza gegessen?" to "Who ate my pizza?",
+        "Woher kommt er?" to "Where does he come from?",
+        "Wohin geht Ihr?" to "Where are you guys going to?",
+        "Was für ein Auto ist das?" to "What kind of car is that?"
+    )
+}
+
+@Composable
+fun getGermanVerbQuestions(): Map<String, String> {
+    return mapOf(
+        "Kannst du mir eine Nachricht schicken?" to "Can you send me a message?",
+        "Trinkst du auch Bier?" to "Do you also drink beer?",
+        "Kommen Sie zur Party?" to "Are you coming to the party?",
+        "Arbeitest du bei IKEA?" to "Do you work at IKEA?",
+        "Bist du müde?" to "Are you tired?",
+        "Sind sie jetzt besser?" to "Are they better now?"
+    )
+}
+
+@Composable
+fun getGermanTimeEssentialPhrases(): Map<String, String> {
+    return mapOf(
+        "Entschuldigung, wie viel Uhr ist es?" to "Excuse me, what time is it?",
+        "Wie spät ist es?" to "What time is it (How late is it)",
+        "Es ist ... Uhr" to "It is ... o'clock",
+        "die Zeit" to "The time",
+        "Der Tag" to "The day",
+        "Das Jahr" to "The year",
+        "Gestern" to "Yesterday",
+        "Heute" to "Today",
+        "Morgen" to "Tomorrow",
+        "Mittag" to "Midday",
+        "Nachmittag" to "Afternoon",
+        "Abend" to "Evening",
+        "Nacht" to "Night",
+        "Letztes Jahr" to "Last year",
+        "Dieses Jahr" to "This year",
+        "Nächstes Jahr" to "Next year",
+        "Diesen Monat" to "This month",
+        "Letzten Monat" to "Last month",
+        "Nächstes Jahr" to "Next year",
+        "Diesen Monat" to "This month",
+        "Letzten Monat" to "Last month",
+        "Nächsten Monat" to "Next month"
+    )
+}
+
+@Composable
+fun getGermanTime(): Map<String, String> {
+    return mapOf(
+        "Es ist ein Uhr" to "01:00",
+        "Es ist kurz nach zwei" to "02:03",
+        "Fünf nach drei" to "03:05",
+        "Zehn nach drei" to "03:10",
+        "Viertel nach drei" to "03:15",
+        "Zwanzig nach vier" to "04:20",
+        "Fünf vor halb sechs" to "05:25",
+        "Halb sechs" to "05:30",
+        "Fünf nach halb sechs" to "05:35",
+        "Zwanzig vor sieben" to "06:40",
+        "Viertel vor sieben" to "06:45",
+        "Zehn vor sieben" to "06:50",
+        "Fünf vor sieben" to "06:55",
+        "Kurz vor sieben" to "06:57"
+    )
+}
