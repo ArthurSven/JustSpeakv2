@@ -1,6 +1,9 @@
 package com.devapps.justspeak_20.ui.Screens.languages.chichewa
 
 import android.graphics.Bitmap
+import android.speech.tts.TextToSpeech
+import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,7 +16,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -40,25 +47,34 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.fastForEachIndexed
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -70,13 +86,28 @@ import com.devapps.justspeak_20.R
 import com.devapps.justspeak_20.auth.GoogleClientAuth
 import com.devapps.justspeak_20.data.models.UserData
 import com.devapps.justspeak_20.ui.ScreenDestinations
+import com.devapps.justspeak_20.ui.Screens.languages.german.GermanAdjectiveEndings
+import com.devapps.justspeak_20.ui.Screens.languages.german.GermanAdjectiveHome
+import com.devapps.justspeak_20.ui.Screens.languages.german.GermanAdjectiveQuiz
+import com.devapps.justspeak_20.ui.Screens.languages.german.GermanBodyNouns
+import com.devapps.justspeak_20.ui.Screens.languages.german.GermanFoodNouns
 import com.devapps.justspeak_20.ui.Screens.languages.german.GermanMainNavigation
+import com.devapps.justspeak_20.ui.Screens.languages.german.GermanNounHome
+import com.devapps.justspeak_20.ui.Screens.languages.german.GermanNounQuiz
+import com.devapps.justspeak_20.ui.Screens.languages.german.GermanPlaceNouns
+import com.devapps.justspeak_20.ui.components.AlphabetCard
+import com.devapps.justspeak_20.ui.components.ChichewaAlphabetCard
 import com.devapps.justspeak_20.ui.components.LanguageProgressCard
 import com.devapps.justspeak_20.ui.components.TopicCard
 import com.devapps.justspeak_20.ui.components.TopicItem
+import com.devapps.justspeak_20.ui.components.chichewaAdjectiveTabItems
+import com.devapps.justspeak_20.ui.components.nounTabItems
+import com.devapps.justspeak_20.ui.components.tabItems
 import com.devapps.justspeak_20.ui.theme.grau
 import com.devapps.justspeak_20.ui.viewmodels.ProgressViewModel
+import com.devapps.justspeak_20.utils.chichewaAlphabetData
 import com.google.android.gms.auth.api.identity.Identity
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -290,6 +321,15 @@ fun ChichewaMainNavigation() {
                 googleClientAuth.getSignedInUser()
             )
         }
+        composable(ScreenDestinations.ChichewaAlphabetScreen.route) {
+            ChichewaAlphabet()
+        }
+        composable(ScreenDestinations.ChichewaAdjectiveScreen.route) {
+            ChichewaAdjectives()
+        }
+        composable(ScreenDestinations.ChichewaNounScreen.route) {
+            ChichewaNouns()
+        }
     }
 }
 
@@ -446,6 +486,164 @@ fun GermanLandingScreen(
                     onClick = {
                         chichewaNavController.navigate(listItem.topicRoute)
                     })
+            }
+        }
+    }
+}
+
+@Composable
+fun ChichewaAlphabet() {
+
+    val chichewaAlphabetData = chichewaAlphabetData()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        Text(text = "Alphabet - Afabeti",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        Text(
+            text = "The following is an alphabet list in chichewa together with how each letter " +
+                    "is pronounced.",
+            fontSize = 14.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(20.dp)
+        )
+        //add lazy column here
+        LazyColumn {
+            items(chichewaAlphabetData.entries.toList()) { entry ->
+                ChichewaAlphabetCard(entry.key, entry.value)
+            }
+        }
+
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ChichewaAdjectives() {
+
+    val context = LocalContext.current
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
+
+    val pagerState = rememberPagerState {
+        chichewaAdjectiveTabItems.size
+    }
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()) {
+        TabRow(
+            selectedTabIndex = selectedTabIndex,
+            containerColor = Color.White
+        ) {
+            chichewaAdjectiveTabItems.fastForEachIndexed { index, item ->
+                Tab(
+                    selected = index == selectedTabIndex,
+                    onClick = {
+                        selectedTabIndex = index
+                    },
+                    text = {
+                        Text(text = item.title)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (index == selectedTabIndex) {
+                                item.selectedIcon
+                            } else item.unselectedIcon, contentDescription = item.title
+                        )
+                    }
+                )
+            }
+        }
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) { page ->
+            when(page) {
+                0 -> ChichewaAdjectiveHome()
+                1 -> ChichewaAdjectiveQuiz()
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ChichewaNouns() {
+    val context = LocalContext.current
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
+
+    val pagerState = rememberPagerState {
+        nounTabItems.size
+    }
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()) {
+        ScrollableTabRow(
+            selectedTabIndex = selectedTabIndex,
+            containerColor = Color.White,
+            edgePadding = 0.dp
+        ) {
+            nounTabItems.fastForEachIndexed { index, item ->
+                Tab(
+                    selected = index == selectedTabIndex,
+                    onClick = {
+                        selectedTabIndex = index
+                    },
+                    text = {
+                        Text(text = item.title)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (index == selectedTabIndex) {
+                                item.selectedIcon
+                            } else item.unselectedIcon, contentDescription = item.title
+                        )
+                    }
+                )
+            }
+        }
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) { page ->
+            when(page) {
+                0 -> ChichewaNounHome()
+                1 -> ChichewaPlaceNouns()
+                2 -> ChichewaFoodNouns()
+                3 -> ChichewaBodyNouns()
+                4 -> ChichewaNounQuiz()
             }
         }
     }

@@ -463,6 +463,101 @@ fun AlphabetCard(letter : String,textToSpeech: TextToSpeech) {
 }
 
 @Composable
+fun ChichewaAlphabetCard(letter : String, sound: String) {
+
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+            .height(70.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 10.dp
+        ),
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Center
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(text = letter,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = Color.Black
+                )
+                Spacer(modifier = Modifier
+                    .width(50.dp)
+                )
+                Text(text = "-",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = Color.Black,
+                )
+                Spacer(modifier = Modifier
+                    .width(50.dp)
+                )
+                Text(text = sound,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = Color.Black
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ChichewaTranslatableItem(letter : String, sound: String) {
+
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+            .height(70.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 10.dp
+        ),
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(text = letter,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+                Spacer(modifier = Modifier
+                    .width(100.dp)
+                )
+                Text(text = sound,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+            }
+        }
+    }
+}
+
+@Composable
 fun makeBulletedList(items: List<String>): AnnotatedString {
     val bulletString = "\u2022\t\t"
     val textStyle = LocalTextStyle.current
@@ -1430,6 +1525,19 @@ val timeTabItems = listOf(
         title = "Time",
         Icons.Outlined.Timer,
         Icons.Filled.Timer
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    )
+)
+
+val chichewaAdjectiveTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
     ),
     TabItem(
         title = "Quiz",
