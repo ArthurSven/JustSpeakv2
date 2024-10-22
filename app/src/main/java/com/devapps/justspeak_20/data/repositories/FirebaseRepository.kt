@@ -10,16 +10,16 @@ class FirebaseRepository @Inject constructor(
 ) {
 
     // Function to save progress to Firestore
-    suspend fun saveProgress(userId: String, topicId: String, progress: Float): Response {
+    suspend fun saveProgress(userId: String?, topic: String, progress: Float): Response {
         val progressData = mapOf(
             "userId" to userId,
-            "topicId" to topicId,
+            "topic" to topic,
             "progress" to progress
         )
 
         return try {
             firestore.collection("user_progress")
-                .document("$userId-$topicId")
+                .document("$userId-$topic")
                 .set(progressData)
                 .await()  // Use Kotlin Coroutines for asynchronous work
 
@@ -30,17 +30,24 @@ class FirebaseRepository @Inject constructor(
     }
 
     // Function to get progress from Firestore
-    suspend fun getProgress(userId: String, topicId: String): Float? {
+    suspend fun getProgress(userId: String?, topic: String): Map<String, Float> {
         return try {
-            val document = firestore.collection("user_progress")
-                .document("$userId-$topicId")
+            // Fetch all documents related to the user's progress
+            val documentSnapshot = firestore.collection("user_progress")
+                .whereEqualTo("userId", userId) // Match userId
+                .whereEqualTo("topic", topic)
                 .get()
                 .await()
 
-            document.getDouble("progress")?.toFloat() // Convert retrieved double to float
+            // Create a map of topic to progress value
+            documentSnapshot.documents.associate { document ->
+                val topic = document.getString("topic") ?: "Unknown Topic" // Get the topic or default to "Unknown Topic"
+                val progress = document.getDouble("progress")?.toFloat() ?: 0f // Get the progress or default to 0f
+                topic to progress
+            }
         } catch (e: Exception) {
-            // Handle the error, or return null to indicate failure
-            null
+            // Handle the error, or return an empty map to indicate failure
+            emptyMap()
         }
     }
 }

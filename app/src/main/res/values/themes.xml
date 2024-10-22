@@ -8,5 +8,7 @@
         <item name="android:windowSplashScreenBackground">#FFFFFF</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/justspeaklogo</item>
         <item name="android:windowSplashScreenAnimationDuration">2000</item>
+
+        <item name="android:statusBarColor">#9A9A9A</item>
     </style>
 </resources>

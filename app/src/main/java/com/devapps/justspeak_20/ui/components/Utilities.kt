@@ -265,7 +265,11 @@ fun LanguageCard(
 }
 
 @Composable
-fun LanguageProgressCard() {
+fun LanguageProgressCard(
+    flag: Int,
+    title: String,
+    subTitle: String
+) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -287,7 +291,7 @@ fun LanguageProgressCard() {
                 modifier = Modifier
             ) {
                 Image(
-                    painter = painterResource(R.drawable.wappen),
+                    painter = painterResource(flag),
                     contentDescription = "Arthur's profile picture",
                     modifier = Modifier
                         .size(70.dp)
@@ -299,28 +303,32 @@ fun LanguageProgressCard() {
                     .width(10.dp)
                 )
                 Column {
-                    Text(text = "German Section",
+                    Text(text = title,
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
                         color = Color.White
                     )
-                    Text(text = "Progress",
+                    Text(text = subTitle,
                         fontSize = 20.sp,
                         color = Color.White
                     )
-                    Spacer(modifier = Modifier
-                        .height(10.dp)
-                    )
-                    Text(text = "65%",
-                        color = Color.White
-                    )
-                        LinearProgressIndicator(
-                            progress = {
-                                0.65F
-                            },
-                            color = Color.White,
-                            trackColor = seaBlue
-                        )
+//                    Text(text = "Progress",
+//                        fontSize = 20.sp,
+//                        color = Color.White
+//                    )
+//                    Spacer(modifier = Modifier
+//                        .height(10.dp)
+//                    )
+//                    Text(text = "65%",
+//                        color = Color.White
+//                    )
+//                        LinearProgressIndicator(
+//                            progress = {
+//                                0.65F
+//                            },
+//                            color = Color.White,
+//                            trackColor = seaBlue
+//                        )
 
                 }
             }
@@ -388,19 +396,20 @@ fun TopicCard(
             Spacer(modifier = Modifier
                 .height(10.dp)
             )
-            Text(text = percentage,
-                modifier = Modifier
-                    .fillMaxWidth(),
-                color = AzureBlue,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.End,
-                fontSize = 16.sp
-            )
-            LinearProgressIndicator(progress = {
-                percent
-            },
-                color = AzureBlue,
-                trackColor = Color.LightGray)
+//            Text(text = percentage,
+//                modifier = Modifier
+//                    .fillMaxWidth(),
+//                color = AzureBlue,
+//                fontWeight = FontWeight.Bold,
+//                textAlign = TextAlign.End,
+//                fontSize = 16.sp
+//            )
+//            LinearProgressIndicator(progress = {
+//                percent
+//            },
+//                color = AzureBlue,
+//                trackColor = Color.LightGray
+//            )
         }
     }
 }

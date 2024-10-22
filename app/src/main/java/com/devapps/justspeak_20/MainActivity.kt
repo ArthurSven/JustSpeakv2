@@ -66,6 +66,7 @@ import com.devapps.justspeak_20.auth.GoogleClientAuth
 import com.devapps.justspeak_20.data.models.UserData
 import com.devapps.justspeak_20.ui.ScreenDestinations
 import com.devapps.justspeak_20.ui.Screens.MainScreen
+import com.devapps.justspeak_20.ui.Screens.languages.chichewa.ChichewaLanguageScreens
 import com.devapps.justspeak_20.ui.Screens.languages.german.GermanLanguageScreens
 import com.devapps.justspeak_20.ui.components.UserProfileBar
 import com.devapps.justspeak_20.ui.theme.AzureBlue
@@ -139,7 +140,28 @@ fun JustSpeakMainNavigation() {
             )
         }
         composable(ScreenDestinations.GermanNavigation.route) {
-            GermanLanguageScreens(justSpeakMainNavController, googleClientAuth.getSignedInUser())
+            GermanLanguageScreens(
+                justSpeakMainNavController,
+                googleClientAuth.getSignedInUser(),
+                onSignOut = {
+                    coroutineScope.launch {
+                        googleClientAuth.signOut()
+                        Toast.makeText(context, "Signed out", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
+        }
+        composable(ScreenDestinations.ChichewaNavigation.route) {
+            ChichewaLanguageScreens(
+                justSpeakMainNavController,
+                googleClientAuth.getSignedInUser(),
+                onSignOut = {
+                    coroutineScope.launch {
+                        googleClientAuth.signOut()
+                        Toast.makeText(context, "Signed out", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
         }
         composable(ScreenDestinations.Signout.route) {
             LaunchedEffect(Unit) {
