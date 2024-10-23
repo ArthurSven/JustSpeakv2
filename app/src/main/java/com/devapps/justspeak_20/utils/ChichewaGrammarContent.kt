@@ -149,3 +149,50 @@ fun chichewaBodyPartsNouns(): Map<String, String> {
         "Nsana" to "Back"
     )
 }
+
+fun chichewaNumbers(): Map<String, String> {
+    return mapOf(
+        "Chimodzi" to "One",
+        "Ziwiri" to "Two",
+        "Zitatu" to "Three",
+        "Zinayi" to "Four",
+        "Zisano" to "Five",
+        "Zisano ndi chimodzi" to "Six",
+        "Zisano ndi ziwiri" to "Seven",
+        "Zisano ndi zitatu" to "Eight",
+        "Zisano ndi zinayi" to "Nine",
+        "Khumi" to "Ten",
+        "Khumi ndi chimodzi" to "Eleven",
+        "Khumi ndi ziwiri" to "Twelve",
+        "Khumi ndi zitatu" to "Thirteen",
+        "Khumi ndi anayi" to "Fourteen",
+        "Khumi ndi asanu" to "Fifteen",
+        "Khumi ndi zisanu ndi chimodzi" to "Sixteen",
+        "Khumi ndi zisanu ndi ziwiri" to "Seventeen",
+        "Khumi ndi zisanu ndi zitatu" to "Eighteen",
+        "Khumi ndi zisanu ndi anayi" to "Nineteen",
+        "Makumi awiri" to "Twenty"
+    )
+}
+
+fun chichewaPronouns(): Map<String, String> {
+    return mapOf(
+        "Ine" to "I/me",
+        "Iwe" to "You (informal)",
+        "Inu" to "You (formal or plural)",
+        "Iwo/Awo" to "They/them",
+        "Iye" to "He/She",
+        "Ife" to "We/Us"
+    )
+}
+
+fun chichewaToEnglishPrefixes(): Map<String, String> {
+    return mapOf(
+        "Ndi" to "I",
+        "U" to "You (informal)",
+        "Mu" to "You (formal/plural)",
+        "A" to "He/She/They",
+        "Ti" to "We"
+    )
+}
+

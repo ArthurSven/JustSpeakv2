@@ -72,6 +72,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastForEachIndexed
@@ -97,15 +98,18 @@ import com.devapps.justspeak_20.ui.Screens.languages.german.GermanNounQuiz
 import com.devapps.justspeak_20.ui.Screens.languages.german.GermanPlaceNouns
 import com.devapps.justspeak_20.ui.components.AlphabetCard
 import com.devapps.justspeak_20.ui.components.ChichewaAlphabetCard
+import com.devapps.justspeak_20.ui.components.ChichewaTranslatableItem
 import com.devapps.justspeak_20.ui.components.LanguageProgressCard
 import com.devapps.justspeak_20.ui.components.TopicCard
 import com.devapps.justspeak_20.ui.components.TopicItem
 import com.devapps.justspeak_20.ui.components.chichewaAdjectiveTabItems
+import com.devapps.justspeak_20.ui.components.chichewaPronounTabItems
 import com.devapps.justspeak_20.ui.components.nounTabItems
 import com.devapps.justspeak_20.ui.components.tabItems
 import com.devapps.justspeak_20.ui.theme.grau
 import com.devapps.justspeak_20.ui.viewmodels.ProgressViewModel
 import com.devapps.justspeak_20.utils.chichewaAlphabetData
+import com.devapps.justspeak_20.utils.chichewaNumbers
 import com.google.android.gms.auth.api.identity.Identity
 import java.util.Locale
 
@@ -330,6 +334,12 @@ fun ChichewaMainNavigation() {
         composable(ScreenDestinations.ChichewaNounScreen.route) {
             ChichewaNouns()
         }
+        composable(ScreenDestinations.ChichewaNumbersScreen.route) {
+            ChichewaNumbers()
+        }
+        composable(ScreenDestinations.ChichewaPronounScreen.route) {
+            ChichewaPronouns()
+        }
     }
 }
 
@@ -366,7 +376,7 @@ fun GermanLandingScreen(
             "Numbers",
             Icons.Filled.Numbers,
             0.0F,
-            ScreenDestinations.ChichewaNounScreen.route
+            ScreenDestinations.ChichewaNumbersScreen.route
         ),
         TopicItem(
             "Pronouns",
@@ -649,5 +659,109 @@ fun ChichewaNouns() {
     }
 }
 
+@Composable
+fun ChichewaNumbers() {
+    val chichewaNumbers = chichewaNumbers()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        Text(text = "Numbers - ma Nambala",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        Text(
+            text = "Numbers in chichewa are not too complex to understand, many of the numbers" +
+                    " here are used in spoken form. However the arabic numerals and the english numbers" +
+                    " are understood throughout Malawi.",
+            fontSize = 14.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(20.dp)
+        )
+        //add lazy column here
+        LazyColumn {
+            items(chichewaNumbers.entries.toList()) { entry ->
+                ChichewaTranslatableItem(entry.key, entry.value)
+            }
+        }
 
+    }
+}
 
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ChichewaPronouns() {
+    val context = LocalContext.current
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
+
+    val pagerState = rememberPagerState {
+        chichewaPronounTabItems.size
+    }
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()) {
+        TabRow(
+            selectedTabIndex = selectedTabIndex,
+            containerColor = Color.White
+        ) {
+            chichewaPronounTabItems.fastForEachIndexed { index, item ->
+                Tab(
+                    selected = index == selectedTabIndex,
+                    onClick = {
+                        selectedTabIndex = index
+                    },
+                    text = {
+                        Text(text = item.title)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (index == selectedTabIndex) {
+                                item.selectedIcon
+                            } else item.unselectedIcon, contentDescription = item.title
+                        )
+                    }
+                )
+            }
+        }
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) { page ->
+            when(page) {
+                0 -> ChichewaPronounHome()
+                1 -> ChichewaPronounQuiz()
+            }
+        }
+    }
+}
+
+@Composable
+fun ChichewaVerbs()  {
+
+}
+
+@Composable
+@Preview(showBackground = true)
+fun ChichewaPreview() {
+    ChichewaNumbers()
+}

@@ -30,7 +30,9 @@ import com.devapps.justspeak_20.utils.chichewaBodyPartsNouns
 import com.devapps.justspeak_20.utils.chichewaFoodAndDrinkNouns
 import com.devapps.justspeak_20.utils.chichewaPeopleNouns
 import com.devapps.justspeak_20.utils.chichewaPlaceNouns
+import com.devapps.justspeak_20.utils.chichewaPronouns
 import com.devapps.justspeak_20.utils.chichewaToEnglishAdjectives
+import com.devapps.justspeak_20.utils.chichewaToEnglishPrefixes
 import com.devapps.justspeak_20.utils.germanBodyPartNouns
 import com.devapps.justspeak_20.utils.germanFoodNouns
 import com.devapps.justspeak_20.utils.germanPeopleNouns
@@ -273,7 +275,121 @@ fun ChichewaBodyNouns() {
 }
 
 @Composable
+fun ChichewaPronounHome() {
+
+    val pronouns = chichewaPronouns()
+    val prefixes = chichewaToEnglishPrefixes()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+
+        Text(text = "Pronouns",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Pronouns are used in chichewa to replace the nouns used in sentences. " +
+                            "They show who or what the subject, object and indirect object is.",
+                    color = Color.Black,
+                    fontSize = 14.sp
+                )
+            }
+
+        }
+        Spacer(modifier = Modifier
+            .height(20.dp)
+        )
+                LazyColumn(
+                    modifier = Modifier
+                        .height(400.dp)
+                ) {
+                    items(pronouns.entries.toList()) { entry ->
+                        ChichewaTranslatableItem(entry.key, entry.value)
+                    }
+                }
+
+        Spacer(modifier = Modifier
+            .height(20.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Prefixes",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(20.dp)
+                )
+                Text(
+                    text = "Prefixes are used to show subject of the sentence. Prefixes regularly " +
+                            "are positioned a the beginning of the verb to show what the subject of " +
+                            "the sentence e.g. \n \nNdikubwera which means I am coming. Ndi is a prefix " +
+                            "that matches I while kubwera is the verb for to come",
+                    color = Color.Black,
+                    fontSize = 14.sp
+                )
+            }
+        }
+        Spacer(
+            modifier = Modifier
+                .height(20.dp)
+        )
+        LazyColumn(
+            modifier = Modifier
+                .height(300.dp)
+        ) {
+            items(prefixes.entries.toList()) { entry ->
+                ChichewaTranslatableItem(entry.key, entry.value)
+            }
+        }
+    }
+}
+
+@Composable
 @Preview(showBackground = true)
 fun ViewTheseFragments() {
-    ChichewaPlaceNouns()
+    ChichewaPronounHome()
 }

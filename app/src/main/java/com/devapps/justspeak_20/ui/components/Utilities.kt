@@ -536,8 +536,7 @@ fun ChichewaTranslatableItem(letter : String, sound: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(text = letter,
                     fontWeight = FontWeight.Bold,
@@ -1534,6 +1533,19 @@ val timeTabItems = listOf(
 )
 
 val chichewaAdjectiveTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    )
+)
+
+val chichewaPronounTabItems = listOf(
     TabItem(
         title = "Home",
         Icons.Outlined.Home,
