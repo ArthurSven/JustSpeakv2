@@ -36,6 +36,9 @@ import com.devapps.justspeak_20.utils.chichewaToEnglishPrefixes
 import com.devapps.justspeak_20.utils.germanBodyPartNouns
 import com.devapps.justspeak_20.utils.germanFoodNouns
 import com.devapps.justspeak_20.utils.germanPeopleNouns
+import com.devapps.justspeak_20.utils.getChichewaEatingConjugation
+import com.devapps.justspeak_20.utils.getChichewaSayingConjugations
+import com.devapps.justspeak_20.utils.getChichewaVerbs
 import com.devapps.justspeak_20.utils.getGermanAdjectives
 import com.devapps.justspeak_20.utils.getGermanPlaceNouns
 
@@ -382,6 +385,158 @@ fun ChichewaPronounHome() {
                 .height(300.dp)
         ) {
             items(prefixes.entries.toList()) { entry ->
+                ChichewaTranslatableItem(entry.key, entry.value)
+            }
+        }
+    }
+}
+
+@Composable
+fun ChichewaVerbHome() {
+    val verbs = getChichewaVerbs()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+
+        Text(text = "Verbs",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Verbs are words hat describe the action being done by a subject of a " +
+                            "sentence. Below is a list of commonly used verbs in Chichewa",
+                    color = Color.Black,
+                    fontSize = 14.sp
+                )
+            }
+
+        }
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        LazyColumn(
+            modifier = Modifier
+                .height(300.dp)
+        ) {
+            items(verbs.entries.toList()) { entry ->
+                ChichewaTranslatableItem(entry.key, entry.value)
+            }
+        }
+    }
+}
+
+@Composable
+fun ChichewaVerbConjugation() {
+    val eating = getChichewaEatingConjugation()
+    val saying = getChichewaSayingConjugations()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+
+        Text(text = "Verb Conjugation",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Verb conjugation shows how verbs are used with pronouns. This section " +
+                            "will show you how to apply chichewa verbs with pronouns in sentences " +
+                            "using verb kudya (to eat) and kunena (to say)",
+                    color = Color.Black,
+                    fontSize = 14.sp
+                )
+            }
+
+        }
+        Spacer(modifier = Modifier
+            .height(20.dp)
+        )
+        Text(
+            text = "Kudya (to eat)",
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+            fontSize = 16.sp
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        LazyColumn(
+            modifier = Modifier
+                .height(300.dp)
+        ) {
+            items(eating.entries.toList()) { entry ->
+                ChichewaTranslatableItem(entry.key, entry.value)
+            }
+        }
+        Spacer(modifier = Modifier
+            .height(20.dp)
+        )
+        Text(
+            text = "Kunena (to say)",
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+            fontSize = 16.sp
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        LazyColumn(
+            modifier = Modifier
+                .height(300.dp)
+        ) {
+            items(saying.entries.toList()) { entry ->
                 ChichewaTranslatableItem(entry.key, entry.value)
             }
         }

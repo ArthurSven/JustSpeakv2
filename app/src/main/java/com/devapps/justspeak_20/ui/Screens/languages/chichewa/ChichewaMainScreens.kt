@@ -104,6 +104,7 @@ import com.devapps.justspeak_20.ui.components.TopicCard
 import com.devapps.justspeak_20.ui.components.TopicItem
 import com.devapps.justspeak_20.ui.components.chichewaAdjectiveTabItems
 import com.devapps.justspeak_20.ui.components.chichewaPronounTabItems
+import com.devapps.justspeak_20.ui.components.chichewaVerbTabItems
 import com.devapps.justspeak_20.ui.components.nounTabItems
 import com.devapps.justspeak_20.ui.components.tabItems
 import com.devapps.justspeak_20.ui.theme.grau
@@ -339,6 +340,9 @@ fun ChichewaMainNavigation() {
         }
         composable(ScreenDestinations.ChichewaPronounScreen.route) {
             ChichewaPronouns()
+        }
+        composable(ScreenDestinations.ChichewaVerbScreen.route) {
+            ChichewaVerbs()
         }
     }
 }
@@ -755,9 +759,62 @@ fun ChichewaPronouns() {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ChichewaVerbs()  {
+    val context = LocalContext.current
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
 
+    val pagerState = rememberPagerState {
+        chichewaVerbTabItems.size
+    }
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()) {
+        TabRow(
+            selectedTabIndex = selectedTabIndex,
+            containerColor = Color.White
+        ) {
+            chichewaVerbTabItems.fastForEachIndexed { index, item ->
+                Tab(
+                    selected = index == selectedTabIndex,
+                    onClick = {
+                        selectedTabIndex = index
+                    },
+                    text = {
+                        Text(text = item.title)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (index == selectedTabIndex) {
+                                item.selectedIcon
+                            } else item.unselectedIcon, contentDescription = item.title
+                        )
+                    }
+                )
+            }
+        }
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) { page ->
+            when(page) {
+                0 -> ChichewaVerbHome()
+                1 -> ChichewaVerbConjugation()
+                2 -> ChichewaVerbQuiz()
+            }
+        }
+    }
 }
 
 @Composable

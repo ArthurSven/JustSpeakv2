@@ -196,3 +196,69 @@ fun chichewaToEnglishPrefixes(): Map<String, String> {
     )
 }
 
+fun getChichewaVerbs(): Map<String, String> {
+    return mapOf(
+        "Kudya" to "To eat",
+        "Kumwa" to "To drink",
+        "Kugona" to "To sleep",
+        "Kudzuka" to "To wake up",
+        "kupita" to "To go",
+        "Kubwera" to "To come",
+        "Kuyenda" to "To walk",
+        "Kukhala" to "To sit/to be/to become",
+        "Kukhala ndi" to "To have",
+        "Kulandila" to "To receive/to get",
+        "Kupeleka/Kupasa" to "To give",
+        "Kuwona" to "To see",
+        "Kununkhisa" to "To smell",
+        "Kuyenera" to "should/must",
+        "Kunena" to "To say",
+        "kulankhula" to "To speak",
+        "Kumva" to "To hear/listen",
+        "Kupeza" to "to find",
+        "Kufunsa" to "to ask",
+        "Kukonda" to "to like/love",
+        "Kuloledwa" to "to be allowed",
+        "Kulola" to "to allow",
+        "Kuyendesa" to "to drive",
+        "Kusiya" to "to stop/to leave",
+        "Kukana" to "to deny",
+        "Kuyimilila" to "to stand up",
+        "Kuphika" to "To cook",
+        "Kupanga" to "To make/to do",
+        "Kuyamba" to "To start",
+        "Kumaliza" to "To finish",
+        "Kuphunzira" to "To learn",
+        "Kutseka" to "To close",
+        "Kutsegula" to "To open",
+        "Kulemba" to "To write",
+        "Kuwerenga" to "To read",
+        "Kugula" to "To buy",
+        "Kugulisa" to "To sell",
+        "Kufuna" to "To want",
+        "Kuwuza" to "To tell"
+    )
+}
+
+fun getChichewaEatingConjugation(): Map<String, String> {
+    return mapOf(
+        "Ndikudya" to "I am eating",
+        "Ukudya" to "You are eating",
+        "Mukudya" to "You are eating (formal/plural)",
+        "Akudya" to "He/She/They is/are eating",
+        "Tikudya" to "We are eating"
+    )
+}
+
+fun getChichewaSayingConjugations(): Map<String, String> {
+    return mapOf(
+        "Ndikunena" to "I am saying",
+        "Ukukunena" to "You are saying (informal)",
+        "Mukunena" to "You are saying (formal/plural)",
+        "Akukunena" to "They are saying",
+        "Tikukunena" to "We are saying"
+    )
+}
+
+
+

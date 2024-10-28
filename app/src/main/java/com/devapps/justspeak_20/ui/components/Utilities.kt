@@ -1557,6 +1557,24 @@ val chichewaPronounTabItems = listOf(
         Icons.Filled.Quiz
     )
 )
+
+val chichewaVerbTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Conj",
+        Icons.Outlined.Rocket,
+        Icons.Filled.Rocket
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    )
+)
 @Composable
 @Preview(showBackground = true)
 fun ViewComponents() {
