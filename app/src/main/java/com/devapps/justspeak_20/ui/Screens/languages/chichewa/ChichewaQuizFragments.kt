@@ -131,7 +131,7 @@ fun ChichewaAdjectiveQuiz() {
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(vertical = 8.dp),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
+                            fontSize = 14.sp,
                             color = Color.Black
                         )
 
@@ -158,7 +158,7 @@ fun ChichewaAdjectiveQuiz() {
                                 )
                                 Text(text = option,
                                     color = Color.Black,
-                                    fontSize = 16.sp
+                                    fontSize = 14.sp
                                 )
                             }
                         }
@@ -297,7 +297,7 @@ fun ChichewaNounQuiz() {
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(vertical = 8.dp),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
+                            fontSize = 14.sp,
                             color = Color.Black
                         )
 
@@ -324,7 +324,7 @@ fun ChichewaNounQuiz() {
                                 )
                                 Text(text = option,
                                     color = Color.Black,
-                                    fontSize = 16.sp
+                                    fontSize = 14.sp
                                 )
                             }
                         }
@@ -335,7 +335,7 @@ fun ChichewaNounQuiz() {
                                 modifier = Modifier.padding(vertical = 4.dp),
                                 color = Color.Red,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp
+                                fontSize = 14.sp
                             )
                         }
                         Spacer(modifier = Modifier.height(16.dp))
@@ -463,7 +463,7 @@ fun ChichewaPronounQuiz() {
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(vertical = 8.dp),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
+                            fontSize = 14.sp,
                             color = Color.Black
                         )
 
@@ -490,7 +490,7 @@ fun ChichewaPronounQuiz() {
                                 )
                                 Text(text = option,
                                     color = Color.Black,
-                                    fontSize = 16.sp
+                                    fontSize = 14.sp
                                 )
                             }
                         }
@@ -501,7 +501,7 @@ fun ChichewaPronounQuiz() {
                                 modifier = Modifier.padding(vertical = 4.dp),
                                 color = Color.Red,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp
+                                fontSize = 14.sp
                             )
                         }
                         Spacer(modifier = Modifier.height(16.dp))
@@ -629,7 +629,7 @@ fun ChichewaVerbQuiz() {
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(vertical = 8.dp),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
+                            fontSize = 14.sp,
                             color = Color.Black
                         )
 
@@ -656,7 +656,7 @@ fun ChichewaVerbQuiz() {
                                 )
                                 Text(text = option,
                                     color = Color.Black,
-                                    fontSize = 16.sp
+                                    fontSize = 14.sp
                                 )
                             }
                         }

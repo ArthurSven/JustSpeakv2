@@ -18,7 +18,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/justspeak_launch_round"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/justspeaklogo"
+        android:roundIcon="@mipmap/justspeak_launch_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JustSpeak_20"
         tools:targetApi="31">

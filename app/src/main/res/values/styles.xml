@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SplashScreen." parent="Theme.JustSpeak_20">
+        <item name="android:windowBackground">@drawable/justspeakbackground</item>
+    </style>
+</resources>

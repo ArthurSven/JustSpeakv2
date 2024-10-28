@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devapps.justspeak_20.ui.components.ChichewaAlphabetCard
 import com.devapps.justspeak_20.ui.components.ChichewaTranslatableItem
+import com.devapps.justspeak_20.ui.components.ChichewaVerbTranslatableItem
 import com.devapps.justspeak_20.ui.components.TranslatableItem
 import com.devapps.justspeak_20.utils.chichewaBodyPartsNouns
 import com.devapps.justspeak_20.utils.chichewaFoodAndDrinkNouns
@@ -443,7 +444,7 @@ fun ChichewaVerbHome() {
         )
         LazyColumn(
             modifier = Modifier
-                .height(300.dp)
+                .height(450.dp)
         ) {
             items(verbs.entries.toList()) { entry ->
                 ChichewaTranslatableItem(entry.key, entry.value)
@@ -514,10 +515,10 @@ fun ChichewaVerbConjugation() {
         )
         LazyColumn(
             modifier = Modifier
-                .height(300.dp)
+                .height(450.dp)
         ) {
             items(eating.entries.toList()) { entry ->
-                ChichewaTranslatableItem(entry.key, entry.value)
+                ChichewaVerbTranslatableItem(entry.key, entry.value)
             }
         }
         Spacer(modifier = Modifier
@@ -534,10 +535,10 @@ fun ChichewaVerbConjugation() {
         )
         LazyColumn(
             modifier = Modifier
-                .height(300.dp)
+                .height(450.dp)
         ) {
             items(saying.entries.toList()) { entry ->
-                ChichewaTranslatableItem(entry.key, entry.value)
+                ChichewaVerbTranslatableItem(entry.key, entry.value)
             }
         }
     }

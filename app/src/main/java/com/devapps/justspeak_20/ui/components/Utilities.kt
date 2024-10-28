@@ -557,6 +557,49 @@ fun ChichewaTranslatableItem(letter : String, sound: String) {
 }
 
 @Composable
+fun ChichewaVerbTranslatableItem(letter : String, sound: String) {
+
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp)
+            .height(90.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 10.dp
+        ),
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = letter,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+                Spacer(modifier = Modifier
+                    .width(100.dp)
+                )
+                Text(text = sound,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+            }
+        }
+    }
+}
+
+@Composable
 fun makeBulletedList(items: List<String>): AnnotatedString {
     val bulletString = "\u2022\t\t"
     val textStyle = LocalTextStyle.current

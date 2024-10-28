@@ -2,6 +2,8 @@ package com.devapps.justspeak_20
 
 import android.app.Activity.RESULT_OK
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.animation.OvershootInterpolator
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -83,13 +85,17 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
-        setContent {
-            JustSpeak_20Theme() {
-                JustSpeakMainNavigation()
+        Handler(Looper.getMainLooper()).postDelayed({
+            enableEdgeToEdge()
+            setTheme(R.style.Theme_JustSpeak_20)
+            setContent {
+                JustSpeak_20Theme {
+                    JustSpeakMainNavigation()
+                }
             }
-        }
+        },2000)
+
     }
 }
 
@@ -108,7 +114,7 @@ fun JustSpeakMainNavigation() {
     }
 
     val justSpeakMainNavController = rememberNavController()
-    NavHost(navController = justSpeakMainNavController, startDestination = ScreenDestinations.SplashScreen.route) {
+    NavHost(navController = justSpeakMainNavController, startDestination = ScreenDestinations.Check.route) {
         composable(ScreenDestinations.SplashScreen.route) {
             SplashScreen(justSpeakMainNavController)
         }
