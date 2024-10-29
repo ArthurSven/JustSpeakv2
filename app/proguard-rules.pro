@@ -19,3 +19,12 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Ignore warnings about missing BouncyCastle classes
+-dontwarn org.bouncycastle.**
+
+# Ignore warnings about missing Conscrypt classes
+-dontwarn org.conscrypt.**
+
+# Ignore warnings about missing OpenJSSE classes
+-dontwarn org.openjsse.**
