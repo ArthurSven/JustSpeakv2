@@ -1659,6 +1659,19 @@ val chichewaIntroductionTabItems = listOf(
         Icons.Filled.Quiz
     )
 )
+
+val chichewaQuestionTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Example",
+        Icons.Outlined.QuestionMark,
+        Icons.Filled.QuestionMark
+    )
+)
 @Composable
 @Preview(showBackground = true)
 fun ViewUtilityComponent() {

@@ -356,6 +356,12 @@ fun ChichewaMainNavigation() {
         composable(ScreenDestinations.ChichewaEmergencyScreen.route) {
             ChichewaEmergency()
         }
+        composable(ScreenDestinations.ChichewaQuestionScreen.route) {
+            ChichewaQuestion()
+        }
+        composable(ScreenDestinations.ChichewaTimeScreen.route) {
+            ChichewaTime()
+        }
     }
 }
 

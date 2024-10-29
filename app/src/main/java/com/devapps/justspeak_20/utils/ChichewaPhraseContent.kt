@@ -153,6 +153,24 @@ fun getChichewaCrimeEmergency(): Map<String, String> {
     )
 }
 
+fun getChichewaQuestionKeyWords(): Map<String, String> {
+    return mapOf(
+        "Chani" to "What",
+        "Mwa" to "Have you (formal)",
+        "Wa" to "Have you (informal)",
+        "Mu" to "Can you (formal)",
+        "U" to "Can you (informal)",
+        "Kodi" to "So",
+        "liti" to "When",
+        "Ndani" to "Who",
+        "bwanji" to "What/How",
+        "Chifukwa" to "Why",
+        "Si" to "Isn't",
+        "Kuti" to "Where"
+    )
+}
+
+
 fun getChichewaQuestionPhrases(): Map<String, String> {
     return mapOf(
         "Mwapanga chani?" to "What have you done?",

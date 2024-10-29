@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devapps.justspeak_20.ui.components.ChichewaPhraseItem
+import com.devapps.justspeak_20.ui.components.ChichewaTranslatableItem
 import com.devapps.justspeak_20.ui.components.PhraseItem
 import com.devapps.justspeak_20.utils.getChichewaCrimeEmergency
 import com.devapps.justspeak_20.utils.getChichewaDiningPhrases
@@ -31,6 +32,8 @@ import com.devapps.justspeak_20.utils.getChichewaGoodbyes
 import com.devapps.justspeak_20.utils.getChichewaGreetings
 import com.devapps.justspeak_20.utils.getChichewaIntroductionPhrases
 import com.devapps.justspeak_20.utils.getChichewaMedicalEmergency
+import com.devapps.justspeak_20.utils.getChichewaQuestionKeyWords
+import com.devapps.justspeak_20.utils.getChichewaQuestionPhrases
 import com.devapps.justspeak_20.utils.getChichewaShoppingList
 import com.devapps.justspeak_20.utils.getGermanEatingPhrases
 import com.devapps.justspeak_20.utils.getGermanGoodbyes
@@ -430,6 +433,139 @@ fun ChichewaCrimeEmergencyScreen() {
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(chichewaCrimeEmergency.entries.toList()) { entry ->
+                ChichewaPhraseItem(entry.key, entry.value)
+            }
+        }
+    }
+}
+
+@Composable
+fun ChichewaQuestionHome() {
+    val chichewaKeyWords = getChichewaQuestionKeyWords()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        Text(text = "Questions",
+            fontSize = 24.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Questions form an essential part of a language. They allow people to " +
+                            "acquire pieces of information from others. This section focuses on how " +
+                            "questions are formed and example questions in chichewa",
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+            }
+
+        }
+        Spacer(modifier = Modifier
+            .height(20.dp)
+        )
+        Spacer(modifier = Modifier
+            .height(20.dp)
+        )
+        Text(text = "Question Key words",
+            fontSize = 18.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "In chichewa, questions can be formulated in different ways, below" +
+                            " is a list of words to look out for to be able to tell if it is a question" +
+                            " or not. Many of these can be added as prefixes to verbs:",
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+            }
+
+        }
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp)
+        ) {
+            items(chichewaKeyWords.entries.toList()) { entry ->
+                ChichewaTranslatableItem(entry.key, entry.value)
+            }
+        }
+    }
+}
+
+@Composable
+fun ChichewaQuestionExample() {
+    val chichewaExample = getChichewaQuestionPhrases()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        Text(text = "Question Examples",
+            fontSize = 24.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            items(chichewaExample.entries.toList()) { entry ->
                 ChichewaPhraseItem(entry.key, entry.value)
             }
         }
