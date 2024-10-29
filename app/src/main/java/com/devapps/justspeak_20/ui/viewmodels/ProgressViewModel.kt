@@ -14,19 +14,19 @@ import javax.inject.Inject
 class ProgressViewModel @Inject constructor(private val firebaseRepository: FirebaseRepository)
     : ViewModel() {
 
-    private val _progress = MutableStateFlow(0f)
-    val progress: StateFlow<Float> get() = _progress
+    private val _progress = MutableStateFlow<Map<String, Float>>(emptyMap())
+    val progress: StateFlow<Map<String, Float>> get() = _progress
 
     private val _saveProgressResponse = MutableStateFlow<Response?>(null)
     val saveProgressResponse: StateFlow<Response?> get() = _saveProgressResponse
 
     // Function to save progress
-    fun saveUserProgress(userId: String, topicId: String, progress: Float) {
+    fun saveUserProgress(userId: String?, topic: String, progress: Float) {
 
 
         viewModelScope.launch {
 
-            val result = firebaseRepository.saveProgress(userId, topicId, progress)
+            val result = firebaseRepository.saveProgress(userId, topic, progress)
 
             _saveProgressResponse.value = when (result) {
                 is Response.Success -> {
@@ -43,14 +43,9 @@ class ProgressViewModel @Inject constructor(private val firebaseRepository: Fire
 
 
     // Function to fetch progress
-    fun fetchUserProgress(userId: String, topicId: String) {
+    fun fetchUserProgress(userId: String?, topic: String) {
         viewModelScope.launch {
-            try {
-                val fetchedProgress = firebaseRepository.getProgress(userId, topicId) ?: 0f
-                _progress.value = fetchedProgress
-            } catch (e: Exception) {
-                // Handle error
-            }
+            _progress.value = firebaseRepository.getProgress(userId, topic) // This will fetch the progress and update the _progress state
         }
     }
 }

@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,10 +17,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -27,10 +30,30 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Album
+import androidx.compose.material.icons.filled.Badge
+import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.EditNote
+import androidx.compose.material.icons.filled.Emergency
+import androidx.compose.material.icons.filled.Fastfood
+import androidx.compose.material.icons.filled.Groups
+import androidx.compose.material.icons.filled.Height
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.QuestionMark
+import androidx.compose.material.icons.filled.SortByAlpha
+import androidx.compose.material.icons.filled.Speaker
+import androidx.compose.material.icons.filled.Terrain
+import androidx.compose.material.icons.filled.Watch
+import androidx.compose.material.icons.outlined.Logout
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomAppBarDefaults
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -48,6 +71,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
@@ -61,6 +86,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -68,6 +94,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastForEachIndexed
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -75,11 +102,13 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.devapps.justspeak_20.R
+import com.devapps.justspeak_20.auth.GoogleClientAuth
 import com.devapps.justspeak_20.data.models.UserData
 import com.devapps.justspeak_20.ui.ScreenDestinations
 import com.devapps.justspeak_20.ui.components.AlphabetCard
 import com.devapps.justspeak_20.ui.components.LanguageProgressCard
 import com.devapps.justspeak_20.ui.components.TopicCard
+import com.devapps.justspeak_20.ui.components.TopicItem
 import com.devapps.justspeak_20.ui.components.TranslatableItem
 import com.devapps.justspeak_20.ui.components.caseTabItems
 import com.devapps.justspeak_20.ui.components.nounTabItems
@@ -91,25 +120,74 @@ import com.devapps.justspeak_20.ui.components.tenseTabItems
 import com.devapps.justspeak_20.ui.components.verbTabItems
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.ui.theme.grau
+import com.devapps.justspeak_20.ui.viewmodels.ProgressViewModel
 import com.devapps.justspeak_20.utils.GermanDefEndTable
 import com.devapps.justspeak_20.utils.GermanIndEndTable
-import com.devapps.justspeak_20.utils.GermanVerbList
 import com.devapps.justspeak_20.utils.germanAdjectiveQuizQuestions
 import com.devapps.justspeak_20.utils.getGermanAdjectives
 import com.devapps.justspeak_20.utils.getGermanAlphabetData
-import com.devapps.justspeak_20.utils.phraseList
-import com.devapps.justspeak_20.utils.topicItem
+import com.google.android.gms.auth.api.identity.Identity
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GermanLanguageScreens(justSpeakMainNavController: NavController, userData: UserData?) {
+fun GermanLanguageScreens(
+    justSpeakMainNavController: NavController,
+    userData: UserData?,
+    onSignOut: () -> Unit
+) {
+
+    val showMenu = remember { mutableStateOf(false) }
+    val changeLanguage = remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(title = { /*TODO*/ },
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        changeLanguage.value = !changeLanguage.value
+                    }) {
                         Icon(Icons.Filled.Menu, contentDescription = null, tint = Color.Black)
+                    }
+                    DropdownMenu(
+                        expanded = changeLanguage.value,
+                        onDismissRequest = {
+                            changeLanguage.value = false
+                        },
+                        modifier = Modifier
+                            .background(color = Color.White)
+                            .width(150.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            IconButton(onClick = {
+                                justSpeakMainNavController.navigate(ScreenDestinations.ChichewaNavigation.route)
+                            },
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(35.dp))) {
+                                Icon(painter = painterResource(R.drawable.nyasaflag), contentDescription = "Chichewa")
+                            }
+                            Spacer(
+                                modifier = Modifier
+                                    .width(5.dp)
+                            )
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        text = "Chichewa",
+                                        color = Color.Black
+                                    )
+                                },
+                                onClick = {
+                                    justSpeakMainNavController.navigate(ScreenDestinations.ChichewaNavigation.route)
+                                },
+                                modifier = Modifier
+                                    .background(color = Color.White)
+                            )
+                        }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -127,21 +205,96 @@ fun GermanLanguageScreens(justSpeakMainNavController: NavController, userData: U
                             contentDescription = "${userData.username}'s profile picture",
                             modifier = Modifier
                                 .size(50.dp)
-                                .clip(CircleShape),
+                                .clip(CircleShape)
+                                .clickable {
+                                    showMenu.value = !showMenu.value
+                                },
                             contentScale = ContentScale.Crop
                         )
+                        DropdownMenu(
+                            expanded = showMenu.value,
+                            onDismissRequest = {
+                                showMenu.value = false
+                            },
+                            modifier = Modifier
+                                .background(color = Color.White)
+                                .width(150.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                .fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Logout,
+                                    contentDescription = "logout",
+                                    tint = Color.DarkGray
+                                )
+                                Spacer(
+                                    modifier = Modifier
+                                    .width(5.dp)
+                                )
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(text = "Logout",
+                                            color = Color.Black)
+                                    },
+                                    onClick = {
+                                        justSpeakMainNavController.navigate(ScreenDestinations.Signout.route)
+                                        onSignOut()
+                                    },
+                                    modifier = Modifier
+                                        .background(color = Color.White)
+                                )
+                            }
+                        }
                     } else {
                         Image(
                             painter = painterResource(R.drawable.no_profile),
                             contentDescription = "Arthur's profile picture",
                             modifier = Modifier
                                 .size(50.dp)
-                                .clip(CircleShape),
+                                .clip(CircleShape)
+                                .clickable {
+                                    showMenu.value = !showMenu.value
+                                },
                             contentScale = ContentScale.Crop
                         )
+                        DropdownMenu(
+                            expanded = showMenu.value,
+                            onDismissRequest = {
+                                showMenu.value = false
+                            },
+                            modifier = Modifier
+                                .background(color = Color.White)
+                                .width(80.dp)
+                        ) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                            ) {
+                                Icon(imageVector = Icons.Outlined.Logout, contentDescription = "logout")
+                                Spacer(
+                                    modifier = Modifier
+                                        .width(8.dp)
+                                )
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(text = "Logout",
+                                            color = Color.Black)
+                                    },
+                                    onClick = {
+                                        justSpeakMainNavController.navigate(ScreenDestinations.Signout.route)
+                                        onSignOut()
+                                    },
+                                    modifier = Modifier
+                                        .background(color = Color.White)
+                                )
+                            }
+                        }
                     }
 
-                })
+                },
+                )
         }
     ) { it ->
             Column(
@@ -163,6 +316,14 @@ fun GermanMainNavigation() {
     val germanScreensNavController = rememberNavController()
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+    val progressViewModel: ProgressViewModel = hiltViewModel()
+
+    val googleClientAuth by lazy {
+        GoogleClientAuth(
+            context,
+            oneTapClient = Identity.getSignInClient(context)
+        )
+    }
 
     val textToSpeech = remember {
         var tts: TextToSpeech? = null
@@ -188,10 +349,17 @@ fun GermanMainNavigation() {
 
     NavHost(germanScreensNavController, startDestination = ScreenDestinations.GermanHomeScreen.route) {
         composable(ScreenDestinations.GermanHomeScreen.route) {
-            GermanLandingScreen(germanScreensNavController)
+            GermanLandingScreen(
+                germanScreensNavController,
+                progressViewModel,
+                googleClientAuth.getSignedInUser())
         }
         composable(ScreenDestinations.GermanAlphabetScreen.route) {
-            GermanAlphabet(textToSpeech)
+            GermanAlphabet(
+                textToSpeech,
+                progressViewModel,
+                googleClientAuth.getSignedInUser()
+            )
         }
         composable(ScreenDestinations.GermanAdjectiveScreen.route) {
             GermanAdjectives()
@@ -240,10 +408,136 @@ fun GermanMainNavigation() {
 }
 
 @Composable
-fun GermanLandingScreen(germanScreensNavController: NavController) {
+fun GermanLandingScreen(
+    germanScreensNavController: NavController,
+    progressViewModel: ProgressViewModel,
+    userData: UserData?) {
+
     val selectedItemIndex by rememberSaveable {
         mutableStateOf(0)
     }
+
+    val topics = listOf(
+        "German Alphabet",
+        "Adjectives",
+        "Cases",
+        "Nouns",
+        "Prepositions",
+        "Pronouns",
+        "Sentences",
+        "Tenses",
+        "Verbs"
+    )
+
+    // Collect progress state from ViewModel
+    val progressState by progressViewModel.progress.collectAsState()
+
+    LaunchedEffect(userData?.userId) {
+        progressViewModel.fetchUserProgress(userData?.userId,topics[selectedItemIndex])
+        userData?.userId?.let { userId ->
+            val selectedTopic = topics[selectedItemIndex]
+            progressViewModel.fetchUserProgress(userId, selectedTopic)
+        }
+        Log.d("ProgressState", "Fetched progress: ${progressState}, UserId: ${userData?.userId}")
+    }
+
+    val topicItem = mutableListOf(
+        TopicItem(
+            "Alphabet",
+            Icons.Filled.SortByAlpha,
+            progressState.getOrElse("German Alphabet") { 0.0F },
+            ScreenDestinations.GermanAlphabetScreen.route
+        ),
+        TopicItem(
+            "Adjectives",
+            Icons.Filled.Album,
+            0.0F,
+            ScreenDestinations.GermanAdjectiveScreen.route
+        ),
+        TopicItem(
+            "Cases",
+            Icons.Filled.BarChart,
+            0.0F,
+            ScreenDestinations.GermanCaseScreen.route
+        ),
+        TopicItem(
+            "Nouns",
+            Icons.Filled.Badge,
+            0.0F,
+            ScreenDestinations.GermanNounScreen.route
+        ),
+        TopicItem(
+            "Prepositions",
+            Icons.Filled.EditNote,
+            0.0F,
+            ScreenDestinations.GermanPrepositionScreen.route
+        ),
+        TopicItem(
+            "Pronouns",
+            Icons.Filled.Album,
+            0.0F,
+            ScreenDestinations.GermanPronounScreen.route
+        ),
+        TopicItem(
+            "Sentences",
+            Icons.Filled.Build,
+            0.0F,
+            ScreenDestinations.GermanSentenceStructureScreen.route
+        ),
+        TopicItem(
+            "Tenses",
+            Icons.Filled.Terrain,
+            0.0F,
+            ScreenDestinations.GermanTenseScreen.route
+        ),
+        TopicItem(
+            "Verbs",
+            Icons.Filled.Height,
+            0.0F,
+            ScreenDestinations.GermanVerbConjugationScreen.route
+        )
+    )
+
+    val phraseList = listOf(
+        TopicItem(
+            "Introductions",
+            Icons.Filled.Groups,
+            0.0F,
+            ScreenDestinations.GermanIntroductionScreen.route
+        ),
+        TopicItem(
+            "Expressions",
+            Icons.Filled.Speaker,
+            0.0F,
+            ScreenDestinations.GermanExpressionScreen.route
+        ),
+        TopicItem(
+            "Emergencies",
+            Icons.Filled.Emergency,
+            0.0F,
+            ScreenDestinations.GermanEmergencyScreen.route
+        ),
+        TopicItem(
+            "Gastronomy",
+            Icons.Filled.Fastfood,
+            0.0F,
+            ScreenDestinations.GermanEatingScreen.route
+        ),
+        TopicItem(
+            "Questions",
+            Icons.Filled.QuestionMark,
+            0.0F,
+            ScreenDestinations.GermanQuestionsScreen.route
+        ),
+        TopicItem(
+            "Tell the time",
+            Icons.Filled.Watch,
+            0.0F,
+            ScreenDestinations.GermanTimeScreen.route
+        )
+    )
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -253,7 +547,11 @@ fun GermanLandingScreen(germanScreensNavController: NavController) {
             modifier = Modifier
             .height(50.dp)
         )
-            LanguageProgressCard()
+            LanguageProgressCard(
+                R.drawable.wappen,
+                "German Section",
+                "Guten Tag!"
+            )
         Spacer(
             modifier = Modifier
                 .height(30.dp)
@@ -311,7 +609,11 @@ fun GermanLandingScreen(germanScreensNavController: NavController) {
 }
 
 @Composable
-fun GermanAlphabet(textToSpeech: TextToSpeech) {
+fun GermanAlphabet(
+    textToSpeech: TextToSpeech,
+    progressViewModel: ProgressViewModel,
+    userData: UserData?
+) {
     // Dispose the TextToSpeech instance when no longer needed
     DisposableEffect(Unit) {
         onDispose {
@@ -321,10 +623,43 @@ fun GermanAlphabet(textToSpeech: TextToSpeech) {
     }
 
     val germanAlphabetData = getGermanAlphabetData()
+
+    // LazyListState to keep track of the scroll position
+    val listState = rememberLazyListState()
+    val totalItems = germanAlphabetData.size
+
+    // Track the progress of static content (the non-LazyColumn part)
+    var staticContentHeight by remember { mutableStateOf(0) }
+
+    // Combine the progress of the static content and the LazyColumn
+    val progress by remember {
+        derivedStateOf {
+            val lazyListScrollablePart = totalItems
+            val lazyListProgress = if (lazyListScrollablePart > 0) {
+                listState.firstVisibleItemIndex / lazyListScrollablePart.toFloat()
+            } else 0f
+
+            // Combined progress (including static content)
+            val totalScrollableContent = staticContentHeight + totalItems // Total combined height
+            val progress = if (totalScrollableContent > 0) {
+                (staticContentHeight / totalScrollableContent.toFloat()) + lazyListProgress
+            } else 0f
+
+            progress.coerceIn(0f, 1f) // Keep it within 0 and 1
+        }
+    }
+
+    LaunchedEffect(progress) {
+        progressViewModel.saveUserProgress(userData?.userId, "German Alphabet", progress) // Replace with actual userId and topicId
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
+            .onGloballyPositioned { coordinates ->
+                staticContentHeight = coordinates.size.height // Get the height of static content
+            }
     ) {
         Spacer(modifier = Modifier
             .height(10.dp)
@@ -347,7 +682,7 @@ fun GermanAlphabet(textToSpeech: TextToSpeech) {
             .height(20.dp)
         )
         //add lazy column here
-        LazyColumn {
+        LazyColumn(state = listState) {
             items(germanAlphabetData) { letter ->
                 AlphabetCard(letter = letter, textToSpeech = textToSpeech)
             }

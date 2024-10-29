@@ -2,11 +2,7 @@
 <resources>
 
     <style name="Theme.JustSpeak_20" parent="android:Theme.Material.Light.NoActionBar">
-    </style>
-
-    <style name="Theme.SplashScreen" parent="Theme.JustSpeak_20">
-        <item name="android:windowSplashScreenBackground">#FFFFFF</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/justspeaklogo</item>
-        <item name="android:windowSplashScreenAnimationDuration">2000</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@drawable/justspeakbackground</item>
     </style>
 </resources>

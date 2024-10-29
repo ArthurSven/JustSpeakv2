@@ -2,9 +2,12 @@ package com.devapps.justspeak_20
 
 import android.app.Activity.RESULT_OK
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.animation.OvershootInterpolator
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -66,6 +69,7 @@ import com.devapps.justspeak_20.auth.GoogleClientAuth
 import com.devapps.justspeak_20.data.models.UserData
 import com.devapps.justspeak_20.ui.ScreenDestinations
 import com.devapps.justspeak_20.ui.Screens.MainScreen
+import com.devapps.justspeak_20.ui.Screens.languages.chichewa.ChichewaLanguageScreens
 import com.devapps.justspeak_20.ui.Screens.languages.german.GermanLanguageScreens
 import com.devapps.justspeak_20.ui.components.UserProfileBar
 import com.devapps.justspeak_20.ui.theme.AzureBlue
@@ -82,13 +86,17 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
-        setContent {
-            JustSpeak_20Theme() {
-                JustSpeakMainNavigation()
+        Handler(Looper.getMainLooper()).postDelayed({
+            enableEdgeToEdge()
+            setTheme(R.style.Theme_JustSpeak_20)
+            setContent {
+                JustSpeak_20Theme {
+                    JustSpeakMainNavigation()
+                }
             }
-        }
+        },2000)
+
     }
 }
 
@@ -107,7 +115,7 @@ fun JustSpeakMainNavigation() {
     }
 
     val justSpeakMainNavController = rememberNavController()
-    NavHost(navController = justSpeakMainNavController, startDestination = ScreenDestinations.SplashScreen.route) {
+    NavHost(navController = justSpeakMainNavController, startDestination = ScreenDestinations.Check.route) {
         composable(ScreenDestinations.SplashScreen.route) {
             SplashScreen(justSpeakMainNavController)
         }
@@ -139,7 +147,28 @@ fun JustSpeakMainNavigation() {
             )
         }
         composable(ScreenDestinations.GermanNavigation.route) {
-            GermanLanguageScreens(justSpeakMainNavController, googleClientAuth.getSignedInUser())
+            GermanLanguageScreens(
+                justSpeakMainNavController,
+                googleClientAuth.getSignedInUser(),
+                onSignOut = {
+                    coroutineScope.launch {
+                        googleClientAuth.signOut()
+                        Toast.makeText(context, "Signed out", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
+        }
+        composable(ScreenDestinations.ChichewaNavigation.route) {
+            ChichewaLanguageScreens(
+                justSpeakMainNavController,
+                googleClientAuth.getSignedInUser(),
+                onSignOut = {
+                    coroutineScope.launch {
+                        googleClientAuth.signOut()
+                        Toast.makeText(context, "Signed out", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
         }
         composable(ScreenDestinations.Signout.route) {
             LaunchedEffect(Unit) {
