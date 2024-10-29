@@ -344,6 +344,18 @@ fun ChichewaMainNavigation() {
         composable(ScreenDestinations.ChichewaVerbScreen.route) {
             ChichewaVerbs()
         }
+        composable(ScreenDestinations.ChichewaIntroductionScreen.route) {
+            ChichewaIntroductions()
+        }
+        composable(ScreenDestinations.ChichewaExpressionScreen.route) {
+            ChichewaExpressions()
+        }
+        composable(ScreenDestinations.ChichewaEatingScreen.route) {
+            ChichewaGastronomy()
+        }
+        composable(ScreenDestinations.ChichewaEmergencyScreen.route) {
+            ChichewaEmergency()
+        }
     }
 }
 

@@ -3,7 +3,6 @@ package com.devapps.justspeak_20.ui.components
 import android.graphics.Bitmap
 import android.icu.util.Calendar
 import android.speech.tts.TextToSpeech
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,7 +27,6 @@ import androidx.compose.material.icons.filled.AddComment
 import androidx.compose.material.icons.filled.Airlines
 import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.Badge
-import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Cases
 import androidx.compose.material.icons.filled.Emergency
 import androidx.compose.material.icons.filled.Fastfood
@@ -43,7 +41,6 @@ import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.material.icons.filled.Quiz
 import androidx.compose.material.icons.filled.Rocket
 import androidx.compose.material.icons.filled.Shop
-import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Add
@@ -71,22 +68,14 @@ import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -97,7 +86,6 @@ import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -108,11 +96,8 @@ import coil.request.ImageRequest
 import com.devapps.justspeak_20.R
 import com.devapps.justspeak_20.data.models.UserData
 import com.devapps.justspeak_20.ui.theme.AzureBlue
-import com.devapps.justspeak_20.ui.theme.seaBlue
-import com.devapps.justspeak_20.ui.theme.teal
 import com.devapps.justspeak_20.utils.GermanPronounList
-import okhttp3.Route
-import kotlin.math.roundToInt
+
 
 @Composable
 fun UserProfileBar(userData: UserData?) {
@@ -352,7 +337,7 @@ fun TopicCard(
     percent: Float,
     onClick: () -> Unit,
 ) {
-    val percentage = (percent * 100).roundToInt().toString() + "%"
+  //  val percentage = (percent * 100).roundToInt().toString() + "%"
     ElevatedCard(
         modifier = Modifier
             .width(240.dp)
@@ -1451,6 +1436,39 @@ fun PhraseItem(deu: String, eng: String, textToSpeech: TextToSpeech) {
     }
 }
 
+@Composable
+fun ChichewaPhraseItem(chichewa: String, english: String) {
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(5.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = Color.White
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+        ) {
+            Text(
+                text = chichewa,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+            Spacer(modifier = Modifier
+                .height(5.dp)
+            )
+            Text(
+                text = english,
+                fontSize = 14.sp,
+                color = Color.DarkGray
+            )
+        }
+    }
+}
+
 val introductionTabItems = listOf(
     TabItem(
         title = "Home",
@@ -1618,8 +1636,31 @@ val chichewaVerbTabItems = listOf(
         Icons.Filled.Quiz
     )
 )
+
+val chichewaIntroductionTabItems = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "Goodbyes",
+        Icons.Outlined.FrontHand,
+        Icons.Filled.FrontHand
+    ),
+    TabItem(
+        title = "Intros",
+        Icons.Outlined.People,
+        Icons.Filled.People
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    )
+)
 @Composable
 @Preview(showBackground = true)
-fun ViewComponents() {
-    CaseParagraph(case = "Nominative", description = "sdfsdfsfs", example = "sfafsVSDBDAFBANDNH")
+fun ViewUtilityComponent() {
+
 }
