@@ -30,6 +30,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -54,6 +56,7 @@ import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -84,6 +87,7 @@ import com.devapps.justspeak_20.ui.theme.yellow
 import com.devapps.justspeak_20.ui.viewmodels.AuthViewModel
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 
@@ -186,12 +190,12 @@ fun MainScreen(
         }
     ) { it ->
         Column(modifier = Modifier
-            .padding(it)) {
+            .padding(it)
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 5.dp, start = 10.dp, end = 10.dp)
-                    .background(Color.White)
                     .verticalScroll(rememberScrollState())
             ) {
                 UserProfileBar(userData)
@@ -283,6 +287,80 @@ fun MainScreen(
                         )
                     }
                 }
+                Spacer(modifier = Modifier
+                    .height(20.dp)
+                )
+                Text("Flashcards",
+                    fontSize = 20.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier
+                    .height(20.dp)
+                )
+                ElevatedCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    colors = CardDefaults.elevatedCardColors(
+                        containerColor = AzureBlue
+                    )
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ) {
+                        //start box//
+                        Image(
+                            painter = painterResource(R.drawable.flashcard), contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .matchParentSize()
+                                .height(450.dp)
+                            //colorFilter = ColorFilter.tint(Color.DarkGray, blendMode = BlendMode.Hue)
+                        )
+                        //end here //
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(20.dp),
+                        ) {
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(20.dp),
+                            )
+                            Text(text = "Create flashcards",
+                                color = Color.White,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp),
+                            )
+                            Button(onClick = { /*TODO*/ },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = AzureBlue,
+                                    contentColor = Color.White
+                                ),
+                                shape = RoundedCornerShape(10.dp)
+,                            ) {
+                                Text(text = "Get Started",
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -293,5 +371,5 @@ fun MainScreen(
 @Composable
 @Preview(showBackground = true)
 fun ScreenViewer() {
-    val userMainNavController = rememberNavController()
+
 }

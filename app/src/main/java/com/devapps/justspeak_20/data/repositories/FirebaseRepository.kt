@@ -1,5 +1,6 @@
 package com.devapps.justspeak_20.data.repositories
 
+import com.devapps.justspeak_20.data.models.Deck
 import com.devapps.justspeak_20.utils.Response
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -48,6 +49,62 @@ class FirebaseRepository @Inject constructor(
         } catch (e: Exception) {
             // Handle the error, or return an empty map to indicate failure
             emptyMap()
+        }
+    }
+
+    suspend fun addDeck(deck: Deck): Response {
+        return try {
+            // Reference to the counter document in Firestore
+            val counterRef = firestore.collection("counters").document("deckCounter")
+
+            // Transaction to increment the counter and get a new deckId
+            val newDeckId = firestore.runTransaction { transaction ->
+                val snapshot = transaction.get(counterRef)
+                val nextDeckId = snapshot.getLong("nextDeckId")?.plus(1) ?: 1
+                transaction.update(counterRef, "nextDeckId", nextDeckId)
+                nextDeckId.toString()
+            }.await()
+
+            // Create a map for the deck data
+            val deckData = mapOf(
+                "userId" to deck.deckId,
+                "title" to deck.title,
+                "dateCreated" to deck.dateCreated,
+                "deckId" to newDeckId
+            )
+
+            // Add the new deck to the "decks" collection with the incremented deckId
+            firestore.collection("decks").document(newDeckId).set(deckData).await()
+
+            Response.Success("Deck added successfully.")
+        } catch (e: Exception) {
+            Response.Error(e)
+        }
+    }
+
+    suspend fun getDecksByUser(userId: String): List<Map<String, Any>> {
+        return try {
+            val querySnapshot = firestore.collection("decks")
+                .whereEqualTo("userId", userId)
+                .get()
+                .await()
+
+            // Convert each document to a Map for easier use
+            querySnapshot.documents.map { document ->
+                document.data ?: emptyMap()
+            }
+        } catch (e: Exception) {
+            // Log the exception or handle it as needed
+            emptyList()  // Return an empty list in case of error
+        }
+    }
+
+    suspend fun deleteDeck(deckId: String): Response {
+        return try {
+            firestore.collection("decks").document(deckId).delete().await()
+            Response.Success("Deck deleted successfully.")
+        } catch (e: Exception) {
+            Response.Error(e)
         }
     }
 }
