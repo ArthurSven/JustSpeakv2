@@ -15,5 +15,5 @@ data class Flashcard(
     @ColumnInfo("date")
     val date: String,
     @ColumnInfo("createdBy")
-    val createdBy: String
+    val createdBy: String?
 )

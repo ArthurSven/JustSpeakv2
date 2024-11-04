@@ -111,6 +111,8 @@ import com.devapps.justspeak_20.data.models.UserData
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.utils.GermanPronounList
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 @Composable
@@ -1713,7 +1715,7 @@ fun FlashcardItem(
 
     Column(modifier = Modifier
         .fillMaxWidth()
-        .height(100.dp)
+        .height(200.dp)
         .clip(RoundedCornerShape(10.dp))
         .background(item.color)
         .clickable {
@@ -1775,10 +1777,12 @@ fun FlashcardItem(
                     .background(color = Color.White)
             )
         }
+        Spacer(modifier = Modifier
+            .height(30.dp)
+        )
         Text(
             text = if (isFront) item.german else item.english,
             modifier = Modifier
-                .padding(16.dp)
                 .fillMaxWidth(),
             textAlign = TextAlign.Center,
             fontSize = 16.sp,
@@ -1787,6 +1791,13 @@ fun FlashcardItem(
         )
 
     }
+}
+
+@Composable
+fun getCurrentDate() : String {
+    val currentDate = LocalDate.now()
+    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+    return currentDate.format(formatter)
 }
 
 @Composable

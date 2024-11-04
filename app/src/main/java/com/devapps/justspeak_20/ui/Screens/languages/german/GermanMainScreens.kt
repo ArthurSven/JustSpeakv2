@@ -432,15 +432,6 @@ fun GermanLandingScreen(
     // Collect progress state from ViewModel
     val progressState by progressViewModel.progress.collectAsState()
 
-    LaunchedEffect(userData?.userId) {
-        progressViewModel.fetchUserProgress(userData?.userId,topics[selectedItemIndex])
-        userData?.userId?.let { userId ->
-            val selectedTopic = topics[selectedItemIndex]
-            progressViewModel.fetchUserProgress(userId, selectedTopic)
-        }
-        Log.d("ProgressState", "Fetched progress: ${progressState}, UserId: ${userData?.userId}")
-    }
-
     val topicItem = mutableListOf(
         TopicItem(
             "Alphabet",
@@ -649,9 +640,6 @@ fun GermanAlphabet(
         }
     }
 
-    LaunchedEffect(progress) {
-        progressViewModel.saveUserProgress(userData?.userId, "German Alphabet", progress) // Replace with actual userId and topicId
-    }
 
     Column(
         modifier = Modifier

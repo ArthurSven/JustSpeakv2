@@ -10,6 +10,8 @@ import com.devapps.justspeak_20.data.repositories.FlashcardRepository
 import com.devapps.justspeak_20.utils.Response
 import com.devapps.justspeak_20.utils.UpsertFlashCardState
 import com.devapps.justspeak_20.utils.UpsertFlashcardResult
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +20,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class FlashcardViewModel @Inject constructor(
   val  flashcardRepository: FlashcardRepository
 ) : ViewModel() {
@@ -31,10 +34,37 @@ class FlashcardViewModel @Inject constructor(
   private val _createdBy = MutableStateFlow("")
   val createdBy: StateFlow<String> = _createdBy
 
+  private val _germanFlashcard = MutableStateFlow("")
+  val germanFlashcard: StateFlow<String> = _germanFlashcard.asStateFlow()
+
+  private val _englishTranslation = MutableStateFlow("")
+  val englishTranslation: StateFlow<String> = _englishTranslation.asStateFlow()
+
   init {
       viewModelScope.launch {
         getFlashcardsByUserId(_createdBy.value)
       }
+  }
+
+  fun setCreatedBy(userId: String) {
+    _createdBy.value = userId
+    viewModelScope.launch {
+      getFlashcardsByUserId(userId)
+    }
+
+  }
+
+  fun resetForm() {
+    _germanFlashcard.value = ""
+    _englishTranslation.value = ""
+  }
+
+  fun updateGermanFlashcard(value: String) {
+    _germanFlashcard.value = value
+  }
+
+  fun updateEnglishTranslation(value: String) {
+    _englishTranslation.value = value
   }
 
   suspend fun getFlashcardsByUserId(userId: String) {
@@ -81,6 +111,10 @@ class FlashcardViewModel @Inject constructor(
 
   suspend fun deleteFlashcard(flashcard: Flashcard) {
     return flashcardRepository.deleteFlashcard(flashcard)
+  }
+
+  fun getFlashcardById(flashcardId: Int) : Flow<Flashcard?> {
+      return flashcardRepository.getFlashcardById(flashcardId)
   }
 
   fun resetState() {

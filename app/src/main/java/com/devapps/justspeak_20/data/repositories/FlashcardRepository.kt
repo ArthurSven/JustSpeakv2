@@ -12,7 +12,7 @@ interface FlashcardRepository {
 
     suspend fun deleteFlashcard(flashcard: Flashcard)
 
-    suspend fun getFlashcardsByUserId(userId: String) : Flow<List<Flashcard>>
+    suspend fun getFlashcardsByUserId(userId: String?) : Flow<List<Flashcard>>
 
     fun getFlashcardById(flashcardId: Int) : Flow<Flashcard>
 }
@@ -31,7 +31,7 @@ class FlashcardRepositoryImpl @Inject constructor(
 
     override suspend fun deleteFlashcard(flashcard: Flashcard) = flashcardDao.deleteFlashcard(flashcard)
 
-    override suspend fun getFlashcardsByUserId(userId: String): Flow<List<Flashcard>> = flashcardDao.getFlashcardsByUserId(userId)
+    override suspend fun getFlashcardsByUserId(userId: String?): Flow<List<Flashcard>> = flashcardDao.getFlashcardsByUserId(userId)
 
     override fun getFlashcardById(flashcardId: Int): Flow<Flashcard> = flashcardDao.getFlashcardById(flashcardId)
 
