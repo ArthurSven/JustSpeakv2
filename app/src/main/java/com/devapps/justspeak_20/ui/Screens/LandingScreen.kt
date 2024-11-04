@@ -343,7 +343,9 @@ fun MainScreen(
                                     .fillMaxWidth()
                                     .height(50.dp),
                             )
-                            Button(onClick = { /*TODO*/ },
+                            Button(onClick = {
+                                userMainController.navigate(ScreenDestinations.FlashcardStarterScreen.route)
+                            },
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(50.dp),

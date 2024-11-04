@@ -23,7 +23,7 @@ class FlashcardViewModel @Inject constructor(
 ) : ViewModel() {
 
   private val _upsertResultState = MutableStateFlow(UpsertFlashCardState())
-  val upsertFlashcardState = _upsertResultState.asStateFlow()
+  val upsertFlashcardResultState = _upsertResultState.asStateFlow()
 
   private val _userFlashcards = MutableStateFlow<List<Flashcard>>(emptyList())
   val userFlashcards = _userFlashcards.asStateFlow()
@@ -70,7 +70,7 @@ class FlashcardViewModel @Inject constructor(
     }
   }
 
-  fun onUpsertResult(result: UpsertFlashcardResult) {
+  private fun onUpsertResult(result: UpsertFlashcardResult) {
     _upsertResultState.update {
       it.copy(
         isSuccessful = result.errorMessage == null,
@@ -78,4 +78,15 @@ class FlashcardViewModel @Inject constructor(
       )
     }
   }
+
+  suspend fun deleteFlashcard(flashcard: Flashcard) {
+    return flashcardRepository.deleteFlashcard(flashcard)
+  }
+
+  fun resetState() {
+    _upsertResultState.update {
+      UpsertFlashCardState()
+    }
+  }
+
 }

@@ -371,16 +371,20 @@ interface ScreenDestinations {
         override val route: String = "chichewa_time_quiz_screen"
     }
 
-    object ChichewaFlashcardListScreen : ScreenDestination {
-        override val route: String = "chichewa_flashcard_screen"
+    object FlashcardStarterScreen : ScreenDestination {
+        override val route: String = "flashcard_starter_screen"
     }
 
-    object ChichewaAddFlashcardScreen : ScreenDestination {
-        override val route: String = "chichewa_add_flashcard_screen"
+    object FlashcardListScreen : ScreenDestination {
+        override val route: String = "flashcard_screen"
     }
 
-    object ChichewaEditFlashcardScreen : ScreenDestination {
-        override val route: String = "chichewa_edit_flashcard_screen"
+    object AddFlashcardScreen : ScreenDestination {
+        override val route: String = "add_flashcard_screen"
+    }
+
+    object EditFlashcardScreen : ScreenDestination {
+        override val route: String = "edit_flashcard_screen"
     }
 
     object Signout : ScreenDestination {

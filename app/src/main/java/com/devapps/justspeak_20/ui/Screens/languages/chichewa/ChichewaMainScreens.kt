@@ -87,16 +87,6 @@ import com.devapps.justspeak_20.R
 import com.devapps.justspeak_20.auth.GoogleClientAuth
 import com.devapps.justspeak_20.data.models.UserData
 import com.devapps.justspeak_20.ui.ScreenDestinations
-import com.devapps.justspeak_20.ui.Screens.languages.german.GermanAdjectiveEndings
-import com.devapps.justspeak_20.ui.Screens.languages.german.GermanAdjectiveHome
-import com.devapps.justspeak_20.ui.Screens.languages.german.GermanAdjectiveQuiz
-import com.devapps.justspeak_20.ui.Screens.languages.german.GermanBodyNouns
-import com.devapps.justspeak_20.ui.Screens.languages.german.GermanFoodNouns
-import com.devapps.justspeak_20.ui.Screens.languages.german.GermanMainNavigation
-import com.devapps.justspeak_20.ui.Screens.languages.german.GermanNounHome
-import com.devapps.justspeak_20.ui.Screens.languages.german.GermanNounQuiz
-import com.devapps.justspeak_20.ui.Screens.languages.german.GermanPlaceNouns
-import com.devapps.justspeak_20.ui.components.AlphabetCard
 import com.devapps.justspeak_20.ui.components.ChichewaAlphabetCard
 import com.devapps.justspeak_20.ui.components.ChichewaTranslatableItem
 import com.devapps.justspeak_20.ui.components.LanguageProgressCard
@@ -106,13 +96,11 @@ import com.devapps.justspeak_20.ui.components.chichewaAdjectiveTabItems
 import com.devapps.justspeak_20.ui.components.chichewaPronounTabItems
 import com.devapps.justspeak_20.ui.components.chichewaVerbTabItems
 import com.devapps.justspeak_20.ui.components.nounTabItems
-import com.devapps.justspeak_20.ui.components.tabItems
 import com.devapps.justspeak_20.ui.theme.grau
 import com.devapps.justspeak_20.ui.viewmodels.ProgressViewModel
 import com.devapps.justspeak_20.utils.chichewaAlphabetData
 import com.devapps.justspeak_20.utils.chichewaNumbers
 import com.google.android.gms.auth.api.identity.Identity
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

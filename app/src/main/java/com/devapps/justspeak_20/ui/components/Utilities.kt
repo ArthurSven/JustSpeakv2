@@ -3,6 +3,9 @@ package com.devapps.justspeak_20.ui.components
 import android.graphics.Bitmap
 import android.icu.util.Calendar
 import android.speech.tts.TextToSpeech
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -35,6 +38,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.LockClock
 import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.QuestionMark
@@ -62,8 +66,12 @@ import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material.icons.outlined.Rocket
 import androidx.compose.material.icons.outlined.Shop
 import androidx.compose.material.icons.outlined.Timer
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -71,7 +79,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -86,6 +98,7 @@ import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -97,6 +110,7 @@ import com.devapps.justspeak_20.R
 import com.devapps.justspeak_20.data.models.UserData
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.utils.GermanPronounList
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -1672,6 +1686,109 @@ val chichewaQuestionTabItems = listOf(
         Icons.Filled.QuestionMark
     )
 )
+
+data class GridItem(
+    val german: String,
+    val english: String,
+    val color: Color
+)
+
+@Composable
+fun FlashcardItem(
+    item: GridItem,
+    onEdit: () -> Unit,
+    onDelete: () -> Unit,
+) {
+    val coroutineScope = rememberCoroutineScope()
+    var isFront by remember { mutableStateOf(true) }
+
+    val rotationState = remember {
+        Animatable(0f)
+    }
+
+    val showOptions = remember { mutableStateOf(false) }
+    val showDeleteDialog = remember { mutableStateOf(false) }
+    val frontRotation = 0f
+    val backRotation = 180f
+
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .height(100.dp)
+        .clip(RoundedCornerShape(10.dp))
+        .background(item.color)
+        .clickable {
+            coroutineScope.launch {
+                rotationState.animateTo(
+                    targetValue = if (isFront) backRotation else frontRotation,
+                    animationSpec = tween(
+                        durationMillis = 500,
+                        easing = LinearEasing
+                    )
+                )
+            }
+            isFront = !isFront
+        },
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+            IconButton(onClick = { showOptions.value = true}) {
+                Icon(
+                    imageVector = Icons.Filled.MoreVert,
+                    contentDescription = "Options",
+                    tint = Color.White
+                )
+            }
+        }
+        //
+        DropdownMenu(
+            expanded = showOptions.value,
+            onDismissRequest = {
+                showOptions.value = false
+            },
+            modifier = Modifier
+                .background(color = Color.White)
+                .width(80.dp)) {
+            DropdownMenuItem(
+                text = {
+                    Text(text = "Edit",
+                        color = Color.Black)
+                },
+                onClick = {
+                    onEdit()
+                    showOptions.value = false
+                },
+                modifier = Modifier
+                    .background(color = Color.White)
+            )
+            DropdownMenuItem(
+                text = {
+                    Text(text = "Delete",
+                        color = Color.Black)
+                },
+                onClick = {
+                    onDelete()
+                    showOptions.value = false
+                },
+                modifier = Modifier
+                    .background(color = Color.White)
+            )
+        }
+        Text(
+            text = if (isFront) item.german else item.english,
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.White
+        )
+
+    }
+}
+
 @Composable
 @Preview(showBackground = true)
 fun ViewUtilityComponent() {
