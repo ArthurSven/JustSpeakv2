@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface FlashcardDao {
 
     @Query("SELECT * FROM flashcards WHERE createdBy = :userId ORDER BY date")
-    fun getFlashcardsByUserId(userId: String) : Flow<List<Flashcard>>
+    fun getFlashcardsByUserId(userId: String?) : Flow<List<Flashcard>>
 
     @Query("SELECT * FROM flashcards WHERE flashCardId = :flashcardId")
     fun getFlashcardById(flashcardId: Int) : Flow<Flashcard>
