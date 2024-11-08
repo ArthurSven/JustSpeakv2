@@ -729,7 +729,7 @@ fun ConjugationTableRow() {
                 .padding(start = 5.dp)
         )
         Text(
-            text = "Conjugation",
+            text = "Conj",
             fontWeight = FontWeight.Bold,
             color = Color.White,
             fontSize = 16.sp,
@@ -738,7 +738,7 @@ fun ConjugationTableRow() {
                 .padding(start = 5.dp)
         )
         Text(
-            text = "Translation",
+            text = "Transl",
             fontWeight = FontWeight.Bold,
             color = Color.White,
             fontSize = 16.sp,
@@ -754,7 +754,6 @@ fun ConjugationTableItem(pron: String, conj: String, trans: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(35.dp)
 
     ) {
         Text(

@@ -4,5 +4,6 @@
     <style name="Theme.JustSpeak_20" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowBackground">@drawable/justspeakbackground</item>
+        <item name="android:navigationBarColor">@color/azureblue</item>
     </style>
 </resources>

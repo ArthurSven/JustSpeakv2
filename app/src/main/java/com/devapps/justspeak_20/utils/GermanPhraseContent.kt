@@ -12,11 +12,7 @@ fun getGermanIntroductions(): Map<String, String> {
         "Hallo" to "Hello",
         "Grüß Gott" to "Hello (Austria)",
         "Servus" to "Hello (Bavaria",
-        "Grüezi" to "Hello (Switzerland)",
-        "Moin" to "Hello (Northern Germany)",
-        "Guete Morge" to "Good morning (Switzerland)",
-        "Guete Abig" to "Good evening (Switzerland)",
-        "Grias di" to "Hello (Bavaria)"
+        "Moin" to "Hello (Northern Germany)"
     )
 }
 
@@ -29,10 +25,7 @@ fun getGermanGoodbyes(): Map<String, String> {
         "Auf Wiederhören" to "See you later (phone)",
         "Bis bald" to "See you soon",
         "Bis später" to "See you later",
-        "Bis dann" to "Until then",
-        "Pfiad di" to "Bye (Bavaria/Austria)",
-        "Ade" to "Bye (Switzerland)",
-        "Uf Wiederluege" to "See you again (Switzerland)"
+        "Bis dann" to "Until then"
     )
 }
 
@@ -47,10 +40,6 @@ fun getGermanGreetingExpressions(): Map<String, String> {
         "so lala" to "So and so",
         "Mir geht es schlecht" to "I am not well",
         "Mir geht es besser" to "I am doing better",
-        "Wie göht's dr/ine?" to "How are you - inf/formal (Switzerland)",
-        "Mir gaihts guet" to "I am doing well (Switzerland)",
-        "wia gehd's/ wia gehd's eana" to "How are you - inf/formal (Bavaria)",
-        "guad und dir/eana" to "Good and you? - inf/formal (Bavaria)",
         "Alles gut bei dir?" to "Everything alright?",
         "Alles in Ordnung?" to "Everything in order?",
         "Na?" to "How's it going"
@@ -67,12 +56,8 @@ fun getGermanIntroductoryPhrases(): Map<String, String> {
         "Wie ist dein/Ihr Name?" to "What's your name",
         "Mein Name ist" to "My name is",
         "Ich bin ..." to "I am ...",
-        "Wia hoaßt du" to "What's your name (Bavarian)",
-        "Wie heissisch du" to "What's your name (Switzerland)",
         "Woher kommst du" to "Where are you from",
         "Ich komme aus ..." to "I come from",
-        "Wohar chunsch" to "Where are you from (Switzerland)",
-        "Ich chume us" to "I come from (Switzerland)",
         "Wo wohnst du" to "Where do you live",
         "Ich wohne in..." to "I live in..."
     )

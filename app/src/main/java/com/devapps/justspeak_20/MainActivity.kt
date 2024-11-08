@@ -89,7 +89,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            enableEdgeToEdge()
+           // enableEdgeToEdge()
             setTheme(R.style.Theme_JustSpeak_20)
             setContent {
                 JustSpeak_20Theme {

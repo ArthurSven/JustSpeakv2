@@ -7,6 +7,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -41,8 +42,10 @@ import androidx.compose.material.icons.filled.Speaker
 import androidx.compose.material.icons.filled.Terrain
 import androidx.compose.material.icons.filled.Watch
 import androidx.compose.material.icons.outlined.Logout
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -88,6 +91,7 @@ import com.devapps.justspeak_20.auth.GoogleClientAuth
 import com.devapps.justspeak_20.data.models.UserData
 import com.devapps.justspeak_20.ui.ScreenDestinations
 import com.devapps.justspeak_20.ui.components.ChichewaAlphabetCard
+import com.devapps.justspeak_20.ui.components.ChichewaPhraseItem
 import com.devapps.justspeak_20.ui.components.ChichewaTranslatableItem
 import com.devapps.justspeak_20.ui.components.LanguageProgressCard
 import com.devapps.justspeak_20.ui.components.TopicCard
@@ -688,20 +692,39 @@ fun ChichewaNumbers() {
         Spacer(modifier = Modifier
             .height(10.dp)
         )
-        Text(
-            text = "Numbers in chichewa are not too complex to understand, many of the numbers" +
-                    " here are used in spoken form. However the arabic numerals and the english numbers" +
-                    " are understood throughout Malawi.",
-            fontSize = 14.sp,
-            color = Color.Black
-        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Numbers in chichewa are not too complex to understand, many of the numbers" +
+                            " here are used in spoken form. However the arabic numerals and the english numbers" +
+                            " are understood throughout Malawi.",
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+            }
+        }
         Spacer(modifier = Modifier
             .height(20.dp)
         )
         //add lazy column here
-        LazyColumn {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
             items(chichewaNumbers.entries.toList()) { entry ->
-                ChichewaTranslatableItem(entry.key, entry.value)
+                ChichewaPhraseItem(entry.key, entry.value)
             }
         }
 

@@ -54,6 +54,8 @@ import com.devapps.justspeak_20.ui.components.unbestimmteArtikeln
 import com.devapps.justspeak_20.ui.components.unbestimmteArtikelnExamples
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.utils.HabenConjugationTable
+import com.devapps.justspeak_20.utils.KannConjugationTable
+import com.devapps.justspeak_20.utils.SeinConjugationTable
 import com.devapps.justspeak_20.utils.VerbTable
 import com.devapps.justspeak_20.utils.germanAccusativePrepositions
 import com.devapps.justspeak_20.utils.germanAdjectiveQuizQuestions
@@ -763,13 +765,13 @@ fun GermanNounQuiz() {
                         Text(
                             text = "Your Score: $it/${germanCaseQuestions.size}",
                             color = Color.Magenta,
-                            fontSize = 20.sp,
+                            fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
                         )
                     } else if (it != germanCaseQuestions.size) {
                         Text(
                             text = "Your Score: $it/${germanCaseQuestions.size}",
-                            fontSize = 20.sp,
+                            fontSize = 18.sp,
                             color = Color.Red,
                             fontWeight = FontWeight.Bold
 
@@ -792,7 +794,7 @@ fun GermanNounQuiz() {
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(vertical = 8.dp),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
+                            fontSize = 14.sp,
                             color = Color.Black
                         )
 
@@ -818,7 +820,8 @@ fun GermanNounQuiz() {
                                     )
                                 )
                                 Text(text = option,
-                                    color = Color.Black
+                                    color = Color.Black,
+                                    fontSize = 14.sp
                                 )
                             }
                         }
@@ -1226,13 +1229,13 @@ fun GermanPrepositionQuiz() {
                         Text(
                             text = "Your Score: $it/${germanPrepositionQuestions.size}",
                             color = Color.Magenta,
-                            fontSize = 20.sp,
+                            fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
                         )
                     } else if (it != germanPrepositionQuestions.size) {
                         Text(
                             text = "Your Score: $it/${germanPrepositionQuestions.size}",
-                            fontSize = 20.sp,
+                            fontSize = 18.sp,
                             color = Color.Red,
                             fontWeight = FontWeight.Bold
 
@@ -1255,7 +1258,7 @@ fun GermanPrepositionQuiz() {
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(vertical = 8.dp),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
+                            fontSize = 14.sp,
                             color = Color.Black
                         )
 
@@ -1281,7 +1284,8 @@ fun GermanPrepositionQuiz() {
                                     )
                                 )
                                 Text(text = option,
-                                    color = Color.Black
+                                    color = Color.Black,
+                                    fontSize = 14.sp
                                 )
                             }
                         }
@@ -1485,13 +1489,13 @@ fun GermanPronounQuiz() {
                         Text(
                             text = "Your Score: $it/${germanPrepositionQuestions.size}",
                             color = Color.Magenta,
-                            fontSize = 20.sp,
+                            fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
                         )
                     } else if (it != germanPrepositionQuestions.size) {
                         Text(
                             text = "Your Score: $it/${germanPrepositionQuestions.size}",
-                            fontSize = 20.sp,
+                            fontSize = 18.sp,
                             color = Color.Red,
                             fontWeight = FontWeight.Bold
 
@@ -1514,7 +1518,7 @@ fun GermanPronounQuiz() {
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(vertical = 8.dp),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
+                            fontSize = 14.sp,
                             color = Color.Black
                         )
 
@@ -1540,7 +1544,8 @@ fun GermanPronounQuiz() {
                                     )
                                 )
                                 Text(text = option,
-                                    color = Color.Black
+                                    color = Color.Black,
+                                    fontSize = 14.sp
                                 )
                             }
                         }
@@ -2135,7 +2140,7 @@ fun GermanSentenceQuiz() {
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(vertical = 8.dp),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
+                            fontSize = 14.sp,
                             color = Color.Black
                         )
 
@@ -2162,7 +2167,7 @@ fun GermanSentenceQuiz() {
                                 )
                                 Text(text = option,
                                     color = Color.Black,
-                                    fontSize = 16.sp
+                                    fontSize = 14.sp
                                 )
                             }
                         }
@@ -2620,7 +2625,7 @@ fun GermanTenseQuiz() {
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(vertical = 8.dp),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
+                            fontSize = 14.sp,
                             color = Color.Black
                         )
 
@@ -2646,7 +2651,8 @@ fun GermanTenseQuiz() {
                                     )
                                 )
                                 Text(text = option,
-                                    color = Color.Black
+                                    color = Color.Black,
+                                    fontSize = 14.sp
                                 )
                             }
                         }
@@ -2867,7 +2873,7 @@ fun GermanSeinVerb() {
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                Text(text = "Haben - to have",
+                Text(text = "Sein - to have",
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                     color = Color.Black
@@ -2875,7 +2881,7 @@ fun GermanSeinVerb() {
                 Spacer(modifier = Modifier
                     .height(10.dp)
                 )
-                HabenConjugationTable()
+                SeinConjugationTable()
             }
         }
     }
@@ -2908,7 +2914,7 @@ fun GermanKannVerb() {
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                Text(text = "Haben - to have",
+                Text(text = "Können - to be able to",
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                     color = Color.Black
@@ -2916,7 +2922,7 @@ fun GermanKannVerb() {
                 Spacer(modifier = Modifier
                     .height(10.dp)
                 )
-                HabenConjugationTable()
+                KannConjugationTable()
             }
         }
     }
@@ -2968,7 +2974,7 @@ fun GermanVerbQuiz() {
                 )
 
                 Text(
-                    text = "Sentence structure Quiz",
+                    text = "Verb Quiz",
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
                     color = Color.Black
@@ -3012,7 +3018,7 @@ fun GermanVerbQuiz() {
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(vertical = 8.dp),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
+                            fontSize = 14.sp,
                             color = Color.Black
                         )
 
@@ -3039,7 +3045,7 @@ fun GermanVerbQuiz() {
                                 )
                                 Text(text = option,
                                     color = Color.Black,
-                                    fontSize = 16.sp
+                                    fontSize = 14.sp
                                 )
                             }
                         }

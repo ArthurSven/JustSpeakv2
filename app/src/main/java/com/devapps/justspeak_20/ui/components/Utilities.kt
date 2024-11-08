@@ -520,8 +520,7 @@ fun ChichewaTranslatableItem(letter : String, sound: String) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp)
-            .height(70.dp),
+            .padding(10.dp),
         colors = CardDefaults.elevatedCardColors(
             containerColor = Color.White
         ),
@@ -537,15 +536,13 @@ fun ChichewaTranslatableItem(letter : String, sound: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 Text(text = letter,
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
                     color = Color.Black
-                )
-                Spacer(modifier = Modifier
-                    .width(100.dp)
                 )
                 Text(text = sound,
                     fontWeight = FontWeight.Bold,
@@ -1363,11 +1360,10 @@ fun GermanPronounTable() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(30.dp)
                 .background(color = Color(0xFF007FFF)) // AzureBlue color
         ) {
             Text(
-                text = "Nominative",
+                text = "Nom",
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
                 color = Color.White,
@@ -1376,7 +1372,7 @@ fun GermanPronounTable() {
                     .padding(start = 5.dp)
             )
             Text(
-                text = "Accusative",
+                text = "Acc",
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
                 color = Color.White,
@@ -1385,7 +1381,7 @@ fun GermanPronounTable() {
                     .padding(start = 5.dp)
             )
             Text(
-                text = "Dative",
+                text = "Dat",
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
                 color = Color.White,
