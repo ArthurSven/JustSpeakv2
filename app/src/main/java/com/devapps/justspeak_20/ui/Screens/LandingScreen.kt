@@ -88,6 +88,7 @@ import com.devapps.justspeak_20.ui.viewmodels.AuthViewModel
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.RuntimeException
 import kotlin.random.Random
 
 
@@ -344,7 +345,8 @@ fun MainScreen(
                                     .height(50.dp),
                             )
                             Button(onClick = {
-                                userMainController.navigate(ScreenDestinations.FlashcardStarterScreen.route)
+                                //  throw RuntimeException("Test crash")
+                              userMainController.navigate(ScreenDestinations.FlashcardStarterScreen.route)
                             },
                                 modifier = Modifier
                                     .fillMaxWidth()

@@ -4,11 +4,21 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinKsp)
     alias(libs.plugins.hiltPlugin)
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 android {
     namespace = "com.devapps.justspeak_20"
     compileSdk = 34
+
+    signingConfigs {
+        create("release") {
+            storeFile = file("C:/Users/asmsiska/Desktop/keystores/JustSpeakKey.jks")
+            storePassword = (project.findProperty("KEYSTORE_PASSWORD") ?: "").toString()
+            keyAlias = "JustSpeak"
+            keyPassword = (project.findProperty("KEY_PASSWORD") ?: "").toString()
+        }
+    }
 
     defaultConfig {
         applicationId = "com.devapps.justspeak_20"
@@ -21,7 +31,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        signingConfig = signingConfigs.getByName("debug")
+        signingConfig = signingConfigs.getByName("release")
     }
 
     buildTypes {
@@ -110,6 +120,7 @@ dependencies {
     //Dependency injection
     implementation(libs.hilt.android)
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.crashlytics)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.work)
     ksp(libs.androidx.hilt.compiler)
@@ -131,7 +142,11 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    //mockito
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.mockk.v400)
+
+    //kotlinx coroutines
+    implementation(libs.kotlinx.coroutines.core.v132)
 }

@@ -469,14 +469,43 @@ fun FlashcardList(
                     .height(20.dp)
                 )
                 if(flashcardState.isEmpty()) {
-                    Text(text = "No flashcards available",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                        color = Color.Black,
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
+                    Box(modifier = Modifier
+                        .fillMaxSize()
+                    ) {
+                        Text(text = "No flashcards available",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            color = Color.Black,
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                        Button(
+                            onClick = {
+                                flashcardNavController.navigate(ScreenDestinations.AddFlashcardScreen.route)
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                contentColor = Color.White,
+                                containerColor = AzureBlue
+                            ),
+                            modifier = Modifier
+                                .width(200.dp)
+                                .height(50.dp)
+                                .align(Alignment.BottomEnd),
+                            shape = RoundedCornerShape(5.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                Icon(imageVector = Icons.Default.Add, contentDescription = "create flashcard")
+                                Spacer(modifier = Modifier
+                                    .width(7.dp))
+                                Text(text = "Create Flashcard")
+                            }
+
+                        }
+                    }
                 } else {
                     Box(
                         modifier = Modifier
