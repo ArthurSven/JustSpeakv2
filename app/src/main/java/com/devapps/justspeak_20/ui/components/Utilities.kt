@@ -1325,7 +1325,6 @@ fun PronounRow(nominative: String, accusative: String, dative: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(40.dp)
     ) {
         Text(
             text = nominative,

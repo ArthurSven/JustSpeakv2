@@ -20,7 +20,7 @@ fun germanAdjectiveQuizQuestions() : List<Question> {
         ),
         Question(
             "2.",
-            "Der Hals ist ... (The neck ist long)",
+            "Der Hals ist ... (The neck is long)",
             listOf(
                 "Klein", "groß", "lang"
             ),

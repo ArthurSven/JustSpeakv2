@@ -3,6 +3,7 @@ package com.devapps.justspeak_20.ui.Screens.languages.chichewa
 import android.graphics.Bitmap
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -41,7 +42,9 @@ import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material.icons.filled.Speaker
 import androidx.compose.material.icons.filled.Terrain
 import androidx.compose.material.icons.filled.Watch
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Logout
+import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -100,6 +103,7 @@ import com.devapps.justspeak_20.ui.components.chichewaAdjectiveTabItems
 import com.devapps.justspeak_20.ui.components.chichewaPronounTabItems
 import com.devapps.justspeak_20.ui.components.chichewaVerbTabItems
 import com.devapps.justspeak_20.ui.components.nounTabItems
+import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.ui.theme.grau
 import com.devapps.justspeak_20.ui.viewmodels.ProgressViewModel
 import com.devapps.justspeak_20.utils.chichewaAlphabetData
@@ -136,27 +140,38 @@ fun ChichewaLanguageScreens(
                             .background(color = Color.White)
                             .width(150.dp)
                     ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            IconButton(onClick = {
-                                justSpeakMainNavController.navigate(ScreenDestinations.GermanNavigation.route)
+                        DropdownMenuItem(
+                            text = {
+                                    Text(
+                                        text = "Home",
+                                        color = Color.Black
+                                    )
                             },
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(35.dp))) {
-                                Icon(painter = painterResource(R.drawable.wappen), contentDescription = "German")
-                            }
-                            Spacer(
-                                modifier = Modifier
-                                    .width(5.dp)
-                            )
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Home,
+                                    contentDescription = null,
+                                    tint = AzureBlue
+                                )
+                            },
+                            onClick = {
+                                justSpeakMainNavController.navigate(ScreenDestinations.Start.route)
+                            },
+                            modifier = Modifier
+                                .background(color = Color.White)
+                        )
                             DropdownMenuItem(
                                 text = {
                                     Text(
                                         text = "German",
                                         color = Color.Black
+                                    )
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Translate,
+                                        contentDescription = null,
+                                        tint = AzureBlue
                                     )
                                 },
                                 onClick = {
@@ -166,7 +181,6 @@ fun ChichewaLanguageScreens(
                                     .background(color = Color.White)
                             )
                         }
-                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.White
@@ -309,6 +323,11 @@ fun ChichewaMainNavigation() {
             context,
             oneTapClient = Identity.getSignInClient(context)
         )
+    }
+
+    BackHandler {
+        // Always navigate back to the landing screen
+        chichewaScreensNavController.popBackStack(ScreenDestinations.ChichewaHomeScreen.route, false)
     }
 
     NavHost(chichewaScreensNavController, startDestination = ScreenDestinations.ChichewaHomeScreen.route) {

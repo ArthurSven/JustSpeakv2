@@ -3,6 +3,7 @@ package com.devapps.justspeak_20.ui.Screens.languages.german
 import android.graphics.Bitmap
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -45,7 +46,9 @@ import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material.icons.filled.Speaker
 import androidx.compose.material.icons.filled.Terrain
 import androidx.compose.material.icons.filled.Watch
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Logout
+import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.BottomSheetDefaults
@@ -158,27 +161,38 @@ fun GermanLanguageScreens(
                             .background(color = Color.White)
                             .width(150.dp)
                     ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            IconButton(onClick = {
-                                justSpeakMainNavController.navigate(ScreenDestinations.ChichewaNavigation.route)
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    text = "Home",
+                                    color = Color.Black
+                                )
                             },
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(35.dp))) {
-                                Icon(painter = painterResource(R.drawable.nyasaflag), contentDescription = "Chichewa")
-                            }
-                            Spacer(
-                                modifier = Modifier
-                                    .width(5.dp)
-                            )
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Home,
+                                    contentDescription = null,
+                                    tint = AzureBlue
+                                )
+                            },
+                            onClick = {
+                                justSpeakMainNavController.navigate(ScreenDestinations.Start.route)
+                            },
+                            modifier = Modifier
+                                .background(color = Color.White)
+                        )
                             DropdownMenuItem(
                                 text = {
                                     Text(
                                         text = "Chichewa",
                                         color = Color.Black
+                                    )
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Translate,
+                                        contentDescription = null,
+                                        tint = AzureBlue
                                     )
                                 },
                                 onClick = {
@@ -187,7 +201,7 @@ fun GermanLanguageScreens(
                                 modifier = Modifier
                                     .background(color = Color.White)
                             )
-                        }
+
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -345,6 +359,11 @@ fun GermanMainNavigation() {
             textToSpeech.stop()
             textToSpeech.shutdown()
         }
+    }
+
+    BackHandler {
+        // Always navigate back to the landing screen
+        germanScreensNavController.popBackStack(ScreenDestinations.GermanHomeScreen.route, false)
     }
 
     NavHost(germanScreensNavController, startDestination = ScreenDestinations.GermanHomeScreen.route) {

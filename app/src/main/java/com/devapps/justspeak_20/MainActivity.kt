@@ -1,6 +1,8 @@
 package com.devapps.justspeak_20
 
 import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -17,9 +19,11 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,6 +43,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -55,6 +60,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -89,9 +95,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         Handler(Looper.getMainLooper()).postDelayed({
-           // enableEdgeToEdge()
-            setTheme(R.style.Theme_JustSpeak_20)
+            // enableEdgeToEdge()
+           // setTheme(R.style.Theme_JustSpeak_20)
             setContent {
+
+                val context = LocalContext.current
+                val coroutineScope = rememberCoroutineScope()
+                val eulaAcceptedState = remember { mutableStateOf(false) }
+                val showEulaDialog = remember { mutableStateOf(false) }
+
+                
                 JustSpeak_20Theme {
                     JustSpeakMainNavigation()
                 }
@@ -117,9 +130,9 @@ fun JustSpeakMainNavigation() {
 
     val justSpeakMainNavController = rememberNavController()
     NavHost(navController = justSpeakMainNavController, startDestination = ScreenDestinations.Check.route) {
-        composable(ScreenDestinations.SplashScreen.route) {
-            SplashScreen(justSpeakMainNavController)
-        }
+//        composable(ScreenDestinations.SplashScreen.route) {
+//            SplashScreen(justSpeakMainNavController)
+//        }
         composable(ScreenDestinations.Check.route) {
             LaunchedEffect(key1 = Unit) {
                 if(googleClientAuth.getSignedInUser() != null) {
@@ -232,6 +245,8 @@ fun GetStartedScreen(justSpeakMainNavController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     val authViewModel: AuthViewModel = hiltViewModel()
     val state by authViewModel.state.collectAsStateWithLifecycle()
+    val privacyPolicyUrl = "https://www.termsfeed.com/live/2399f9f1-bdaf-45dd-9a08-d31bfad531f3"
+
 
     val googleClientAuth by lazy {
         GoogleClientAuth(
@@ -298,7 +313,10 @@ fun GetStartedScreen(justSpeakMainNavController: NavController) {
                         }
                     }
                 )
-
+                Spacer(
+                    modifier = Modifier
+                        .height(20.dp)
+                )
                 Button(
                     onClick = {
                         coroutineScope.launch {
@@ -320,6 +338,36 @@ fun GetStartedScreen(justSpeakMainNavController: NavController) {
                 ) {
                     Text(text = "Get Started",
                         fontSize = 20.sp)
+                }
+                Spacer(modifier = Modifier
+                    .height(10.dp)
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "By signing in you are agreeing to our ",
+                        fontSize = 14.sp,
+                        color = Color.DarkGray
+                    )
+                    TextButton(
+                        onClick = {
+                            // Open the privacy policy URL in a web view
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(privacyPolicyUrl))
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            context.startActivity(intent)
+                        }
+                    ) {
+                        Text(
+                            text = "Privacy Policy",
+                            fontSize = 14.sp,
+                            color = AzureBlue,
+                            fontWeight = FontWeight.Bold,
+                            textDecoration = TextDecoration.Underline
+                        )
+                    }
                 }
             }
         }
@@ -356,6 +404,6 @@ fun GetStartedScreen(justSpeakMainNavController: NavController) {
 fun GreetingPreview() {
     JustSpeak_20Theme {
         val justSpeakMainNavController = rememberNavController()
-        SplashScreen(justSpeakMainNavController)
+        GetStartedScreen(justSpeakMainNavController)
     }
 }

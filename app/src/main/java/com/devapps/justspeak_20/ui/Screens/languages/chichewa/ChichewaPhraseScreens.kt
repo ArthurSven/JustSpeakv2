@@ -213,7 +213,7 @@ fun ChichewaGastronomy() {
             when (page) {
                 0 -> ChichewaGastronomyHome()
                 1 -> ChichewaShopping()
-                2 -> GermanGastronomyQuiz()
+                2 -> ChichewaGastronomyQuiz()
             }
         }
     }

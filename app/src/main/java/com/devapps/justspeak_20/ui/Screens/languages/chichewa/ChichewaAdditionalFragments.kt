@@ -83,7 +83,7 @@ fun ChichewaAdjectiveHome() {
             ) {
                 Text(
                     text = "Adjectives are used to describe nouns. In chichewa some adjectives can" +
-                            "be added as a suffix Below is a list of adjectives commonly used in chichewa:",
+                            " be added as a suffix Below is a list of adjectives commonly used in chichewa:",
                     color = Color.Black,
                     fontSize = 14.sp,
 

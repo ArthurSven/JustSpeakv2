@@ -142,6 +142,22 @@
           }
         },
         {
+          "client_id": "562297810018-ejdo5o3ut9dp7ilkbif3j1hf22517eq2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.devapps.justspeak_20",
+            "certificate_hash": "e826fcf9b957e03b0a2207007293552e221a9fa0"
+          }
+        },
+        {
+          "client_id": "562297810018-qa7kkivb4dhlc2i1hsb7qvu2o816137e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.devapps.justspeak_20",
+            "certificate_hash": "e9207a8364349ddb05d2735aa016b8d97bc67861"
+          }
+        },
+        {
           "client_id": "562297810018-9krq3lnb70a6kr1l6laigojvh9i5ajrn.apps.googleusercontent.com",
           "client_type": 3
         }
