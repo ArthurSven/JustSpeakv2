@@ -55,7 +55,9 @@ import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material.icons.filled.Speaker
 import androidx.compose.material.icons.filled.Terrain
 import androidx.compose.material.icons.filled.Watch
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Logout
+import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Button
@@ -166,57 +168,59 @@ fun FlashcardScreens(
                             modifier = Modifier
                                 .fillMaxWidth()
                         ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                IconButton(onClick = {
-                                    justSpeakMainNavController.navigate(ScreenDestinations.ChichewaNavigation.route)
-                                },
-                                    modifier = Modifier
-                                        .clip(RoundedCornerShape(35.dp))) {
-                                    Icon(painter = painterResource(R.drawable.wappen), contentDescription = "Chichewa")
-                                }
-                                Spacer(
-                                    modifier = Modifier
-                                        .width(5.dp)
-                                )
+
                                 DropdownMenuItem(
                                     text = {
                                         Text(
-                                            text = "Chichewa",
+                                            text = "Home",
                                             color = Color.Black
                                         )
                                     },
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.Outlined.Home,
+                                            contentDescription = null,
+                                            tint = AzureBlue
+                                        )
+                                    },
                                     onClick = {
-                                        justSpeakMainNavController.navigate(ScreenDestinations.ChichewaNavigation.route)
+                                        justSpeakMainNavController.navigate(ScreenDestinations.Start.route)
                                     },
                                     modifier = Modifier
                                         .background(color = Color.White)
                                 )
-                            }
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                IconButton(onClick = {
-                                    justSpeakMainNavController.navigate(ScreenDestinations.GermanNavigation.route)
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        text = "Chichewa",
+                                        color = Color.Black
+                                    )
                                 },
-                                    modifier = Modifier
-                                        .clip(RoundedCornerShape(35.dp))) {
-                                    Icon(painter = painterResource(R.drawable.wappen), contentDescription = "German")
-                                }
-                                Spacer(
-                                    modifier = Modifier
-                                        .width(5.dp)
-                                )
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Translate,
+                                        contentDescription = null,
+                                        tint = AzureBlue
+                                    )
+                                },
+                                onClick = {
+                                    justSpeakMainNavController.navigate(ScreenDestinations.ChichewaNavigation.route)
+                                },
+                                modifier = Modifier
+                                    .background(color = Color.White)
+                            )
                                 DropdownMenuItem(
                                     text = {
                                         Text(
                                             text = "German",
                                             color = Color.Black
+                                        )
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.Outlined.Translate,
+                                            contentDescription = null,
+                                            tint = AzureBlue
                                         )
                                     },
                                     onClick = {
@@ -225,7 +229,6 @@ fun FlashcardScreens(
                                     modifier = Modifier
                                         .background(color = Color.White)
                                 )
-                            }
                         }
                     }
                 },

@@ -196,6 +196,7 @@ fun MainScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(Color.White)
                     .padding(top = 5.dp, start = 10.dp, end = 10.dp)
                     .verticalScroll(rememberScrollState())
             ) {
