@@ -633,3 +633,40 @@ fun germanTimeQuestions() : List<Question> {
         )
     )
 }
+
+fun germanNumberQuizQuestions() : List<Question> {
+    return listOf(
+        Question(
+            "1",
+            "What is 20 + 50",
+            listOf(
+                "Siebzig", "Sechzig", "Achtzig"
+            ),
+            "Siebzig"
+        ),
+        Question(
+            "2",
+            "What's the German number for 141",
+            listOf(
+                "Einhundertvierzigundein", "Einhunderteinundzwanzig", "Einhunderteinundvierzig"
+            ),
+            "Einhunderteinundvierzig"
+        ),
+        Question(
+            "3",
+            "Fill in the missing number (20, ..., 80)",
+            listOf(
+                "Viersig", "Fourzig", "Vierzig"
+            ),
+            "Vierzig"
+        ),
+        Question(
+            "4",
+            "What is 61 - 5",
+            listOf(
+                "Sechsundfünfzig", "Fünfzigundsechs", "Fünfundsechzig"
+            ),
+            "Sechsundfünfzig"
+        )
+    )
+}

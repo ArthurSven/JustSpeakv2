@@ -84,8 +84,13 @@ interface ScreenDestinations {
         override val route = "german_case_screen"
     }
 
+
     object GermanNounScreen : ScreenDestination {
         override val route = "german_noun_screen"
+    }
+
+    object GermanNumberScreen : ScreenDestination {
+        override val route = "german_number_screen"
     }
 
     object GermanPronounScreen : ScreenDestination {

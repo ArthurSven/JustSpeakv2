@@ -39,6 +39,7 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.LockClock
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Numbers
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.QuestionMark
@@ -59,6 +60,7 @@ import androidx.compose.material.icons.outlined.FrontHand
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.LockClock
+import androidx.compose.material.icons.outlined.Numbers
 import androidx.compose.material.icons.outlined.People
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.QuestionMark
@@ -705,6 +707,44 @@ val nounTabItems = listOf(
         title = "Body",
         Icons.Outlined.AccountCircle,
         Icons.Filled.AccountCircle
+    ),
+    TabItem(
+        title = "Quiz",
+        Icons.Outlined.Quiz,
+        Icons.Filled.Quiz
+    )
+)
+
+val germanNumberTabItem = listOf(
+    TabItem(
+        title = "Home",
+        Icons.Outlined.Home,
+        Icons.Filled.Home
+    ),
+    TabItem(
+        title = "11 - 20",
+        Icons.Outlined.Numbers,
+        Icons.Filled.Numbers
+    ),
+    TabItem(
+        title = "21-29",
+        Icons.Outlined.Numbers,
+        Icons.Filled.Numbers
+    ),
+    TabItem(
+        title = "30-90",
+        Icons.Outlined.Numbers,
+        Icons.Filled.Numbers
+    ),
+    TabItem(
+        title = "100-120",
+        Icons.Outlined.Numbers,
+        Icons.Filled.Numbers
+    ),
+    TabItem(
+        title = "121+",
+        Icons.Outlined.Numbers,
+        Icons.Filled.Numbers
     ),
     TabItem(
         title = "Quiz",

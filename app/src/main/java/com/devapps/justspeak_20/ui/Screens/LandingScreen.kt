@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.view.WindowManager
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -138,6 +139,11 @@ fun MainScreen(
                 )
             )
         }
+    }
+
+    BackHandler {
+        // Always navigate back to the landing screen
+        userMainController.popBackStack(ScreenDestinations.Start.route, false)
     }
 
     val currentTip = languageDailyTips()[randomTipIndex]

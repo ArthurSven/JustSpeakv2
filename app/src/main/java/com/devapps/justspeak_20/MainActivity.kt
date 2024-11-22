@@ -10,6 +10,7 @@ import android.view.animation.OvershootInterpolator
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -247,7 +248,10 @@ fun GetStartedScreen(justSpeakMainNavController: NavController) {
     val state by authViewModel.state.collectAsStateWithLifecycle()
     val privacyPolicyUrl = "https://www.termsfeed.com/live/2399f9f1-bdaf-45dd-9a08-d31bfad531f3"
 
-
+    BackHandler {
+        // Always navigate back to the landing screen
+        justSpeakMainNavController.popBackStack(ScreenDestinations.Signup.route, false)
+    }
     val googleClientAuth by lazy {
         GoogleClientAuth(
             context,

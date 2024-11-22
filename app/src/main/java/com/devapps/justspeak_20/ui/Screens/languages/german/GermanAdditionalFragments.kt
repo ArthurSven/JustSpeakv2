@@ -68,6 +68,13 @@ import com.devapps.justspeak_20.utils.germanDativePrepositions
 import com.devapps.justspeak_20.utils.germanFoodNouns
 import com.devapps.justspeak_20.utils.germanGenitivePrepositions
 import com.devapps.justspeak_20.utils.germanNounQuizQuestions
+import com.devapps.justspeak_20.utils.germanNumberQuizQuestions
+import com.devapps.justspeak_20.utils.germanNumbers30To90
+import com.devapps.justspeak_20.utils.germanNumbersTo10
+import com.devapps.justspeak_20.utils.germanNumbersTo120
+import com.devapps.justspeak_20.utils.germanNumbersTo129
+import com.devapps.justspeak_20.utils.germanNumbersTo20
+import com.devapps.justspeak_20.utils.germanNumbersTo29
 import com.devapps.justspeak_20.utils.germanPeopleNouns
 import com.devapps.justspeak_20.utils.germanPrepositionQuestions
 import com.devapps.justspeak_20.utils.germanPronounQuestions
@@ -751,6 +758,171 @@ fun GermanNounQuiz() {
 
                 Text(
                     text = "Noun Quiz",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    color = Color.Black
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                score?.let {
+
+                    if (it == germanCaseQuestions.size) {
+                        Text(
+                            text = "Your Score: $it/${germanCaseQuestions.size}",
+                            color = Color.Magenta,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    } else if (it != germanCaseQuestions.size) {
+                        Text(
+                            text = "Your Score: $it/${germanCaseQuestions.size}",
+                            fontSize = 18.sp,
+                            color = Color.Red,
+                            fontWeight = FontWeight.Bold
+
+                        )
+                    }
+                }
+                // LazyColumn to display questions
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(400.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+                ) {
+
+                    items(germanCaseQuestions.size) { j ->
+                        val adjectiveQuizList = germanCaseQuestions[j]
+                        // Display the current question
+                        Text(
+                            text = "${adjectiveQuizList.number} ${adjectiveQuizList.question}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp,
+                            color = Color.Black
+                        )
+
+                        // Display the options as radio buttons
+                        adjectiveQuizList.options.forEach { option ->
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 4.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                RadioButton(
+                                    selected = selectedOptions[j] == option,
+                                    onClick = {
+                                        selectedOptions[j] = option
+                                        // Reset score and showCorrectAnswers state when an option is changed
+                                        score = null
+                                        showCorrectAnswers = false
+                                    },
+                                    colors = RadioButtonDefaults.colors(
+                                        selectedColor = Color.Black,
+                                        unselectedColor = Color.Gray
+                                    )
+                                )
+                                Text(text = option,
+                                    color = Color.Black,
+                                    fontSize = 14.sp
+                                )
+                            }
+                        }
+                        if (showCorrectAnswers && selectedOptions[j] != adjectiveQuizList.correctAnswer) {
+                            Text(
+                                text = "Correct Answer: ${adjectiveQuizList.correctAnswer}",
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(vertical = 4.dp),
+                                color = Color.Red,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
+                // Submit Button
+                Button(
+                    onClick = {
+                        var tempScore = 0
+                        for (i in germanCaseQuestions.indices) {
+                            if (selectedOptions[i] == germanCaseQuestions[i].correctAnswer) {
+                                tempScore++
+                            }
+                        }
+                        score = tempScore
+                        showCorrectAnswers = true
+                    },
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = AzureBlue,
+                        contentColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(0.dp)
+                ) {
+                    Text(text = "Submit",
+                        color = Color.White
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanNumberQuiz() {
+
+    val germanCaseQuestions = germanNumberQuizQuestions()
+
+    // Maintain selection state for each question
+    val selectedOptions = remember { mutableStateListOf<String?>() }
+    var score by remember { mutableStateOf<Int?>(null) }
+    var showCorrectAnswers by remember { mutableStateOf(false) }
+
+    // Initialize the selection state with null values
+    if (selectedOptions.size != germanCaseQuestions.size) {
+        selectedOptions.clear()
+        selectedOptions.addAll(List(germanCaseQuestions.size) { null })
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+
+                Text(
+                    text = "Number Quiz",
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
                     color = Color.Black
@@ -3093,6 +3265,308 @@ fun GermanVerbQuiz() {
     }
 }
 
+@Composable
+fun GermanNumberHome(textToSpeech: TextToSpeech) {
+
+    val germanNumbers1to10 = germanNumbersTo10()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(10.dp)
+        )
+
+        Text(text = "Numbers - Zahlen",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Numbers are an essential part of a language. They express quantities of " +
+                            "things such as age, items and so on. Numbers in German may differ from " +
+                            "english numbers in terms of order. Below is a list of numbers from 1 to" +
+                            " 10: ",
+                    color = Color.Black,
+                    fontSize = 14.sp
+                )
+
+            }
+
+        }
+        Spacer(modifier = Modifier
+            .height(20.dp)
+        )
+
+        Text(text = "1 - 10",
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        LazyColumn(
+            modifier = Modifier
+                .height(300.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            items(germanNumbers1to10.entries.toList()) { entry ->
+                TranslatableItem(entry.key ,entry.value,textToSpeech)
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanNumber11To20(textToSpeech: TextToSpeech) {
+
+    val germanNumbers11to20 = germanNumbersTo20()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Spacer(modifier = Modifier
+            .height(20.dp)
+        )
+
+        Text(text = "11 - 20",
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        LazyColumn(
+            modifier = Modifier,
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            items(germanNumbers11to20.entries.toList()) { entry ->
+                TranslatableItem(entry.key ,entry.value,textToSpeech)
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanNumbers21To29(textToSpeech: TextToSpeech) {
+
+    val germanNumbers21to29 = germanNumbersTo29()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "From 21 all the way to 99, German numbers have a format from " +
+                            "pronunciation. The last number is mentioned first and then the first " +
+                            "number. So unit first and then tens e.g. 21 would be Einundzwanzig. This" +
+                            " literally would be one and twenty. Below are numbers from 21 to 29",
+                    color = Color.Black,
+                    fontSize = 14.sp
+                )
+
+            }
+
+        }
+        Spacer(modifier = Modifier
+            .height(20.dp)
+        )
+
+        Text(text = "21 - 29",
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        LazyColumn(
+            modifier = Modifier
+                .height(300.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            items(germanNumbers21to29.entries.toList()) { entry ->
+                TranslatableItem(entry.key ,entry.value,textToSpeech)
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanNumbers30To90(textToSpeech: TextToSpeech) {
+
+    val germanNumbers30To90 = germanNumbers30To90()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        Text(text = "30 - 90",
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        LazyColumn(
+            modifier = Modifier
+            ,
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            items(germanNumbers30To90.entries.toList()) { entry ->
+                TranslatableItem(entry.key ,entry.value,textToSpeech)
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanNumbers100To120(textToSpeech: TextToSpeech) {
+
+    val germanNumbers100To120 = germanNumbersTo120()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        Text(text = "100 - 120",
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        LazyColumn(
+            modifier = Modifier,
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            items(germanNumbers100To120.entries.toList()) { entry ->
+                TranslatableItem(entry.key ,entry.value,textToSpeech)
+            }
+        }
+    }
+}
+
+@Composable
+fun GermanNumbers121Plus(textToSpeech: TextToSpeech) {
+
+    val germanNumbers121Plus = germanNumbersTo129()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 15.dp
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "From 121 and above, the format of how numbers are mentioned changes, it" +
+                            " starts with the hundred, then unit and finally tens e.g. 121 is" +
+                            "Einhunderteinundzwanzig. Literal would be one hundred, one and twenty. " +
+                            "This doesn't apply to numbers like 130 and so on. ",
+                    color = Color.Black,
+                    fontSize = 14.sp
+                )
+
+            }
+
+        }
+        Spacer(modifier = Modifier
+            .height(20.dp)
+        )
+
+        Text(text = "121+",
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier
+            .height(10.dp)
+        )
+        LazyColumn(
+            modifier = Modifier
+                .height(300.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            items(germanNumbers121Plus.entries.toList()) { entry ->
+                TranslatableItem(entry.key ,entry.value,textToSpeech)
+            }
+        }
+    }
+}
 @Composable
 @Preview(showBackground = true)
 fun CheckFragments() {

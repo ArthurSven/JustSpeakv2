@@ -149,6 +149,103 @@ fun germanBodyPartNouns(): Map<String, String> {
     )
 }
 
+fun germanNumbersTo10() : Map<String, String> {
+    return mapOf(
+        "eins" to "one",
+        "zwei" to "two",
+        "drei" to "three",
+        "vier" to "four",
+        "fünf" to "five",
+        "sechs" to "six",
+        "sieben" to "seven",
+        "acht" to "eight",
+        "neun" to "nine",
+        "zehn" to "ten"
+    )
+}
+
+fun germanNumbersTo20() : Map<String, String> {
+    return mapOf(
+        "elf" to "eleven",
+        "zwölf" to "twelve",
+        "dreizehn" to "thirteen",
+        "vierzehn" to "fourteen",
+        "fünfzehn" to "fifteen",
+        "sechzehn" to "sixteen",
+        "siebzehn" to "seventeen",
+        "achtzehn" to "eighteen",
+        "neunzehn" to "nineteen",
+        "zwanzig" to "twenty"
+    )
+}
+
+fun germanNumbersTo29() : Map<String, String> {
+    return mapOf(
+        "einundzwanzig" to "twenty-one",
+        "zweiundzwanzig" to "twenty-two",
+        "dreiundzwanzig" to "twenty-three",
+        "vierundzwanzig" to "twenty-four",
+        "fünfundzwanzig" to "twenty-five",
+        "sechsundzwanzig" to "twenty-six",
+        "siebenundzwanzig" to "twenty-seven",
+        "achtundzwanzig" to "twenty-eight",
+        "neunundzwanzig" to "twenty-nine"
+    )
+}
+
+fun germanNumbersTo129(): Map<String, String> {
+    return mapOf(
+        "einhunderteinundzwanzig" to "121",
+        "einhundertzweiundzwanzig" to "122",
+        "einhundertdreiundzwanzig" to "123",
+        "einhundertvierundzwanzig" to "124",
+        "einhundertfünfundzwanzig" to "125",
+        "einhundertsechsundzwanzig" to "126",
+        "einhundertsiebenundzwanzig" to "127",
+        "einhundertachtundzwanzig" to "128",
+        "einhundertneunundzwanzig" to "129"
+    )
+}
+
+
+fun germanNumbers30To90() : Map<String, String> {
+    return mapOf(
+        "dreißig" to "thirty",
+        "vierzig" to "forty",
+        "fünfzig" to "fifty",
+        "sechzig" to "sixty",
+        "siebzig" to "seventy",
+        "achtzig" to "eighty",
+        "neunzig" to "ninety"
+    )
+}
+
+fun germanNumbersTo120(): Map<String, String> {
+    return mapOf(
+        "einhundert" to "100",
+        "einhunderteins" to "101",
+        "einhundertzwei" to "102",
+        "einhundertdrei" to "103",
+        "einhundertvier" to "104",
+        "einhundertfünf" to "105",
+        "einhundertsechs" to "106",
+        "einhundertsieben" to "107",
+        "einhundertacht" to "108",
+        "einhundertneun" to "109",
+        "einhundertzehn" to "110",
+        "einhundertelf" to "111",
+        "einhundertzwölf" to "112",
+        "einhundertdreizehn" to "113",
+        "einhundertvierzehn" to "114",
+        "einhundertfünfzehn" to "115",
+        "einhundertsechzehn" to "116",
+        "einhundertsiebzehn" to "117",
+        "einhundertachtzehn" to "118",
+        "einhundertneunzehn" to "119",
+        "einhundertzwanzig" to "120"
+    )
+}
+
 @Composable
 fun germanAccusativePrepositions(): Map<String, String> {
     return mapOf(

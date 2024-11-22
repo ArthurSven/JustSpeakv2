@@ -41,6 +41,7 @@ import androidx.compose.material.icons.filled.Fastfood
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Height
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Numbers
 import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material.icons.filled.Speaker
@@ -114,6 +115,7 @@ import com.devapps.justspeak_20.ui.components.TopicCard
 import com.devapps.justspeak_20.ui.components.TopicItem
 import com.devapps.justspeak_20.ui.components.TranslatableItem
 import com.devapps.justspeak_20.ui.components.caseTabItems
+import com.devapps.justspeak_20.ui.components.germanNumberTabItem
 import com.devapps.justspeak_20.ui.components.nounTabItems
 import com.devapps.justspeak_20.ui.components.prepositionTabItems
 import com.devapps.justspeak_20.ui.components.pronounTabItems
@@ -389,6 +391,9 @@ fun GermanMainNavigation() {
         composable(ScreenDestinations.GermanNounScreen.route) {
             GermanNouns()
         }
+        composable(ScreenDestinations.GermanNumberScreen.route) {
+            GermanNumbers()
+        }
         composable(ScreenDestinations.GermanPrepositionScreen.route) {
             GermanPrepositions()
         }
@@ -436,6 +441,11 @@ fun GermanLandingScreen(
         mutableStateOf(0)
     }
 
+    BackHandler {
+        // Always navigate back to the landing screen
+        germanScreensNavController.popBackStack(ScreenDestinations.GermanHomeScreen.route, false)
+    }
+
     val topics = listOf(
         "German Alphabet",
         "Adjectives",
@@ -475,6 +485,12 @@ fun GermanLandingScreen(
             Icons.Filled.Badge,
             0.0F,
             ScreenDestinations.GermanNounScreen.route
+        ),
+        TopicItem(
+            "Numbers",
+            Icons.Filled.Numbers,
+            0.0F,
+            ScreenDestinations.GermanNumberScreen.route
         ),
         TopicItem(
             "Prepositions",
@@ -1323,6 +1339,95 @@ fun GermanNouns() {
                 2 -> GermanFoodNouns(textToSpeech)
                 3 -> GermanBodyNouns(textToSpeech)
                 4 -> GermanNounQuiz()
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun GermanNumbers() {
+    val context = LocalContext.current
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
+
+    val pagerState = rememberPagerState {
+        germanNumberTabItem.size
+    }
+
+    val textToSpeech = remember {
+        var tts: TextToSpeech? = null
+        tts = TextToSpeech(context) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                val result = tts?.setLanguage(Locale.GERMAN)
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Log.e("TTS", "German language not supported")
+                }
+            } else {
+                Log.e("TTS", "Initialization failed")
+            }
+        }
+        tts
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            textToSpeech.stop()
+            textToSpeech.shutdown()
+        }
+    }
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+    LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
+        if(!pagerState.isScrollInProgress) {
+            selectedTabIndex = pagerState.currentPage
+        }
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()) {
+        ScrollableTabRow(
+            selectedTabIndex = selectedTabIndex,
+            containerColor = Color.White,
+            edgePadding = 0.dp
+        ) {
+            germanNumberTabItem.fastForEachIndexed { index, item ->
+                Tab(
+                    selected = index == selectedTabIndex,
+                    onClick = {
+                        selectedTabIndex = index
+                    },
+                    text = {
+                        Text(text = item.title)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (index == selectedTabIndex) {
+                                item.selectedIcon
+                            } else item.unselectedIcon, contentDescription = item.title
+                        )
+                    }
+                )
+            }
+        }
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) { page ->
+            when(page) {
+                0 -> GermanNumberHome(textToSpeech)
+                1 -> GermanNumber11To20(textToSpeech)
+                2 -> GermanNumbers21To29(textToSpeech)
+                3 -> GermanNumbers30To90(textToSpeech)
+                4 -> GermanNumbers100To120(textToSpeech)
+                5 -> GermanNumbers121Plus(textToSpeech)
+                6 -> GermanNumberQuiz()
             }
         }
     }
