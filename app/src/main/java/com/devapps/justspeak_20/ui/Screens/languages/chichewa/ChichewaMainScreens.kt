@@ -245,7 +245,7 @@ fun ChichewaLanguageScreens(
                     } else {
                         Image(
                             painter = painterResource(R.drawable.no_profile),
-                            contentDescription = "Arthur's profile picture",
+                            contentDescription = null,
                             modifier = Modifier
                                 .size(50.dp)
                                 .clip(CircleShape)

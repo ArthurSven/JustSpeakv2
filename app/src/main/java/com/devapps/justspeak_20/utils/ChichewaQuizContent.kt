@@ -58,7 +58,7 @@ fun chichewaNounQuizQuestions() : List<Question> {
         ),
         Question(
             "2",
-            "What's th translation for Phazi?",
+            "What's the english translation for Phazi?",
             listOf(
                 "Leg", "Foot", "Toe"
             ),

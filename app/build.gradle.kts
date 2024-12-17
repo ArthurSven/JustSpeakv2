@@ -24,7 +24,7 @@ android {
         applicationId = "com.devapps.justspeak_20"
         minSdk = 29
         targetSdk = 34
-        versionCode = 1
+        versionCode = 7
         versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

@@ -372,6 +372,9 @@ fun MainScreen(
                         }
                     }
                 }
+                Spacer(modifier = Modifier
+                    .height(50.dp)
+                )
             }
         }
 

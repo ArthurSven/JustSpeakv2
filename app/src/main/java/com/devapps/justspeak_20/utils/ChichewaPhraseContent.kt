@@ -3,14 +3,14 @@ package com.devapps.justspeak_20.utils
 fun getChichewaGreetings(): Map<String, String> {
     return mapOf(
         "Bho!" to "Hey!",
-        "Wadzuka bwanji?" to "How are you? (morning)",
+        "Wadzuka bwanji?" to "How are you? (morning) - informal",
         "Mwadzuka bwanji?" to "How are you? (morning) - formal",
         "Ndadzuka bwino" to "I am doing fine (morning)",
         "Tadzuka bwino" to "We are doing fine (morning)",
         "Uli bwanji" to "How are you? (midday)",
         "Muli bwanji" to "How are you? (midday) - formal",
-        "Ndilibwino" to "I am doing fine (midday)",
-        "Tilibwino" to "We are doing fine (midday)",
+        "Ndili bwino" to "I am doing fine (midday)",
+        "Tili bwino" to "We are doing fine (midday)",
         "Waswera bwanji?" to "How are you? (evening)",
         "Mwaswera bwanji?" to "How are you? (evening) - formal",
         "Ndaswera bwino" to "I am doing good (evening)",
@@ -46,7 +46,7 @@ fun getChichewaExpressionList(): Map<String, String> {
         "Mwina" to "Maybe",
         "Zikomo" to "Thank you",
         "Ndathokoza" to "Thank you",
-        "Mumanena bwanji ... mchizungu?" to "How do you say... in Chichewa?",
+        "Mumanena bwanji ... m'chichewa?" to "How do you say... in Chichewa?",
         "Ichi ndi chan?" to "What is this?",
         "Icho ndi chan?" to "What is that?",
         "Lankhulani pang'ono pang'ono, chonde" to "Speak slowly, please",
@@ -54,7 +54,8 @@ fun getChichewaExpressionList(): Map<String, String> {
         "Chonde" to "Please",
         "Ndimamva chichewa pangóno" to "I understand little Chichewa",
         "Ndamva" to "I understand",
-        "Sindinamvesese" to "I do not understand",
+        "Sindinamvetsetse" to "I did not understand clearly",
+        "Sindikumva" to "I do not understand",
         "Zonse zilibwino" to "Everything's fine",
         "Bwela kuno" to "Come here",
         "Choka" to "Get out!"
@@ -102,9 +103,9 @@ fun getChichewaDiningPhrases(): Map<String, String> {
         "Zilibwino?" to "Is everything good?",
         "Onjezelani" to "Add more",
         "Chiliponso china ngati?" to "Anything else?",
-        "Ndufuna ndilipile" to "I would like to pay",
-        "Ndilipila ndi card" to "I will pay with a card",
-        "Ndilipila ndi cash" to "I will pay with cash",
+        "Ndikufuna ndilipile" to "I would like to pay",
+        "Ndilipila ndi kadi" to "I will pay with a card",
+        "Ndilipila ndi kashi" to "I will pay with cash",
         "Mundibwelesele billu" to "Bring me the bill"
     )
 }
@@ -198,21 +199,6 @@ fun getChichewaDays(): Map<String, String> {
         "Lamulungu" to "Sunday"
     )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 fun getChichewaIntroductionPhrases(): Map<String, String> {
     return mapOf(

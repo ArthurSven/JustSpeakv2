@@ -23,6 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.devapps.justspeak_20.ui.Screens.languages.chichewa.chichewa_utility.ChichewaAdjectiveCard
+import com.devapps.justspeak_20.ui.Screens.languages.chichewa.chichewa_utility.getChichewaAdjectives
 import com.devapps.justspeak_20.ui.components.ChichewaAlphabetCard
 import com.devapps.justspeak_20.ui.components.ChichewaTranslatableItem
 import com.devapps.justspeak_20.ui.components.ChichewaVerbTranslatableItem
@@ -46,7 +48,7 @@ import com.devapps.justspeak_20.utils.getGermanPlaceNouns
 @Composable
 fun ChichewaAdjectiveHome() {
 
-    val adjectives = chichewaToEnglishAdjectives()
+    val adjectives = getChichewaAdjectives()
 
     Column(
         modifier = Modifier
@@ -82,22 +84,27 @@ fun ChichewaAdjectiveHome() {
                     .padding(16.dp)
             ) {
                 Text(
-                    text = "Adjectives are used to describe nouns. In chichewa some adjectives can" +
-                            " be added as a suffix Below is a list of adjectives commonly used in chichewa:",
+                    text = "Adjectives are used to describe nouns. The adjective always follows the " +
+                            "noun that it is describing. In Chichewa, adjectives are formed by " +
+                            "adding a prefix to an adjectival stem. The prefix changes according to " +
+                            "the class of the noun it is describing. Below is a list of adjectives " +
+                            "commonly used in Chichewa:",
                     color = Color.Black,
-                    fontSize = 14.sp,
-
+                    fontSize = 14.sp
                     )
             }
 
         }
 
         Spacer(modifier = Modifier
-            .height(15.dp)
+            .height(30.dp)
         )
-        LazyColumn {
-            items(adjectives.entries.toList()) { entry ->
-                ChichewaTranslatableItem(entry.key, entry.value)
+        LazyColumn(
+            modifier = Modifier
+                .height(350.dp)
+        ) {
+            items(adjectives) { adjective ->
+                ChichewaAdjectiveCard(adjective)
             }
         }
     }
@@ -143,12 +150,7 @@ fun ChichewaNounHome() {
                     .padding(16.dp)
             ) {
                 Text(
-                    text = "Nouns are basically objects and things that we see and know. In German " +
-                            "nouns have genders which can get tricky for many english speakers as english " +
-                            "words do not have genders. It is important to learn each German noun with its" +
-                            " gender in oder to learn the genders easily. \n \nAnother tip is to capitalise nouns." +
-                            " In this chapter, you will learn about significant nouns as well as tips and " +
-                            "tricks to remembering some noun genders.",
+                    text = "Nouns are basically objects and things that we see, know and interact with. ",
                     color = Color.Black,
                     fontSize = 14.sp
                 )

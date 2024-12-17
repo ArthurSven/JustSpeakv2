@@ -20,11 +20,11 @@ fun chichewaAlphabetData(): Map<String, String> {
         "P" to "pee",
         "Q" to "kyu",
         "R" to "ala",
-        "S" to "ess",
+        "S" to "esi",
         "T" to "tee",
         "U" to "you",
         "V" to "vee",
-        "W" to "dab-yu",
+        "W" to "dabiliyu",
         "X" to "eks",
         "Y" to "wayi",
         "Z" to "zedi"
@@ -91,7 +91,7 @@ fun chichewaPlaceNouns(): Map<String, String> {
         "Phiri" to "Mountain",
         "Tchire" to "Bush",
         "Nkhalango" to "Forest",
-        "Nsewu" to "Road",
+        "Msewu" to "Road",
         "Tchalitchi" to "Church",
         "Mzikiti" to "Mosque",
         "Chipatala" to "Hospital"
@@ -101,11 +101,11 @@ fun chichewaPlaceNouns(): Map<String, String> {
 fun chichewaFoodAndDrinkNouns(): Map<String, String> {
     return mapOf(
         "Chakudya" to "Food",
-        "Zokumwa" to "Drinks",
+        "Zokumwa/Zakumwa" to "Drinks",
         "Madzi" to "Water",
         "Nyama" to "Meat",
         "Masamba" to "Vegetables",
-        "Zipaso" to "Fruits",
+        "Zipatso" to "Fruits",
         "Nthochi" to "Bananas",
         "Nsomba" to "Fish",
         "Nkhuku" to "Chicken",
