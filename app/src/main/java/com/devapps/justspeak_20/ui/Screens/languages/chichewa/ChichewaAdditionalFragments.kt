@@ -433,7 +433,7 @@ fun ChichewaVerbHome() {
                     .padding(16.dp)
             ) {
                 Text(
-                    text = "Verbs are words hat describe the action being done by a subject of a " +
+                    text = "Verbs are words that describe the action being done by a subject of a " +
                             "sentence. Below is a list of commonly used verbs in Chichewa",
                     color = Color.Black,
                     fontSize = 14.sp

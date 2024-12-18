@@ -685,7 +685,7 @@ fun AddFlashcard(
                     onValueChange = {
                         germanFlashcard = it
                     },
-                    label = { Text(text = "German")},
+                    label = { Text(text = "Flashcard")},
                     colors = OutlinedTextFieldDefaults.colors(
                         unfocusedBorderColor = Color.DarkGray,
                         focusedBorderColor = AzureBlue,

@@ -95,7 +95,7 @@ fun GermanPhraseIntroHome(textToSpeech: TextToSpeech) {
             ) {
                 Text(
                     text = "In German culture, it is important to introduce yourself when you arrive" +
-                            "at a place where there's people. This section will take you through " +
+                            " at a place where there's people. This section will take you through " +
                             "introductions and greetings used in the German speaking world:",
                     fontSize = 14.sp,
                     color = Color.Black
@@ -1566,7 +1566,7 @@ fun GermanTimeHome(textToSpeech: TextToSpeech) {
                     .padding(16.dp)
             ) {
                 Text(
-                    text = "In the German speaking world, time is of essence. Time is taken very" +
+                    text = "In the German speaking world, time is of essence. Time is taken very " +
                             "seriously, that means try your best to be at least 5 minutes early. " +
                             "This section teaches you how to read and tell time in German:",
                     fontSize = 14.sp,

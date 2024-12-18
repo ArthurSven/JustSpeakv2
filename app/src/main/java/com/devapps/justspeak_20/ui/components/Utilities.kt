@@ -158,7 +158,7 @@ fun UserProfileBar(userData: UserData?) {
         } else {
             Image(
                 painter = painterResource(R.drawable.no_profile),
-                contentDescription = "Arthur's profile picture",
+                contentDescription = "profile picture",
                 modifier = Modifier
                     .size(50.dp)
                     .clip(CircleShape),
@@ -170,13 +170,13 @@ fun UserProfileBar(userData: UserData?) {
             )
             Column {
                 Text(
-                    text = "Arthur Msiska",
+                    text = "",
                     fontSize = 20.sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "arthursvenmsiska@gmail.com",
+                    text = "",
                     color = Color.Gray,
                     fontSize = 14.sp
                 )
