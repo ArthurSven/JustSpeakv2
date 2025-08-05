@@ -554,5 +554,5 @@ fun GermanTime() {
 @Composable
 @Preview(showBackground = true)
 fun ViewPhraseScreens() {
-    GermanIntroduction()
+
 }

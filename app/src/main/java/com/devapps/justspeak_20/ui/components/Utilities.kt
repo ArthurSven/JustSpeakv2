@@ -6,6 +6,7 @@ import android.speech.tts.TextToSpeech
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,6 +22,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -82,6 +86,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -110,11 +115,13 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.devapps.justspeak_20.R
 import com.devapps.justspeak_20.data.models.UserData
+import com.devapps.justspeak_20.data.models.languageDailyTips
 import com.devapps.justspeak_20.ui.theme.AzureBlue
 import com.devapps.justspeak_20.utils.GermanPronounList
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import kotlin.random.Random
 
 
 @Composable
@@ -198,8 +205,8 @@ fun displayGreeting() : String {
 }
 
 data class LanguageCardItem(
-    val nation: Int,
-    val sprache: String,
+    val rep: ImageVector,
+    val title: String,
     val itemRoute: String
 )
 
@@ -207,62 +214,44 @@ data class LanguageCardItem(
 fun LanguageCard(
     selected: Boolean,
     onClick: () -> Unit,
-    country: Int,
-    language: String
+    icon: ImageVector,
+    title: String
 ) {
         ElevatedCard(
             elevation = CardDefaults.cardElevation(
-                defaultElevation = 8.dp
+                defaultElevation = 10.dp
+            ),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = AzureBlue
             ),
             modifier = Modifier
-                .height(200.dp)
-                .width(320.dp)
+                .height(100.dp)
+                .fillMaxWidth()
                 .padding(end = 15.dp)
-        ) {
-            Box(modifier = Modifier
-                .fillMaxSize()
-            ) {
-                Image(
-                    painter = painterResource(country), contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .matchParentSize()
-                        .height(150.dp)
-                   //colorFilter = ColorFilter.tint(Color.DarkGray, blendMode = BlendMode.Hue)
-                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 40.dp)
-                ) {
-                    Spacer(modifier = Modifier
-                        .height(40.dp)
-                    )
-                    Text(text = language,
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier
-                        .height(40.dp)
-                    )
-                    ElevatedButton(
-                        onClick = {
-                            onClick()
-                        },
-                        colors = ButtonColors(
-                            containerColor = AzureBlue,
-                            contentColor = Color.White,
-                            disabledContentColor = Color.White,
-                            disabledContainerColor = AzureBlue
-                        ),
-                        shape = RoundedCornerShape(10.dp)
-                    ) {
-                        Text(text = "Get Started")
-                    }
+                .clickable {
+                    onClick()
                 }
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = Color.White,
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(
+                    text = title,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    textAlign = TextAlign.Center
+                )
             }
         }
 }
@@ -1825,6 +1814,83 @@ fun FlashcardItem(
             color = Color.White
         )
 
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun LanguageTipPager() {
+
+    var randomTipIndex by remember { mutableIntStateOf(Random.nextInt(languageDailyTips().size)) }
+
+    val pagerState = rememberPagerState(
+        initialPage = randomTipIndex,
+        pageCount = { languageDailyTips().size }
+    )
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(190.dp),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = AzureBlue
+            ),
+            shape = RoundedCornerShape(10.dp)
+        ) {
+
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically
+            ) { page ->
+                randomTipIndex = page
+                val tip = languageDailyTips()[page]
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = tip.tipTitle,
+                        color = Color.White,
+                        fontSize = 24.sp,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = tip.languageTip,
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+        }
+    }
+    Spacer(modifier = Modifier.height(10.dp))
+    Row(
+        Modifier
+            .wrapContentHeight()
+            .fillMaxWidth()
+            .padding(bottom = 8.dp),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        repeat(pagerState.pageCount) { iteration ->
+            val color = if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
+            Box(
+                modifier = Modifier
+                    .padding(2.dp)
+                    .clip(CircleShape)
+                    .background(color)
+                    .size(16.dp)
+            )
+        }
     }
 }
 

@@ -3570,5 +3570,5 @@ fun GermanNumbers121Plus(textToSpeech: TextToSpeech) {
 @Composable
 @Preview(showBackground = true)
 fun CheckFragments() {
-    GermanSentenceStructureHome()
+
 }

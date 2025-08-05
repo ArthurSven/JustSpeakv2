@@ -392,6 +392,19 @@ interface ScreenDestinations {
         override val route: String = "edit_flashcard_screen"
     }
 
+    //homework
+    object HomeworkNavigation : ScreenDestination {
+        override val route: String = "homework_navigation"
+    }
+
+    object HomeworkScreen : ScreenDestination {
+        override val route: String = "homework_screen"
+    }
+
+    object SendHomeworkScreen : ScreenDestination {
+        override val route: String = "send_homework_screen"
+    }
+
     object Signout : ScreenDestination {
         override val route = "signout_user"
     }

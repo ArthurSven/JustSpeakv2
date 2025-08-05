@@ -25,12 +25,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.FileCopy
+import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
@@ -80,6 +84,7 @@ import com.devapps.justspeak_20.ui.ScreenDestinations
 import com.devapps.justspeak_20.ui.Screens.languages.german.GermanLanguageScreens
 import com.devapps.justspeak_20.ui.components.LanguageCard
 import com.devapps.justspeak_20.ui.components.LanguageCardItem
+import com.devapps.justspeak_20.ui.components.LanguageTipPager
 import com.devapps.justspeak_20.ui.components.UserProfileBar
 import com.devapps.justspeak_20.ui.components.displayGreeting
 import com.devapps.justspeak_20.ui.theme.AzureBlue
@@ -101,25 +106,34 @@ fun MainScreen(
     onSignOut: () -> Unit) {
 
     val greet = displayGreeting()
-    var randomTipIndex by remember { mutableIntStateOf(Random.nextInt(languageDailyTips().size)) }
     val animatedOffsetY = remember { Animatable(0f) }
     val selectedItemIndex by rememberSaveable {
         mutableStateOf(0)
     }
 
+
     val karte = listOf(
         LanguageCardItem(
-            R.drawable.nyasaflag,
-            "Learn Chichewa",
+                Icons.Outlined.Translate,
+            "Chichewa",
             ScreenDestinations.ChichewaNavigation.route
         ),
         LanguageCardItem(
-            R.drawable.wappen,
-            "Learn German",
+            Icons.Outlined.Translate,
+            "German",
             ScreenDestinations.GermanNavigation.route
+        ),
+        LanguageCardItem(
+            Icons.Outlined.FileCopy,
+            "Flashcards",
+            ScreenDestinations.FlashcardStarterScreen.route,
+        ),
+        LanguageCardItem(
+            Icons.Outlined.FileCopy,
+            "Homework",
+            ScreenDestinations.FlashcardStarterScreen.route,
         )
     )
-    randomTipIndex = Random.nextInt(languageDailyTips().size)
 
     LaunchedEffect(key1 = true) {
         while (true) {
@@ -146,7 +160,6 @@ fun MainScreen(
         userMainController.popBackStack(ScreenDestinations.Start.route, false)
     }
 
-    val currentTip = languageDailyTips()[randomTipIndex]
 
     val showMenu = remember { mutableStateOf(false) }
     Scaffold(
@@ -219,59 +232,12 @@ fun MainScreen(
                 Spacer(modifier = Modifier
                     .height(30.dp)
                 )
-                ElevatedCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(240.dp),
-                    colors = CardDefaults.elevatedCardColors(
-                        containerColor = AzureBlue
-                    ),
-                    shape = RoundedCornerShape(10.dp)
-                ) {
-
-                    Spacer(modifier = Modifier
-                        .height(10.dp)
-                    )
-
-                    Box(modifier = Modifier
-                        .fillMaxWidth()) {
-                        Column(modifier = Modifier
-                            .fillMaxWidth()) {
-
-                            Spacer(
-                                modifier = Modifier
-                                    .height(60.dp)
-                            )
-                            Text(
-                                text = currentTip.tipTitle,
-                                color = Color.White,
-                                fontSize = 26.sp,
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(start = 16.dp, end = 16.dp)
-                            )
-                            Spacer(
-                                modifier = Modifier
-                                    .height(5.dp)
-                            )
-                            Text(
-                                text = currentTip.languageTip,
-                                color = Color.White,
-                                fontSize = 16.sp,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(start = 16.dp, end = 16.dp)
-                            )
-                        }
-                    }
-                }
+                //Add pager Composable here
+                LanguageTipPager()
                 Spacer(modifier = Modifier
                     .height(20.dp)
                 )
-                Text("Select a language",
+                Text("Start with...",
                     fontSize = 20.sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Bold
@@ -279,8 +245,12 @@ fun MainScreen(
                 Spacer(modifier = Modifier
                     .height(10.dp)
                 )
-                LazyRow(
-
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     items(karte.size) {i ->
                         val listItem = karte[i]
@@ -288,93 +258,12 @@ fun MainScreen(
                             selected = selectedItemIndex == i,
                             onClick = {
                                 userMainController.navigate(listItem.itemRoute)
-                                // Handle navigation or other actions here
                             },
-                            country = listItem.nation,
-                            language = listItem.sprache
+                            icon = listItem.rep,
+                            title = listItem.title,
                         )
                     }
                 }
-                Spacer(modifier = Modifier
-                    .height(20.dp)
-                )
-                Text("Flashcards",
-                    fontSize = 20.sp,
-                    color = Color.Black,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier
-                    .height(20.dp)
-                )
-                ElevatedCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
-                    colors = CardDefaults.elevatedCardColors(
-                        containerColor = AzureBlue
-                    )
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                    ) {
-                        //start box//
-                        Image(
-                            painter = painterResource(R.drawable.flashcard), contentDescription = null,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .matchParentSize()
-                                .height(450.dp)
-                            //colorFilter = ColorFilter.tint(Color.DarkGray, blendMode = BlendMode.Hue)
-                        )
-                        //end here //
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(20.dp),
-                        ) {
-                            Spacer(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(20.dp),
-                            )
-                            Text(text = "Create flashcards",
-                                color = Color.White,
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                textAlign = TextAlign.Center
-                            )
-                            Spacer(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(50.dp),
-                            )
-                            Button(onClick = {
-                                //  throw RuntimeException("Test crash")
-                              userMainController.navigate(ScreenDestinations.FlashcardStarterScreen.route)
-                            },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(50.dp),
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = AzureBlue,
-                                    contentColor = Color.White
-                                ),
-                                shape = RoundedCornerShape(10.dp)
-,                            ) {
-                                Text(text = "Get Started",
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
-                        }
-                    }
-                }
-                Spacer(modifier = Modifier
-                    .height(50.dp)
-                )
             }
         }
 

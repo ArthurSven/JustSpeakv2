@@ -549,5 +549,5 @@ fun ChichewaVerbConjugation() {
 @Composable
 @Preview(showBackground = true)
 fun ViewTheseFragments() {
-    ChichewaPronounHome()
+
 }

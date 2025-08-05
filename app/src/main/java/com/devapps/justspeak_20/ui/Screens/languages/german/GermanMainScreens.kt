@@ -1755,5 +1755,5 @@ fun GermanVerbs() {
 @Composable
 @Preview(showBackground = true)
 fun GermanScreens() {
-    GermanSentenceStructure()
+
 }

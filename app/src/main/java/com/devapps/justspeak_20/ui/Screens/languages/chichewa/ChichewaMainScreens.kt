@@ -868,5 +868,5 @@ fun ChichewaVerbs()  {
 @Composable
 @Preview(showBackground = true)
 fun ChichewaPreview() {
-    ChichewaNumbers()
+
 }
