@@ -15,6 +15,7 @@ interface FlashcardRepository {
     suspend fun getFlashcardsByUserId(userId: String?) : Flow<List<Flashcard>>
 
     fun getFlashcardById(flashcardId: Int) : Flow<Flashcard>
+
 }
 
 class FlashcardRepositoryImpl @Inject constructor(
