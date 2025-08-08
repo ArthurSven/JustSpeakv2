@@ -7,7 +7,7 @@ pipeline {
     }
 
     tools {
-        jdk 'jdk17' // name from Jenkins global tool config
+        jdk 'jdk8' // name from Jenkins global tool config
         gradle 'gradle-7.4' // name from Jenkins global tool config (optional)
     }
 
