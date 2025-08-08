@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+
+    environment {
+        ANDROID_HOME = "C:\\Users\\asmsiska\\AppData\\Local\\Android\\Sdk"
+        PATH = "$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
+    }
+
+    tools {
+        jdk 'jdk17' // name from Jenkins global tool config
+        gradle 'gradle-7.4' // name from Jenkins global tool config (optional)
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'update_branch', url: 'https://github.com/ArthurSven/JustSpeakv2.git'
+            }
+        }
+        stage('Setup Android SDK') {
+            steps {
+                bat 'echo y | "%ANDROID_HOME%\\cmdline-tools\\latest\\bin\\sdkmanager.bat" --licenses'
+                bat '"%ANDROID_HOME%\\cmdline-tools\\latest\\bin\\sdkmanager.bat" "platforms;android-30" "build-tools;30.0.3"'
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                bat './gradlew.bat test --tests "com.devapps.justspeak_20.HomeworkRepositoryTestClass.addHomework_returnsSuccess_whenFirestoreSucceeds"'
+            }
+        }
+        stage('Build APK') {
+            steps {
+                bat './gradlew.bat assembleDebug'
+            }
+        }
+        stage('Archive APK') {
+            steps {
+                archiveArtifacts artifacts: '**/*.apk', fingerprint: true
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Build and tests passed!"
+        }
+        failure {
+            echo "❌ Build or tests failed."
+        }
+    }
+}

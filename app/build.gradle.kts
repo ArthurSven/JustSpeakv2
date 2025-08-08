@@ -150,4 +150,9 @@ dependencies {
 
     //kotlinx coroutines
     implementation(libs.kotlinx.coroutines.core.v132)
+    // Coroutines test support
+    testImplementation(libs.kotlinx.coroutines.test)
+
+    // Architecture Components testing
+    testImplementation(libs.androidx.core.testing)
 }

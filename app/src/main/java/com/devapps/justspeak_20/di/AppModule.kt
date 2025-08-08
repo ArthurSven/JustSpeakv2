@@ -8,6 +8,7 @@ import com.devapps.justspeak_20.data.db.JustSpeakLocalDB
 import com.devapps.justspeak_20.data.repositories.FirebaseRepository
 import com.devapps.justspeak_20.data.repositories.FlashcardRepository
 import com.devapps.justspeak_20.data.repositories.FlashcardRepositoryImpl
+import com.devapps.justspeak_20.data.repositories.HomeworkRepository
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.firestore.FirebaseFirestore
@@ -48,6 +49,12 @@ object AppModule {
     @Singleton
     fun provideFirebaseRepository() : FirebaseRepository {
         return FirebaseRepository(provideFirebaseFirestore())
+    }
+
+    @Provides
+    @Singleton
+    fun provideHomeworkRepository(firestore: FirebaseFirestore) : HomeworkRepository {
+        return HomeworkRepository(firestore)
     }
 
     @Provides

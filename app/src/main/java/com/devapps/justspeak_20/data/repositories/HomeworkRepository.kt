@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
+import javax.inject.Inject
 
 
 private interface HomeworkRepositoryImpl {
@@ -19,7 +20,9 @@ private interface HomeworkRepositoryImpl {
     suspend fun updateHomework(homework: HomeworkResponse): Response
     suspend fun deleteHomework(homeworkid: String, userid: String): Response
 }
-class HomeworkRepository(
+
+
+class HomeworkRepository @Inject constructor(
     private val fireStore: FirebaseFirestore) : HomeworkRepositoryImpl {
 
     private val homeworkCollection = fireStore.collection("homework")
