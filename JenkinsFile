@@ -4,10 +4,12 @@ pipeline {
     environment {
         ANDROID_HOME = "C:\\Users\\asmsiska\\AppData\\Local\\Android\\Sdk"
         PATH = "$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
+
+         JAVA_HOME = "C:\\Program Files\\Microsoft\\jdk-11.0.28.6-hotspot"  // Update this path if different
+         PATH = "$JAVA_HOME\\bin;$PATH"
     }
 
     tools {
-        jdk 'JDK 8' // name from Jenkins global tool config
         gradle 'Gradle 7.4' // name from Jenkins global tool config (optional)
     }
 
